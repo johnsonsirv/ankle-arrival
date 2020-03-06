@@ -4,7 +4,7 @@ import {
 } from '../../src/actions/actionTypes';
 import doctorReducer from '../../src/reducers/doctor';
 
-describe('doctros reducer', () => {
+describe('doctors reducer', () => {
   it('should return an initial state', () => {
     const state = doctorReducer(undefined, {});
     expect(state).toEqual({

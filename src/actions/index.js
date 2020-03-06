@@ -1,6 +1,12 @@
 import axios from 'axios';
 import config from '../config.json';
-import { RECEIVE_DOCTORS, REQUEST_DOCTORS } from './actionTypes';
+import {
+  RECEIVE_DOCTORS,
+  REQUEST_DOCTORS,
+  GET_CURRENT_USER,
+  SET_CURRENT_USER,
+} from './actionTypes';
+
 // configure apiEndpoint to prod
 const apiEndPoint = config.demoApiEndPoint;
 
@@ -25,3 +31,12 @@ export const fetchDoctors = token => async dispatch => {
     .get(url, { headers: header })
     .then(response => dispatch(receiveDoctors(response)));
 };
+
+export const getCurrentUser = () => ({
+  type: GET_CURRENT_USER,
+});
+
+export const setCurrentUser = currentUser => ({
+  type: SET_CURRENT_USER,
+  payload: currentUser,
+});
