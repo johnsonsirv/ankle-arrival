@@ -28,7 +28,7 @@ function setup() {
 }
 
 describe('<Doctor /> rendering', () => {
-  const { enzymeWrapper, props } = setup();
+  const { enzymeWrapper } = setup();
   it('renders correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
