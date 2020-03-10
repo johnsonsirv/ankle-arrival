@@ -24,7 +24,8 @@ const Doctor = props => {
           <BookAppointment
             doctor={doctor}
             currentUser={currentUser}
-            props={props}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...props}
           />
         )}
       />

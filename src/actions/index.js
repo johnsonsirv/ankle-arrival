@@ -5,6 +5,7 @@ import {
   REQUEST_DOCTORS,
   GET_CURRENT_USER,
   SET_CURRENT_USER,
+  NEW_APPOINTMENT_SUCCESS,
 } from './actionTypes';
 
 // configure apiEndpoint to prod
@@ -40,3 +41,26 @@ export const setCurrentUser = currentUser => ({
   type: SET_CURRENT_USER,
   payload: currentUser,
 });
+
+export const addNewAppointmentSuccess = response => ({
+  type: NEW_APPOINTMENT_SUCCESS,
+  payload: JSON.parse(response),
+});
+
+export const addNewAppointmentFailure = response => ({
+  type: NEW_APPOINTMENT_SUCCESS,
+  payload: JSON.parse(response),
+});
+
+export const addNewAppointment = data => async dispatch => {
+  const { token } = data.currentUser;
+  const header = {
+    'Content-type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+  const url = `${apiEndPoint}/doctors`;
+  return axios
+    .post(url, {}, { headers: header })
+    .then(response => dispatch(addNewAppointmentSuccess(response)))
+    .catch(ex => dispatch(addNewAppointmentFailure(ex)));
+};
