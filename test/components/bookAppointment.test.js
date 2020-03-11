@@ -21,8 +21,6 @@ function setup() {
       firstname: 'Victor',
       lastname: 'Johnson',
     },
-    handleDateInputChange: jest.fn(),
-    handleTimeInputChange: jest.fn(),
     addNewAppointment: jest.fn(),
   };
 

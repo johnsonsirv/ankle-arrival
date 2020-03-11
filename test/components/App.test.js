@@ -15,6 +15,9 @@ describe('<App /> rendering', () => {
   it('should mount in a full DOM', () => {
     expect(shallow(<App />).find('.App')).toHaveLength(1);
   });
+  it('should render a toast notification container', () => {
+    expect(shallow(<App />).find('ToastContainer')).toHaveLength(1);
+  });
 });
 
 describe('<App /> routing', () => {
@@ -37,17 +40,8 @@ describe('<App /> routing', () => {
     expect(wrapper.find(Diagnosis)).toHaveLength(1);
   });
   it('should show doctorlist component for "/doctors" router', () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <MemoryRouter initialEntries={['/doctors']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(DoctorList)).toHaveLength(1);
-  });
-  it('should show book appointment with doctor component for "/book-appointment/id" router', () => {
-    const wrapper = mount(
-      <MemoryRouter initialEntries={['/book-appointment/1']}>
         <App />
       </MemoryRouter>
     );

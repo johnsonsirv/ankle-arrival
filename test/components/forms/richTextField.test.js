@@ -3,7 +3,7 @@
 import RichTextField from '../../../src/components/forms/inputs/richTextField';
 
 describe('<RichTextField /> rendering', () => {
-  const enzymeWrapper = mount(<RichTextField name="" />);
+  const enzymeWrapper = mount(<RichTextField name="description" />);
   it('renders correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });

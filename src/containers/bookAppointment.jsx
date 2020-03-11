@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Joi from 'joi-browser';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import DateInput from '../components/forms/inputs/dateInput';
 import TimeInput from '../components/forms/inputs/timeInput';
@@ -24,18 +26,23 @@ export const BookAppointment = props => {
     isValid: false,
   });
 
-  const validate = () => {
-    const { dateOfAppointment, timeOfAppointment, description } = booking;
-    let status = false;
-    if (
-      dateOfAppointment !== null &&
-      timeOfAppointment !== null &&
-      description !== ''
-    ) {
-      status = true;
-    }
-    booking.isValid = status;
-    setBooking({ ...booking });
+  const schema = {
+    description: Joi.string()
+      .required()
+      .label('Description'),
+    dateOfAppointment: Joi.string()
+      .required()
+      .label('Date of Appointment'),
+    timeOfAppointment: Joi.string()
+      .required()
+      .label('Time of Appointment'),
+  };
+
+  const validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const subSchema = { [name]: schema[name] };
+    const { error } = Joi.validate(obj, subSchema);
+    return error ? error.details[0].message : null;
   };
 
   const handleSubmit = e => {
@@ -61,8 +68,13 @@ export const BookAppointment = props => {
   const handleChange = e => {
     const { value, name } = e.target;
     booking[name] = value;
+    const error = validateProperty(e.target);
+    // eslint-disable-next-line no-unneeded-ternary
+    booking.isValid = error ? false : true;
 
-    validate();
+    setBooking({ ...booking });
+    // toastify
+    toast.error(error);
   };
 
   useEffect(() => {
