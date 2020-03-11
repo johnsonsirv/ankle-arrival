@@ -61,6 +61,9 @@ describe('<BookAppointment /> rendering', () => {
   it('should render a <TimeInput /> component', () => {
     expect(enzymeWrapper.find('TimeInput')).toHaveLength(1);
   });
+  it('should render a <RichTextField /> component', () => {
+    expect(enzymeWrapper.find('RichTextField')).toHaveLength(1);
+  });
 });
 
 describe('<BookAppointment /> interactions', () => {
@@ -77,6 +80,10 @@ describe('<BookAppointment /> interactions', () => {
     const timeInput = enzymeWrapper.find('TimeInput');
     timeInput.simulate('change', {
       target: { value: '12:00 PM', name: 'timeOfAppointment' },
+    });
+    const richTextField = enzymeWrapper.find('RichTextField');
+    richTextField.simulate('change', {
+      target: { value: 'I need to see a doctor', name: 'description' },
     });
     expect(enzymeWrapper.find('#book-appointment').prop('disabled')).toBe(
       false
@@ -106,10 +113,35 @@ describe('<BookAppointment /> interactions', () => {
     });
     expect(enzymeWrapper.find('TimeInput').prop('value')).toEqual('12:00 PM');
   });
+  it('<RichTextField /> should show description onChange', () => {
+    const richTextField = enzymeWrapper.find('RichTextField');
+    richTextField.simulate('change', {
+      target: { value: 'I need to see a doctor', name: 'description' },
+    });
+    expect(enzymeWrapper.find('RichTextField').get(0).props.value).toMatch(
+      /I need to see a doctor/
+    );
+  });
   it('should dispatch saveAppointment action on handleSubmit', () => {
-    mount(<BookAppointment {...props} />)
+    const dateInput = enzymeWrapper.find('DateInput');
+    dateInput.simulate('change', {
+      target: {
+        value: moment().format('2020-03-06'),
+        name: 'dateOfAppointment',
+      },
+    });
+    const timeInput = enzymeWrapper.find('TimeInput');
+    timeInput.simulate('change', {
+      target: { value: '12:00 PM', name: 'timeOfAppointment' },
+    });
+    const richTextField = enzymeWrapper.find('RichTextField');
+    richTextField.simulate('change', {
+      target: { value: 'I need to see a doctor', name: 'description' },
+    });
+
+    enzymeWrapper
       .find('#book-appointment')
-      .simulate('click');
-    expect(props.saveAppointment).toHaveBeenCalled();
+      .simulate('click', { target: {}, preventDefault: jest.fn() });
+    expect(props.addNewAppointment).toHaveBeenCalled();
   });
 });

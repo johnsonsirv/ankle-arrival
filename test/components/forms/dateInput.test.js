@@ -15,7 +15,10 @@ function setup(customProps = {}) {
   return { props, enzymeWrapper };
 }
 describe('<DateInput /> rendering', () => {
-  it('should render correctly', () => {});
+  it('should render correctly', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper).toMatchSnapshot();
+  });
   it('should include only available days of each week', () => {
     const { enzymeWrapper } = setup();
     expect(enzymeWrapper.prop('value')).toEqual(['date-range']);

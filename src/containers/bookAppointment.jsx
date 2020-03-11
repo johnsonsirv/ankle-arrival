@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import DateInput from '../components/forms/inputs/dateInput';
 import TimeInput from '../components/forms/inputs/timeInput';
+import RichTextField from '../components/forms/inputs/richTextField';
 import ReadOnlyTextField from '../components/forms/inputs/readOnlyTextField';
 import * as dispatchActions from '../actions';
 
@@ -17,15 +18,20 @@ export const BookAppointment = props => {
   const [booking, setBooking] = useState({
     dateOfAppointment: null,
     timeOfAppointment: null,
+    description: '',
     currentUser,
     doctor,
     isValid: false,
   });
 
   const validate = () => {
-    const { dateOfAppointment, timeOfAppointment } = booking;
+    const { dateOfAppointment, timeOfAppointment, description } = booking;
     let status = false;
-    if (dateOfAppointment !== null && timeOfAppointment !== null) {
+    if (
+      dateOfAppointment !== null &&
+      timeOfAppointment !== null &&
+      description !== ''
+    ) {
       status = true;
     }
     booking.isValid = status;
@@ -37,16 +43,19 @@ export const BookAppointment = props => {
     const {
       dateOfAppointment,
       timeOfAppointment,
+      description,
       doctor,
       currentUser,
     } = booking;
     props.addNewAppointment({
       dateOfAppointment,
       timeOfAppointment,
-      description: 'I have a diesease',
+      description,
       currentUser,
       doctor,
     });
+
+    // redirect here
   };
 
   const handleChange = e => {
@@ -68,6 +77,11 @@ export const BookAppointment = props => {
       <form>
         <ReadOnlyTextField name="doctor" value={`${firstname} ${lastname}`} />
         <ReadOnlyTextField name="current-user" value="" />
+        <RichTextField
+          name="description"
+          value={booking.description}
+          onChange={handleChange}
+        />
         <DateInput
           onChange={handleChange}
           name="dateOfAppointment"

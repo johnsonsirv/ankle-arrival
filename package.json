@@ -24,6 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --colors",
+    "testWithCoverage": "jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

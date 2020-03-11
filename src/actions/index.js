@@ -33,6 +33,7 @@ export const fetchDoctors = token => async dispatch => {
     .then(response => dispatch(receiveDoctors(response)));
 };
 
+// set localastorage refactor to global
 export const getCurrentUser = () => ({
   type: GET_CURRENT_USER,
 });
@@ -58,7 +59,7 @@ export const addNewAppointment = data => async dispatch => {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
-  const url = `${apiEndPoint}/doctors`;
+  const url = `${apiEndPoint}/appointments`;
   return axios
     .post(url, {}, { headers: header })
     .then(response => dispatch(addNewAppointmentSuccess(response)))
