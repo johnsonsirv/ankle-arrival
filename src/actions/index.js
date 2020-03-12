@@ -6,6 +6,8 @@ import {
   GET_CURRENT_USER,
   SET_CURRENT_USER,
   NEW_APPOINTMENT_SUCCESS,
+  REQUEST_APPOINTMENTS,
+  RECEIVE_APPOINTMENTS,
 } from './actionTypes';
 
 // configure apiEndpoint to prod
@@ -64,4 +66,27 @@ export const addNewAppointment = data => async dispatch => {
     .post(url, {}, { headers: header })
     .then(response => dispatch(addNewAppointmentSuccess(response)))
     .catch(ex => dispatch(addNewAppointmentFailure(ex)));
+};
+
+export const requestAppointments = () => ({
+  type: REQUEST_APPOINTMENTS,
+});
+
+export const receiveAppointments = response => ({
+  type: RECEIVE_APPOINTMENTS,
+  payload: response.map(data => JSON.parse(data)),
+});
+
+export const fetchAppointments = user => async dispatch => {
+  const { id, token } = user;
+  const header = {
+    'Content-type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+  const url = `${apiEndPoint}/${id}/appointments`;
+
+  dispatch(requestAppointments());
+  return axios
+    .get(url, { headers: header })
+    .then(response => dispatch(receiveAppointments(response)));
 };

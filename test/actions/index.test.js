@@ -7,6 +7,8 @@ import {
   RECEIVE_DOCTORS,
   GET_CURRENT_USER,
   SET_CURRENT_USER,
+  RECEIVE_APPOINTMENTS,
+  REQUEST_APPOINTMENTS,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -55,5 +57,34 @@ describe('currentUser from store', () => {
     };
 
     expect(actions.setCurrentUser(currentUser)).toEqual(expectedAction);
+  });
+});
+
+describe('fetchAppointments async actions', () => {
+  it('should create RECEIVE_APPOINTMENTS when fetching appointment is done', () => {
+    const appointments = [
+      { dateOfAppointment: '2020/03/12', timeOfAppointment: '12:00 PM' },
+    ];
+    const mockResponse = appointments.map(d => JSON.stringify(d));
+    axios.get.mockResolvedValue(mockResponse);
+    const expectedActions = [
+      { type: REQUEST_APPOINTMENTS },
+      {
+        type: RECEIVE_APPOINTMENTS,
+        payload: [
+          { dateOfAppointment: '2020/03/12', timeOfAppointment: '12:00 PM' },
+        ],
+      },
+    ];
+
+    const store = mockStore({ appointments: [] });
+    const currentUser = {
+      id: 1,
+      username: 'testUser',
+      token: 'xxx.yyy.zzz',
+    };
+    return store.dispatch(actions.fetchAppointments(currentUser)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 });

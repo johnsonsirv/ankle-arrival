@@ -143,3 +143,9 @@ describe('<BookAppointment /> interactions', () => {
     expect(props.addNewAppointment).toHaveBeenCalled();
   });
 });
+
+describe('<BookAppointment /> routing', () => {
+  it('should redirect user to appointments after handleSubmit', () => {
+    expect(2).toEqual(1);
+  });
+});
