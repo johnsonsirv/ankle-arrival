@@ -1,33 +1,32 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
-import RichTextField from '../../../src/components/forms/inputs/richTextField';
+import InpuTextField from '../../../src/components/forms/inputs/inputTextField';
 
 function setup() {
   const props = {
     name: 'description',
     onChange: jest.fn(),
   };
-  const enzymeWrapper = mount(<RichTextField {...props} />);
+  const enzymeWrapper = mount(<InpuTextField {...props} />);
 
   return { props, enzymeWrapper };
 }
 
-describe('<RichTextField /> rendering', () => {
+describe('<InpuTextField /> rendering', () => {
   const { enzymeWrapper } = setup();
   it('renders correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
-  it('should render a <textarea>', () => {
-    expect(enzymeWrapper.find('textarea')).toHaveLength(1);
+  it('should render 1 editable <input> text', () => {
+    expect(enzymeWrapper.find('input').prop('readOnly')).toBeUndefined();
   });
 });
 
-describe('<RichTextField /> interactions', () => {
+describe('<InputTextFieldd /> interactions', () => {
   const { props, enzymeWrapper } = setup();
   it('should handle onChange', () => {
-    const rchText = enzymeWrapper.find('textarea');
-    rchText.simulate('change', { target: { value: 'Sample Text' } });
+    enzymeWrapper.simulate('change', { target: { value: 'Sample Text' } });
     expect(props.onChange).toHaveBeenCalled();
   });
 });
