@@ -1,19 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
-import InpuTextField from '../../../src/components/forms/inputs/inputTextField';
+import InputTextField from '../../../src/components/forms/inputs/inputTextField';
 
 function setup() {
   const props = {
     name: 'description',
     onChange: jest.fn(),
   };
-  const enzymeWrapper = mount(<InpuTextField {...props} />);
+  const enzymeWrapper = mount(<InputTextField {...props} />);
 
   return { props, enzymeWrapper };
 }
 
-describe('<InpuTextField /> rendering', () => {
+describe('<InputTextField /> rendering', () => {
   const { enzymeWrapper } = setup();
   it('renders correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe('<InpuTextField /> rendering', () => {
   });
 });
 
-describe('<InputTextFieldd /> interactions', () => {
+describe('<InputTextField /> interactions', () => {
   const { props, enzymeWrapper } = setup();
   it('should handle onChange', () => {
     enzymeWrapper.simulate('change', { target: { value: 'Sample Text' } });

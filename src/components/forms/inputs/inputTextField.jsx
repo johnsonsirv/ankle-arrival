@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InpuTextField = ({ className, id, name, value, onChange }) => (
+const InputTextField = ({ className, id, name, value, onChange }) => (
   <input
     type="text"
     className={className}
@@ -12,14 +12,14 @@ const InpuTextField = ({ className, id, name, value, onChange }) => (
   />
 );
 
-InpuTextField.defaultProps = {
+InputTextField.defaultProps = {
   name: '',
   id: '',
   className: '',
   value: '',
 };
 
-InpuTextField.propTypes = {
+InputTextField.propTypes = {
   name: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,
@@ -27,4 +27,4 @@ InpuTextField.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default InpuTextField;
+export default InputTextField;

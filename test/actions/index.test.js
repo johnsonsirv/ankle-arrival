@@ -9,6 +9,7 @@ import {
   SET_CURRENT_USER,
   RECEIVE_APPOINTMENTS,
   REQUEST_APPOINTMENTS,
+  REQUEST_SIGNUP,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -84,6 +85,34 @@ describe('fetchAppointments async actions', () => {
       token: 'xxx.yyy.zzz',
     };
     return store.dispatch(actions.fetchAppointments(currentUser)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
+
+describe('book appointment async actions', () => {
+  it('should create NEW_APPOINTMENT_SUCCESS when book appointment is done', () => {});
+});
+
+describe('authentication async actions', () => {
+  it('should create SET_CURRENT_USER when signup is done', () => {
+    const user = { id: 1, username: '' };
+    const token = 'xxx.yyy.zzz';
+    const mockResponse = { currentUser: { ...user, token } };
+    const expectedActions = [
+      { type: REQUEST_SIGNUP },
+      { type: SET_CURRENT_USER, payload: mockResponse },
+    ];
+    const signupParams = {
+      firstname: 'joe',
+      lastname: 'breed',
+      username: 'jobe123',
+      password: '1234',
+      city: 'Remote',
+    };
+    axios.post.mockResolvedValue(mockResponse);
+    const store = mockStore({ account: {} });
+    return store.dispatch(actions.createUserAccount(signupParams)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

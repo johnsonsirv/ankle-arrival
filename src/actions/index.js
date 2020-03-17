@@ -5,9 +5,13 @@ import {
   REQUEST_DOCTORS,
   GET_CURRENT_USER,
   SET_CURRENT_USER,
-  NEW_APPOINTMENT_SUCCESS,
   REQUEST_APPOINTMENTS,
   RECEIVE_APPOINTMENTS,
+  NEW_APPOINTMENT_SUCCESS,
+  NEW_APPOINTMENT_FAILURE,
+  REQUEST_NEW_APPOINTMENT,
+  REQUEST_SIGNUP,
+  SIGNUP_FAILURE,
 } from './actionTypes';
 
 // configure apiEndpoint to prod
@@ -35,11 +39,11 @@ export const fetchDoctors = token => async dispatch => {
     .then(response => dispatch(receiveDoctors(response)));
 };
 
-// set localastorage refactor to global
+// set localstorage refactor to global
 export const getCurrentUser = () => ({
   type: GET_CURRENT_USER,
 });
-
+// refactor to save to localStorage
 export const setCurrentUser = currentUser => ({
   type: SET_CURRENT_USER,
   payload: currentUser,
@@ -51,8 +55,12 @@ export const addNewAppointmentSuccess = response => ({
 });
 
 export const addNewAppointmentFailure = response => ({
-  type: NEW_APPOINTMENT_SUCCESS,
+  type: NEW_APPOINTMENT_FAILURE,
   payload: JSON.parse(response),
+});
+
+export const requestNewAppointment = () => ({
+  type: REQUEST_NEW_APPOINTMENT,
 });
 
 export const addNewAppointment = data => async dispatch => {
@@ -62,6 +70,7 @@ export const addNewAppointment = data => async dispatch => {
     Authorization: `Bearer ${token}`,
   };
   const url = `${apiEndPoint}/appointments`;
+  dispatch(requestNewAppointment());
   return axios
     .post(url, {}, { headers: header })
     .then(response => dispatch(addNewAppointmentSuccess(response)))
@@ -89,4 +98,25 @@ export const fetchAppointments = user => async dispatch => {
   return axios
     .get(url, { headers: header })
     .then(response => dispatch(receiveAppointments(response)));
+};
+
+export const requestSignup = () => ({
+  type: REQUEST_SIGNUP,
+});
+
+export const signupFailure = response => ({
+  type: SIGNUP_FAILURE,
+});
+
+export const createUserAccount = params => async dispatch => {
+  const header = {
+    'Content-type': 'application/json',
+  };
+  const url = `${apiEndPoint}/users/signup`;
+
+  dispatch(requestSignup());
+  return axios
+    .post(url, params, { headers: header })
+    .then(response => dispatch(setCurrentUser(response)))
+    .catch(ex => dispatch(signupFailure(ex)));
 };

@@ -69,8 +69,7 @@ export const BookAppointment = props => {
     const { value, name } = e.target;
     booking[name] = value;
     const error = validateProperty(e.target);
-    // eslint-disable-next-line no-unneeded-ternary
-    booking.isValid = error ? false : true;
+    booking.isValid = !error;
 
     setBooking({ ...booking });
     // toastify

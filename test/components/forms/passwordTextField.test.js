@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
-import PasswordTextField from '../../../src/components/forms/inputs/passwordTextField.';
+import PasswordTextField from '../../../src/components/forms/inputs/passwordTextField';
 
 function setup() {
   const props = {
