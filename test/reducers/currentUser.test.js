@@ -5,10 +5,10 @@ import {
 import currentUserReducer from '../../src/reducers/currentUser';
 
 describe('currentUser actions', () => {
-  it('should return an intial state', () => {
+  it('should return an initial state', () => {
     const state = currentUserReducer(undefined, {});
     expect(state).toEqual({
-      currentUser: undefined,
+      isAuthenticated: false,
     });
   });
 
@@ -20,9 +20,17 @@ describe('currentUser actions', () => {
           username: 'testUser',
           token: 'xxx.yyy.zzz',
         },
+        isAuthenticated: true,
       },
       {
         type: GET_CURRENT_USER,
+        payload: {
+          currentUser: {
+            id: 1,
+            username: 'testUser',
+            token: 'xxx.yyy.zzz',
+          },
+        },
       }
     );
 
@@ -32,20 +40,21 @@ describe('currentUser actions', () => {
         username: 'testUser',
         token: 'xxx.yyy.zzz',
       },
+      isAuthenticated: true,
     });
   });
 
   it('should handle SET_CURRENT_USER action', () => {
-    const currentUser = {
+    const user = {
       id: 1,
       username: 'testUser',
-      token: 'xxx.yyy.zzz',
     };
+    const token = 'xxx.yyy.zzz';
     const state = currentUserReducer(
       {},
       {
         type: SET_CURRENT_USER,
-        payload: currentUser,
+        payload: { currentUser: { ...user, token }, isAuthenticated: true },
       }
     );
 
@@ -55,6 +64,7 @@ describe('currentUser actions', () => {
         username: 'testUser',
         token: 'xxx.yyy.zzz',
       },
+      isAuthenticated: true,
     });
   });
 });

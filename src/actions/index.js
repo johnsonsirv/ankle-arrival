@@ -39,16 +39,7 @@ export const fetchDoctors = token => async dispatch => {
     .then(response => dispatch(receiveDoctors(response)));
 };
 
-// set localstorage refactor to global
-export const getCurrentUser = () => ({
-  type: GET_CURRENT_USER,
-});
-// refactor to save to localStorage
-export const setCurrentUser = currentUser => ({
-  type: SET_CURRENT_USER,
-  payload: currentUser,
-});
-
+// 2. appointments
 export const addNewAppointmentSuccess = response => ({
   type: NEW_APPOINTMENT_SUCCESS,
   payload: JSON.parse(response),
@@ -98,6 +89,35 @@ export const fetchAppointments = user => async dispatch => {
   return axios
     .get(url, { headers: header })
     .then(response => dispatch(receiveAppointments(response)));
+};
+
+// 3. auth
+const getUserFromLocalStorage = () =>
+  localStorage.getItem('currentUser') || null;
+const syncToLocalStorage = data =>
+  localStorage.setItem('currentUser', JSON.stringify(data));
+
+export const getCurrentUser = () => ({
+  type: GET_CURRENT_USER,
+  payload: getUserFromLocalStorage(),
+});
+
+export const setCurrentUser = response => {
+  const { user, token } = response;
+  const payload = {
+    currentUser: { ...user, token },
+    isAuthenticated: true,
+  };
+  try {
+    syncToLocalStorage(payload);
+  } catch (error) {
+    // not supported in browser
+  }
+
+  return {
+    type: SET_CURRENT_USER,
+    payload,
+  };
 };
 
 export const requestSignup = () => ({

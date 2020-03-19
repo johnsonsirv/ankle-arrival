@@ -1,11 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
+import { BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { Signup } from '../../src/auth/signup';
 
 function setup() {
   const props = {
     createUserAccount: jest.fn(),
+    getCurrentUser: jest.fn(),
+    isAuthenticated: false,
+    userAccount: { created: false },
   };
 
   const enzymeWrapper = shallow(<Signup {...props} />);
@@ -17,7 +21,7 @@ describe('<Signup /> rendering', () => {
   const { enzymeWrapper } = setup();
 
   it('should render correctly', () => {
-    // expect(enzymeWrapper).toMatchSnapshot();
+    expect(enzymeWrapper).toMatchSnapshot();
   });
   it('should render 1 <EmailTextField>', () => {
     expect(enzymeWrapper.find('EmailTextField')).toHaveLength(1);
@@ -110,7 +114,7 @@ describe('<Signup /> interactions', () => {
       /johnsmith@io.kc/
     );
   });
-  it('should dispatch createUserAccount action on handleSignup', () => {
+  it('should dispatch createUserAccount action on handleClick', () => {
     enzymeWrapper
       .find('#signup')
       .simulate('click', { target: {}, preventDefault: jest.fn() });
@@ -119,7 +123,19 @@ describe('<Signup /> interactions', () => {
 });
 
 describe('<Signup /> routing', () => {
-  it('should redirect user to doctors list after signup', () => {
-    expect(2).toEqual(1);
+  it('should redirect to doctors if user is already logged in', () => {
+    const props = {
+      createUserAccount: jest.fn(),
+      getCurrentUser: jest.fn(),
+      isAuthenticated: true,
+      userAccount: { created: false },
+    };
+
+    const enzymeWrapper = mount(
+      <Router>
+        <Signup {...props} />
+      </Router>
+    );
+    expect(enzymeWrapper.find('doctors')).not.toHaveLength(1);
   });
 });

@@ -42,22 +42,25 @@ describe('currentUser from store', () => {
   it('should create action to getCurrentUser', () => {
     const expectedAction = {
       type: GET_CURRENT_USER,
+      payload: null,
     };
-
     expect(actions.getCurrentUser()).toEqual(expectedAction);
   });
   it('should create action to setCurrentUser', () => {
-    const currentUser = {
-      id: 1,
-      username: 'testUser',
+    const response = {
+      user: { id: 1, username: 'testUser' },
       token: 'xxx.yyy.zzz',
+    };
+    const payload = {
+      currentUser: { id: 1, username: 'testUser', token: 'xxx.yyy.zzz' },
+      isAuthenticated: true,
     };
     const expectedAction = {
       type: SET_CURRENT_USER,
-      payload: currentUser,
+      payload,
     };
 
-    expect(actions.setCurrentUser(currentUser)).toEqual(expectedAction);
+    expect(actions.setCurrentUser(response)).toEqual(expectedAction);
   });
 });
 
@@ -96,12 +99,17 @@ describe('book appointment async actions', () => {
 
 describe('authentication async actions', () => {
   it('should create SET_CURRENT_USER when signup is done', () => {
-    const user = { id: 1, username: '' };
-    const token = 'xxx.yyy.zzz';
-    const mockResponse = { currentUser: { ...user, token } };
+    const mockResponse = {
+      user: { id: 1, username: 'jobe123' },
+      token: 'xxx.yyy.zzz',
+    };
+    const payload = {
+      currentUser: { id: 1, username: 'jobe123', token: 'xxx.yyy.zzz' },
+      isAuthenticated: true,
+    };
     const expectedActions = [
       { type: REQUEST_SIGNUP },
-      { type: SET_CURRENT_USER, payload: mockResponse },
+      { type: SET_CURRENT_USER, payload },
     ];
     const signupParams = {
       firstname: 'joe',
@@ -111,7 +119,7 @@ describe('authentication async actions', () => {
       city: 'Remote',
     };
     axios.post.mockResolvedValue(mockResponse);
-    const store = mockStore({ account: {} });
+    const store = mockStore({ userAccount: { created: false } });
     return store.dispatch(actions.createUserAccount(signupParams)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });

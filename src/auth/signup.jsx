@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
 import * as dispatchActions from '../actions';
@@ -8,6 +10,8 @@ import InputTextField from '../components/forms/inputs/inputTextField';
 import EmailTextField from '../components/forms/inputs/emailTextField';
 import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
+
+const mapStateToProps = state => state;
 
 export const Signup = props => {
   const [account, setAccount] = useState({
@@ -69,51 +73,70 @@ export const Signup = props => {
     });
   };
 
+  useEffect(() => {
+    props.getCurrentUser();
+  }, []);
+
+  const { userAccount } = props;
+  const { isAuthenticated } = props;
   return (
     // render social login section here
-    <div>
-      <form>
-        <InputTextField
-          id="firstname"
-          name="firstname"
-          onChange={handleChange}
-          value={account.firstname}
-        />
-        <InputTextField
-          id="lastname"
-          name="lastname"
-          onChange={handleChange}
-          value={account.lastname}
-        />
-        <InputTextField
-          id="username"
-          name="username"
-          onChange={handleChange}
-          value={account.username}
-        />
-        <EmailTextField
-          name="email"
-          onChange={handleChange}
-          value={account.email}
-        />
-        <PasswordTextField
-          name="password"
-          onChange={handleChange}
-          value={account.password}
-        />
-        <Button
-          onClick={handleClick}
-          value="Sign Up"
-          disabled={!account.isValid}
-          id="signup"
-        />
-      </form>
-    </div>
+    <>
+      {isAuthenticated && <Redirect to="/doctors" />}
+      {!userAccount.created && <Spinner name="three-bounce" fadeIn="none" />}
+      <div>
+        <form>
+          <InputTextField
+            id="firstname"
+            name="firstname"
+            onChange={handleChange}
+            value={account.firstname}
+          />
+          <InputTextField
+            id="lastname"
+            name="lastname"
+            onChange={handleChange}
+            value={account.lastname}
+          />
+          <InputTextField
+            id="username"
+            name="username"
+            onChange={handleChange}
+            value={account.username}
+          />
+          <EmailTextField
+            name="email"
+            onChange={handleChange}
+            value={account.email}
+          />
+          <PasswordTextField
+            name="password"
+            onChange={handleChange}
+            value={account.password}
+          />
+          <Button
+            onClick={handleClick}
+            value="Sign Up"
+            disabled={!account.isValid}
+            id="signup"
+          />
+        </form>
+      </div>
+    </>
   );
+};
+
+Signup.defaultProps = {
+  isAuthenticated: false,
 };
 
 Signup.propTypes = {
   createUserAccount: PropTypes.func.isRequired,
+  getCurrentUser: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  userAccount: PropTypes.shape({
+    created: PropTypes.bool,
+  }).isRequired,
 };
 
-export default connect(null, dispatchActions)(Signup);
+export default connect(mapStateToProps, dispatchActions)(Signup);
