@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config.json';
+import config from '../config/config.json';
 import {
   RECEIVE_DOCTORS,
   REQUEST_DOCTORS,

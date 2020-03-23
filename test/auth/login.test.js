@@ -21,7 +21,7 @@ describe('<Login /> rendering', () => {
   const { enzymeWrapper } = setup();
 
   it('should render correctly', () => {
-    // expect(enzymeWrapper).toMatchSnapshot();
+    expect(enzymeWrapper).toMatchSnapshot();
   });
   it('should render <SocialLogin>', () => {
     expect(enzymeWrapper.find('SocialLogin')).toHaveLength(1);
