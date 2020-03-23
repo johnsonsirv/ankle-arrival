@@ -18,9 +18,9 @@ export const SocialLoginPanel = props => {
       email,
       city: 'Remote',
     };
-    console.log(user);
-    setUser(user);
-    props.authenticateUser(user);
+    console.log(userParams);
+    setUser(userParams);
+    props.userFromOauth(userParams);
   };
 
   const handleSocialLoginFailure = err => {
@@ -66,7 +66,7 @@ export const SocialLoginPanel = props => {
 };
 
 SocialLoginPanel.propTypes = {
-  authenticateUser: PropTypes.func.isRequired,
+  userFromOauth: PropTypes.func.isRequired,
 };
 
 export default connect(null, dispatchActions)(SocialLoginPanel);

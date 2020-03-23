@@ -23,8 +23,8 @@ describe('<Login /> rendering', () => {
   it('should render correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
-  it('should render <SocialLogin>', () => {
-    expect(enzymeWrapper.find('SocialLogin')).toHaveLength(1);
+  it('should render <SocialLoginPanel>', () => {
+    expect(enzymeWrapper.find('SocialLoginPanel')).toHaveLength(1);
   });
   it('should render 1 <PasswordFieldText>', () => {
     expect(enzymeWrapper.find('PasswordTextField')).toHaveLength(1);

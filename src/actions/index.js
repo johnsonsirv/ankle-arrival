@@ -140,3 +140,16 @@ export const createUserAccount = params => async dispatch => {
     .then(response => dispatch(setCurrentUser(response)))
     .catch(ex => dispatch(signupFailure(ex)));
 };
+
+export const userFromOauth = params => async dispatch => {
+  const header = {
+    'Content-type': 'application/json',
+  };
+  const url = `${apiEndPoint}/oauth/authenticate`;
+
+  dispatch(requestSignup());
+  return axios
+    .post(url, params, { headers: header })
+    .then(response => dispatch(setCurrentUser(response)))
+    .catch(ex => dispatch(signupFailure(ex)));
+};
