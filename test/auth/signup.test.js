@@ -131,7 +131,7 @@ describe('<Signup /> routing', () => {
       userAccount: { created: false },
     };
 
-    const enzymeWrapper = mount(
+    const enzymeWrapper = shallow(
       <Router>
         <Signup {...props} />
       </Router>

@@ -91,18 +91,18 @@ describe('<Login /> interactions', () => {
 });
 
 describe('<Login /> routing', () => {
-  // it('should redirect to doctors if user is already logged in', () => {
-  //   const props = {
-  //     authenticateUser: jest.fn(),
-  //     getCurrentUser: jest.fn(),
-  //     isAuthenticated: true,
-  //     userLogin: { ok: false },
-  //   };
-  //   const enzymeWrapper = mount(
-  //     <Router>
-  //       <Login {...props} />
-  //     </Router>
-  //   );
-  //   expect(enzymeWrapper.find('doctors')).not.toHaveLength(1);
-  // });
+  it('should redirect to doctors if user is already logged in', () => {
+    const props = {
+      authenticateUser: jest.fn(),
+      getCurrentUser: jest.fn(),
+      isAuthenticated: true,
+      userLogin: { ok: false },
+    };
+    const enzymeWrapper = shallow(
+      <Router>
+        <Login {...props} />
+      </Router>
+    );
+    expect(enzymeWrapper.find('doctors')).not.toHaveLength(1);
+  });
 });
