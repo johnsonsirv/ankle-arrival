@@ -36,6 +36,7 @@ export const SocialLoginPanel = props => {
         onLoinFailure={handleSocialLoginFailure}
         id="google-login"
         className=""
+        value="Login with Google"
       />
       <SocialButton
         provider={facebook.providerName}
@@ -44,6 +45,7 @@ export const SocialLoginPanel = props => {
         onLoinFailure={handleSocialLoginFailure}
         id="facebook-login"
         className=""
+        value="Login with Facebook"
       />
       <SocialButton
         provider={twitter.providerName}
@@ -52,6 +54,7 @@ export const SocialLoginPanel = props => {
         onLoinFailure={handleSocialLoginFailure}
         id="twitter-login"
         className=""
+        value="Login with Twitter"
       />
       <SocialButton
         provider={instagram.providerName}
@@ -60,13 +63,18 @@ export const SocialLoginPanel = props => {
         onLoinFailure={handleSocialLoginFailure}
         id="instagram-login"
         className=""
+        value="Login with Instagram"
       />
     </>
   );
 };
 
+SocialLoginPanel.defaultProps = {
+  userFromOauth: null,
+};
+
 SocialLoginPanel.propTypes = {
-  userFromOauth: PropTypes.func.isRequired,
+  userFromOauth: PropTypes.func,
 };
 
 export default connect(null, dispatchActions)(SocialLoginPanel);

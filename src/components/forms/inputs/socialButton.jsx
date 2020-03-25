@@ -21,11 +21,12 @@ SocialButton.defaultProps = {
   name: '',
   className: '',
   id: '',
+  value: '',
 };
 
 SocialButton.propTypes = {
   triggerLogin: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
   id: PropTypes.string,

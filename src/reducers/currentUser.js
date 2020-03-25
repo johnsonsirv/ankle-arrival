@@ -2,6 +2,7 @@ import {
   GET_CURRENT_USER,
   SET_CURRENT_USER,
   REQUEST_SIGNUP,
+  REQUEST_LOGIN,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -19,6 +20,8 @@ const currentUser = (state = initialState, action) => {
       return { ...action.payload };
     case REQUEST_SIGNUP:
       return { userAccount: { created: false } };
+    case REQUEST_LOGIN:
+      return { userLogin: { ok: false } };
     default:
       return state;
   }

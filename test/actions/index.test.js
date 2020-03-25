@@ -10,6 +10,7 @@ import {
   RECEIVE_APPOINTMENTS,
   REQUEST_APPOINTMENTS,
   REQUEST_SIGNUP,
+  REQUEST_LOGIN,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -121,6 +122,29 @@ describe('authentication async actions', () => {
     axios.post.mockResolvedValue(mockResponse);
     const store = mockStore({ userAccount: { created: false } });
     return store.dispatch(actions.createUserAccount(signupParams)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+  it('should create SET_CURRENT_USER when login is done', () => {
+    const mockResponse = {
+      user: { id: 1, username: 'jobe123' },
+      token: 'xxx.yyy.zzz',
+    };
+    const payload = {
+      currentUser: { id: 1, username: 'jobe123', token: 'xxx.yyy.zzz' },
+      isAuthenticated: true,
+    };
+    const expectedActions = [
+      { type: REQUEST_LOGIN },
+      { type: SET_CURRENT_USER, payload },
+    ];
+    const loginParams = {
+      username: 'jobe123',
+      password: '1234',
+    };
+    axios.post.mockResolvedValue(mockResponse);
+    const store = mockStore({ userLogin: { ok: false } });
+    return store.dispatch(actions.authenticateUser(loginParams)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

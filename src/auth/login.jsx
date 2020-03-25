@@ -9,6 +9,7 @@ import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
+import { SocialLoginPanel } from './socialLoginPanel';
 
 const mapStateToProps = state => state;
 
@@ -58,13 +59,15 @@ export const Login = props => {
     props.getCurrentUser();
   }, []);
 
-  const { userAccount } = props;
+  const { userLogin } = props;
   const { isAuthenticated } = props;
   return (
-    // render social login section here
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {!userAccount.created && <Spinner name="three-bounce" fadeIn="none" />}
+      {!userLogin.ok && <Spinner name="three-bounce" fadeIn="none" />}
+      <div>
+        <SocialLoginPanel />
+      </div>
       <div>
         <form>
           <InputTextField
@@ -99,8 +102,8 @@ Login.propTypes = {
   authenticateUser: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  userAccount: PropTypes.shape({
-    created: PropTypes.bool,
+  userLogin: PropTypes.shape({
+    ok: PropTypes.bool,
   }).isRequired,
 };
 

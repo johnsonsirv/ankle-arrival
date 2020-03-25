@@ -12,6 +12,8 @@ import {
   REQUEST_NEW_APPOINTMENT,
   REQUEST_SIGNUP,
   SIGNUP_FAILURE,
+  REQUEST_LOGIN,
+  LOGIN_FAILURE,
 } from './actionTypes';
 
 // configure apiEndpoint to prod
@@ -119,6 +121,28 @@ export const setCurrentUser = response => {
     payload,
   };
 };
+
+export const requestLogin = () => ({
+  type: REQUEST_LOGIN,
+});
+
+export const loginFailure = response => ({
+  type: LOGIN_FAILURE,
+});
+
+export const authenticateUser = params => async dispatch => {
+  const header = {
+    'Content-type': 'application/json',
+  };
+  const url = `${apiEndPoint}/auth/login`;
+
+  dispatch(requestLogin());
+  return axios
+    .post(url, params, { headers: header })
+    .then(response => dispatch(setCurrentUser(response)))
+    .catch(ex => dispatch(loginFailure(ex)));
+};
+
 
 export const requestSignup = () => ({
   type: REQUEST_SIGNUP,
