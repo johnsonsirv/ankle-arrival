@@ -1,26 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ComboBox from '../components/forms/inputs/comboBox';
+import CheckBox from '../components/forms/inputs/checkBox';
 
-const SymptomsPage = ({ injuries, onChange }) => (
-  <ComboBox onChange={onChange}>
-    {injuries.map(item => (
-      <option key={item.id} value={item.code}>
-        {item.name}
-      </option>
+const SymptomsPage = ({ symptoms, onClick }) => (
+  <>
+    {symptoms.map(item => (
+      <CheckBox
+        key={item.id}
+        value={item.code}
+        onClick={onClick}
+        label={item.description}
+      />
     ))}
-  </ComboBox>
+  </>
 );
 
 SymptomsPage.propTypes = {
-  injuries: PropTypes.arrayOf(
+  symptoms: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
       code: PropTypes.string,
       description: PropTypes.string,
     }).isRequired
   ).isRequired,
-  onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default SymptomsPage;

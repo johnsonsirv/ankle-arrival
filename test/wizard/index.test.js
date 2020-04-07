@@ -12,6 +12,7 @@ function setup(stateProps = {}) {
     isFetching: false,
     injuries: [],
     symptoms: [],
+    diagnosis: {},
   };
 
   const enzymeWrapper = shallow(<Wizard {...props} {...stateProps} />);
@@ -31,6 +32,7 @@ describe('<Wizard /> rendering', () => {
   });
   it('should render <WizardSteps />', () => {
     enzymeWrapper.state.init = true;
+    console.log(enzymeWrapper.state.wizard);
     expect(enzymeWrapper.find('WizardSteps')).toHaveLength(1);
   });
   it('should render <InjuryPage> when state changes', () => {
@@ -45,13 +47,11 @@ describe('<Wizard /> rendering', () => {
     const symptoms = [
       { id: 5, code: 'a14', description: 'excessive abdominal' },
     ];
-    // enzymeWrapper.state.data.symptoms = symptoms;
     const { enzymeWrapper } = setup({ symptoms });
     expect(enzymeWrapper.find('SymptomsPage')).toHaveLength(1);
   });
   it('should render <BioPage> when state changes', () => {
     enzymeWrapper.state.showUserBioPage = true;
-    // const { enzymeWrapper } = setup({ showUserBioPage: true });
     expect(enzymeWrapper.find('BioPage')).toHaveLength(1);
   });
   it('should render <DiagnosisPage> when state changes', () => {

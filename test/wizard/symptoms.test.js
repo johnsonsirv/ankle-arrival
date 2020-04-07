@@ -5,9 +5,9 @@ import SymptomsPage from '../../src/wizard/symptoms';
 
 function setup() {
   const props = {
-    name: 'injuries',
-    onChange: jest.fn(),
-    injuries: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
+    name: 'symptoms',
+    onClick: jest.fn(),
+    symptoms: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
   };
 
   const enzymeWrapper = shallow(<SymptomsPage {...props} />);

@@ -5,7 +5,10 @@ import Spinner from 'react-spinkit';
 import * as dispatchActions from '../actions';
 import WizardSteps from './wizardSteps';
 import InjuryPage from './injury';
+import SymptomsPage from './symptoms';
+import BioPage from './bio';
 import Button from '../components/forms/inputs/button';
+import DiagnosisPage from './diagnosis';
 
 const mapStateToProps = state => state;
 
@@ -14,21 +17,35 @@ export const Wizard = props => {
     showUserBioPage: false,
     init: true,
     selectedInjury: null,
+    userBio: {
+      fullname: '',
+      age: '',
+      height: '',
+    },
   });
 
   const handleStartDiagnosis = () => {
     props.fetchInjuries();
   };
 
-  const handleShowSymptoms = () => {};
+  const handleShowSymptoms = () => {
+    props.fetchSymptoms();
+  };
 
-  const handleShowBioPage = () => {};
+  const handleShowBioPage = () => {
+    wizard.showUserBioPage = true;
+    setWizard(wizard);
+  };
 
-  const handleSubmitDiagnosis = () => {};
+  const handleSubmitDiagnosis = () => {
+    props.fetchDiagnosis();
+  };
 
   const handleChange = () => {};
 
-  const { isFetching, injuries, symptoms } = props;
+  const handleClickSymptoms = () => {};
+
+  const { isFetching, injuries, symptoms, diagnosis } = props;
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
@@ -56,12 +73,33 @@ export const Wizard = props => {
       )}
       {symptoms && (
         <>
-          <InjuryPage symptoms={symptoms} onChange={handleChange} />
+          <SymptomsPage symptoms={symptoms} onClick={handleClickSymptoms} />
           <Button
-            onClick={handleShowSymptoms}
+            onClick={handleShowBioPage}
             value="Next"
-            disabled={!injuries}
-            id="step-2-symptoms"
+            disabled={!symptoms}
+            id="step-3-bio"
+          />
+        </>
+      )}
+      {wizard.showUserBioPage && (
+        <>
+          <BioPage userBio={wizard.userBio} onInputChange={handleChange} />
+          <Button
+            onClick={handleSubmitDiagnosis}
+            value="Submit"
+            disabled={!wizard.showUserBioPage}
+            id="step-4-submit"
+          />
+        </>
+      )}
+      {diagnosis && (
+        <>
+          <DiagnosisPage diagnosis={diagnosis} />
+          <Button
+            onClick={handleShowBioPage}
+            value="Re-start Diagnosis"
+            id="step-3-bio"
           />
         </>
       )}
@@ -88,6 +126,16 @@ Wizard.propTypes = {
       description: PropTypes.string,
     }).isRequired
   ).isRequired,
+  diagnosis: PropTypes.shape({
+    id: PropTypes.number,
+    injury: PropTypes.string,
+    disease: PropTypes.string,
+    symptoms: PropTypes.string,
+    player: PropTypes.string,
+    inference: PropTypes.string,
+    treatment: PropTypes.string,
+    lifestyle: PropTypes.string,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, dispatchActions)(Wizard);
