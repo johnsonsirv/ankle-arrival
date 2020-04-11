@@ -203,7 +203,7 @@ describe('Wizard async actions', () => {
   });
 
   it('should create RECEIVE_DIAGNOSIS when fetching diagnosis is done', () => {
-    const diagnosis =  {
+    const diagnosis = {
       id: 18,
       injury: 'abdominal',
       disease: 'blunt abdominal injury',
