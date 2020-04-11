@@ -11,6 +11,12 @@ import {
   REQUEST_APPOINTMENTS,
   REQUEST_SIGNUP,
   REQUEST_LOGIN,
+  WIZARD_REQUEST_INJURIES,
+  WIZARD_RECEIVE_INJURIES,
+  WIZARD_REQUEST_SYMPTOMS,
+  WIZARD_RECEIVE_SYMPTOMS,
+  WIZARD_REQUEST_DIAGNOSIS,
+  WIZARD_RECEIVE_DIAGNOSIS,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -145,6 +151,99 @@ describe('authentication async actions', () => {
     axios.post.mockResolvedValue(mockResponse);
     const store = mockStore({ userLogin: { ok: false } });
     return store.dispatch(actions.authenticateUser(loginParams)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
+
+describe('Wizard async actions', () => {
+  it('should create RECEIVE_INJURIES when fetching injuries is done', () => {
+    const injuries = [
+      { id: 1, name: 'abdominal', code: 1 },
+      { id: 2, name: 'bone', code: 2 },
+    ];
+    const mockResponse = injuries.map(i => JSON.stringify(i));
+    axios.get.mockResolvedValue(mockResponse);
+    const expectedActions = [
+      { type: WIZARD_REQUEST_INJURIES },
+      {
+        type: WIZARD_RECEIVE_INJURIES,
+        payload: [
+          { id: 1, name: 'abdominal', code: 1 },
+          { id: 2, name: 'bone', code: 2 },
+        ],
+      },
+    ];
+
+    const store = mockStore({ injuries: [] });
+    return store.dispatch(actions.wizardFetchInjuries()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should create RECEIVE_SYMPTOMS when fetching injuries is done', () => {
+    const symptoms = [
+      { id: 5, code: 'a14', description: 'excessive abdominal' },
+    ];
+    const mockResponse = symptoms.map(i => JSON.stringify(i));
+    axios.get.mockResolvedValue(mockResponse);
+    const expectedActions = [
+      { type: WIZARD_REQUEST_SYMPTOMS },
+      {
+        type: WIZARD_RECEIVE_SYMPTOMS,
+        payload: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
+      },
+    ];
+
+    const store = mockStore({ symptoms: [] });
+    const { id: params } = symptoms[0];
+    return store.dispatch(actions.wizardFetchSymptoms(params)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it('should create RECEIVE_DIAGNOSIS when fetching diagnosis is done', () => {
+    const diagnosis =  {
+      id: 18,
+      injury: 'abdominal',
+      disease: 'blunt abdominal injury',
+      symptoms: 'excessive abdominal',
+      player: 'Joe Smith',
+      inference:
+        'if player exhibits symptoms excessive abdominal, in abdominal affected area, then there is a blunt abdominal injury disease.',
+      treatment: 'surgery',
+      lifestyle: 'maintain healthy lifestyle',
+    };
+    const mockResponse = JSON.stringify(diagnosis);
+    axios.post.mockResolvedValue(mockResponse);
+    const expectedActions = [
+      { type: WIZARD_REQUEST_DIAGNOSIS },
+      {
+        type: WIZARD_RECEIVE_DIAGNOSIS,
+        payload: {
+          id: 18,
+          injury: 'abdominal',
+          disease: 'blunt abdominal injury',
+          symptoms: 'excessive abdominal',
+          player: 'Joe Smith',
+          inference:
+            'if player exhibits symptoms excessive abdominal, in abdominal affected area, then there is a blunt abdominal injury disease.',
+          treatment: 'surgery',
+          lifestyle: 'maintain healthy lifestyle',
+        },
+      },
+    ];
+
+    const store = mockStore({ diagnosis: {} });
+    const params = {
+      injury: 1,
+      symptoms: 'a14',
+      name: 'Jerry Flower',
+      age: '23',
+      height: '5.6',
+      gender: 'male',
+    };
+    return store.dispatch(actions.wizardFetchDiagnosis(params)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

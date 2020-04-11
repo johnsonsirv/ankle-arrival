@@ -1,4 +1,5 @@
 {
   "apiEndPoint": "ankle-arrival.herokuapp.com/api/v1",
+  "wizardApiEndpoint": "https://abren-api.herokuapp.com",
   "demoApiEndPoint": "https://my-json-server.typicode.com/johnsonsirv/fake-json-api"
 }

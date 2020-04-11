@@ -26,6 +26,8 @@ export const Wizard = props => {
 
   const handleStartDiagnosis = () => {
     props.fetchInjuries();
+    wizard.init = false;
+    setWizard(wizard);
   };
 
   const handleShowSymptoms = () => {
@@ -39,6 +41,13 @@ export const Wizard = props => {
 
   const handleSubmitDiagnosis = () => {
     props.fetchDiagnosis();
+    wizard.showUserBioPage = true;
+    setWizard(wizard);
+  };
+
+  const handleRestartDiagnosis = () => {
+    wizard.init = true;
+    setWizard(wizard);
   };
 
   const handleChange = () => {};
@@ -56,7 +65,7 @@ export const Wizard = props => {
             onClick={handleStartDiagnosis}
             value="Start Diagnosis"
             disabled={!wizard.init}
-            id="start-diagnosis"
+            id="step-1-start-diagnosis"
           />
         </>
       )}
@@ -97,9 +106,9 @@ export const Wizard = props => {
         <>
           <DiagnosisPage diagnosis={diagnosis} />
           <Button
-            onClick={handleShowBioPage}
+            onClick={handleRestartDiagnosis}
             value="Re-start Diagnosis"
-            id="step-3-bio"
+            id="step-5-restart-diagnosis"
           />
         </>
       )}
