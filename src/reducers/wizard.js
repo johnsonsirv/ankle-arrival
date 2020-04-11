@@ -11,7 +11,7 @@ const initialState = {
   isFetching: false,
 };
 
-const appointments = (state = initialState, action) => {
+const wizard = (state = initialState, action) => {
   switch (action.type) {
     case WIZARD_REQUEST_INJURIES:
       return {
@@ -51,4 +51,4 @@ const appointments = (state = initialState, action) => {
   }
 };
 
-export default appointments;
+export default wizard;
