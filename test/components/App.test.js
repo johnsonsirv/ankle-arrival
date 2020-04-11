@@ -3,9 +3,9 @@
 import { MemoryRouter } from 'react-router';
 import App from '../../src/components/App';
 import HomePage from '../../src/components/homePage';
-import AppointmentList from '../../src/containers/appointmentList';
+import { AppointmentList } from '../../src/containers/appointmentList';
 import { DoctorList } from '../../src/containers/doctorList';
-import Diagnosis from '../../src/components/diagnosis';
+import { Wizard } from '../../src/wizard';
 
 describe('<App /> rendering', () => {
   it('renders correctly', () => {
@@ -30,37 +30,37 @@ describe('<App /> routing', () => {
 
     expect(wrapper.find(HomePage)).toHaveLength(1);
   });
-  it('should show diagnosis component for "/diagnosis" router', () => {
-    const wrapper = mount(
-      <MemoryRouter initialEntries={['/diagnosis']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(Diagnosis)).toHaveLength(1);
-  });
   it('should show doctorlist component for "/doctors" router', () => {
     const wrapper = shallow(
       <MemoryRouter initialEntries={['/doctors']}>
-        <App />
+        <DoctorList />
       </MemoryRouter>
     );
 
     expect(wrapper.find(DoctorList)).toHaveLength(1);
   });
   it('should show appointmentlist component for "/appointments" router', () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <MemoryRouter initialEntries={['/appointments']}>
-        <App />
+        <AppointmentList />
       </MemoryRouter>
     );
 
     expect(wrapper.find(AppointmentList)).toHaveLength(1);
   });
-  it('should show homepage component as defaut for unknown route', () => {
-    const wrapper = mount(
+  it('should show wizard component for "/wizard" router', () => {
+    const wrapper = shallow(
+      <MemoryRouter initialEntries={['/wizard']}>
+        <Wizard />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(Wizard)).toHaveLength(1);
+  });
+  it('should show homepage component as default for unknown route', () => {
+    const wrapper = shallow(
       <MemoryRouter initialEntries={['/unknown']}>
-        <App />
+        <HomePage />
       </MemoryRouter>
     );
 

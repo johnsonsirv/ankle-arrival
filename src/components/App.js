@@ -5,7 +5,7 @@ import HomePage from './homePage';
 import DoctorDetails from '../containers/doctorDetails';
 import AppointmentList from '../containers/appointmentList';
 import DoctorList from '../containers/doctorList';
-import Diagnosis from './diagnosis';
+import Wizard from '../wizard';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -14,10 +14,14 @@ function App() {
       <ToastContainer />
       <div className="App">
         <Switch>
-          <Route exact path="/doctors/:id/:username" component={DoctorDetails} />
+          <Route
+            exact
+            path="/doctors/:id/:username"
+            component={DoctorDetails}
+          />
           <Route exact path="/appointments" component={AppointmentList} />
           <Route exact path="/doctors" component={DoctorList} />
-          <Route exact path="/diagnosis" component={Diagnosis} />
+          <Route exact path="/wizard" component={Wizard} />
           <Route exact path="/" component={HomePage} />
           <Route component={HomePage} />
         </Switch>

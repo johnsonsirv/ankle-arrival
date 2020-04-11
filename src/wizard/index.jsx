@@ -25,13 +25,13 @@ export const Wizard = props => {
   });
 
   const handleStartDiagnosis = () => {
-    props.fetchInjuries();
+    props.wizardFetchInjuries();
     wizard.init = false;
     setWizard(wizard);
   };
 
   const handleShowSymptoms = () => {
-    props.fetchSymptoms();
+    props.wizardFetchSymptoms();
   };
 
   const handleShowBioPage = () => {
@@ -40,7 +40,7 @@ export const Wizard = props => {
   };
 
   const handleSubmitDiagnosis = () => {
-    props.fetchDiagnosis();
+    props.wizardFetchDiagnosis();
     wizard.showUserBioPage = true;
     setWizard(wizard);
   };
@@ -117,9 +117,9 @@ export const Wizard = props => {
 };
 
 Wizard.propTypes = {
-  fetchSymptoms: PropTypes.func.isRequired,
-  fetchInjuries: PropTypes.func.isRequired,
-  fetchDiagnosis: PropTypes.func.isRequired,
+  wizardFetchSymptoms: PropTypes.func.isRequired,
+  wizardFetchInjuries: PropTypes.func.isRequired,
+  wizardFetchDiagnosis: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
   injuries: PropTypes.arrayOf(
     PropTypes.shape({

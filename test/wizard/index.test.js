@@ -6,9 +6,9 @@ import { Wizard } from '../../src/wizard/index';
 
 function setup(stateProps = {}) {
   const props = {
-    fetchInjuries: jest.fn(),
-    fetchSymptoms: jest.fn(),
-    fetchDiagnosis: jest.fn(),
+    wizardFetchInjuries: jest.fn(),
+    wizardFetchSymptoms: jest.fn(),
+    wizardFetchDiagnosis: jest.fn(),
     isFetching: false,
     injuries: [],
     symptoms: [],
@@ -75,13 +75,13 @@ describe('<Wizard /> rendering', () => {
 
 describe('<Wizard /> interactions', () => {
   const { props, enzymeWrapper } = setup();
-  it('STEP 1 <start-diagnosis> should dispatch fetchInjuries action', () => {
+  it('STEP 1 <start-diagnosis> should dispatch wizardFetchInjuries action', () => {
     enzymeWrapper
       .find('#step-1-start-diagnosis')
       .simulate('click', { target: {}, preventDefault: jest.fn() });
-    expect(props.fetchInjuries).toHaveBeenCalled();
+    expect(props.wizardFetchInjuries).toHaveBeenCalled();
   });
-  it('STEP 2 <symptoms> should dispatch fetchSymptoms action', () => {
+  it('STEP 2 <symptoms> should dispatch wizardFetchSymptoms action', () => {
     const injuries = [
       { id: 1, name: 'abdominal', code: 1 },
       { id: 2, name: 'bone', code: 2 },
@@ -90,10 +90,10 @@ describe('<Wizard /> interactions', () => {
     enzymeWrapper
       .find('#step-2-symptoms')
       .simulate('click', { target: {}, preventDefault: jest.fn() });
-    expect(props.fetchSymptoms).toHaveBeenCalled();
+    expect(props.wizardFetchSymptoms).toHaveBeenCalled();
   });
 
-  it('STEP 4 <submit> should dispatch fetchDiagnosis', () => {
+  it('STEP 4 <submit> should dispatch wizardFetchDiagnosis', () => {
     const symptoms = [
       { id: 5, code: 'a14', description: 'excessive abdominal' },
     ];
@@ -104,6 +104,6 @@ describe('<Wizard /> interactions', () => {
     enzymeWrapper
       .find('#step-4-submit')
       .simulate('click', { target: {}, preventDefault: jest.fn() });
-    expect(props.fetchDiagnosis).toHaveBeenCalled();
+    expect(props.wizardFetchDiagnosis).toHaveBeenCalled();
   });
 });
