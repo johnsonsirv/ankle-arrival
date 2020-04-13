@@ -12,9 +12,10 @@ import * as dispatchActions from '../actions';
 
 export const BookAppointment = props => {
   const {
+    currentUser: { firstname, lastname },
     currentUser,
     doctor,
-    doctor: { firstname, lastname },
+    doctor: { firstname: doctorFirstname, lastname: doctorLastname },
   } = props;
 
   const [booking, setBooking] = useState({
@@ -86,8 +87,14 @@ export const BookAppointment = props => {
   return (
     <div>
       <form>
-        <ReadOnlyTextField name="doctor" value={`${firstname} ${lastname}`} />
-        <ReadOnlyTextField name="current-user" value="" />
+        <ReadOnlyTextField
+          name="doctor"
+          value={`${doctorFirstname} ${doctorLastname}`}
+        />
+        <ReadOnlyTextField
+          name="current-user"
+          value={`${firstname} ${lastname}`}
+        />
         <RichTextField
           name="description"
           value={booking.description}
@@ -129,6 +136,8 @@ BookAppointment.propTypes = {
     id: PropTypes.number,
     username: PropTypes.string,
     token: PropTypes.string,
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
   }).isRequired,
   addNewAppointment: PropTypes.func.isRequired,
 };

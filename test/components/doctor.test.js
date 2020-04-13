@@ -20,6 +20,7 @@ function setup() {
       username: 'testUser',
       token: 'xxx.yyy.zzz',
     },
+    addNewAppointment: jest.fn(),
   };
 
   const enzymeWrapper = shallow(<Doctor {...props} />);
@@ -44,7 +45,7 @@ describe('<Doctor /> routing', () => {
   const { props } = setup();
   it('should render BookAppointment component for "/book-appointment/:username route"', () => {
     const entry = `/book-appointement/${props.doctor.username}`;
-    const wrapper = mount(
+    const wrapper = shallow(
       <MemoryRouter initialEntries={[entry]}>
         <BookAppointment {...props} />
       </MemoryRouter>

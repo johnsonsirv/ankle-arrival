@@ -6,7 +6,7 @@ import WizardSteps from '../../src/wizard/wizardSteps';
 function setup() {
   const enzymeWrapper = shallow(<WizardSteps />);
 
-  return { props, enzymeWrapper };
+  return { enzymeWrapper };
 }
 
 describe('<WizardSteps /> rendering', () => {
