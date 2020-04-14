@@ -8,6 +8,7 @@ import DoctorList from '../containers/doctorList';
 import Wizard from '../wizard';
 import Signup from '../auth/signup';
 import Login from '../auth/login';
+import ProtectedRoute from '../containers/protectedRoute';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -16,17 +17,16 @@ function App() {
       <ToastContainer />
       <div className="App">
         <Switch>
-          <Route
-            exact
+          <ProtectedRoute
             path="/doctors/:id/:username"
             component={DoctorDetails}
           />
-          <Route exact path="/appointments" component={AppointmentList} />
-          <Route exact path="/doctors" component={DoctorList} />
-          <Route exact path="/wizard" component={Wizard} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/" component={HomePage} />
+          <ProtectedRoute path="/appointments" component={AppointmentList} />
+          <ProtectedRoute path="/doctors" component={DoctorList} />
+          <Route path="/wizard" component={Wizard} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/" component={HomePage} />
           <Route component={HomePage} />
         </Switch>
       </div>
