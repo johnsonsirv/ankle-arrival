@@ -8,20 +8,20 @@ import * as dispatchActions from '../actions';
 const mapStateToProps = state => state;
 
 export const DoctorList = props => {
-  const { currentUser, doctors, isFetching } = props;
+  const {
+    currentUser,
+    doctors: { doctors: doctorData, isFetching },
+    fetchDoctors,
+  } = props;
 
   useEffect(() => {
-    // i need the current user here
-    props.getCurrentUser();
-    if (currentUser) {
-      const { token } = currentUser;
-      props.fetchDoctors(token);
-    }
-  }, [props]);
+    fetchDoctors(currentUser.token);
+  }, [fetchDoctors, currentUser.token]);
+
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
-      {doctors.map(doctor => (
+      {doctorData.map(doctor => (
         <Doctor doctor={doctor} currentUser={currentUser} key={doctor.id} />
       ))}
     </>
@@ -29,19 +29,21 @@ export const DoctorList = props => {
 };
 
 DoctorList.propTypes = {
-  doctors: PropTypes.arrayOf(
-    PropTypes.shape({
-      firstname: PropTypes.string,
-      lastname: PropTypes.string,
-      city: PropTypes.string,
-      email: PropTypes.string,
-      username: PropTypes.string,
-      id: PropTypes.number,
-    }).isRequired
-  ).isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  doctors: PropTypes.shape({
+    doctors: PropTypes.arrayOf(
+      PropTypes.shape({
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        city: PropTypes.string,
+        email: PropTypes.string,
+        username: PropTypes.string,
+        id: PropTypes.string,
+      }).isRequired
+    ).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+  }).isRequired,
+
   fetchDoctors: PropTypes.func.isRequired,
-  getCurrentUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.number,
     username: PropTypes.string,

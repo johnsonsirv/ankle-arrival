@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import DateInput from '../components/forms/inputs/dateInput';
 import TimeInput from '../components/forms/inputs/timeInput';
 import RichTextField from '../components/forms/inputs/richTextField';
@@ -28,15 +27,9 @@ export const BookAppointment = props => {
   });
 
   const schema = {
-    description: Joi.string()
-      .required()
-      .label('Description'),
-    dateOfAppointment: Joi.string()
-      .required()
-      .label('Date of Appointment'),
-    timeOfAppointment: Joi.string()
-      .required()
-      .label('Time of Appointment'),
+    description: Joi.string().required().label('Description'),
+    dateOfAppointment: Joi.string().required().label('Date of Appointment'),
+    timeOfAppointment: Joi.string().required().label('Time of Appointment'),
   };
 
   const validateProperty = ({ name, value }) => {

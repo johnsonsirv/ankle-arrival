@@ -67,7 +67,7 @@ describe('currentUser from store', () => {
       payload,
     };
 
-    expect(actions.setCurrentUser(response)).toEqual(expectedAction);
+     expect(actions.setCurrentUser(response)).toEqual(expectedAction);
   });
 });
 

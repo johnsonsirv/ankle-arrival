@@ -9,7 +9,6 @@ const AppointmentDetails = props => {
       description,
       doctor_firstname: doctorFirstname,
       doctor_lastname: doctorLastname,
-      id,
     },
   } = props;
   return (
@@ -37,7 +36,6 @@ AppointmentDetails.propTypes = {
     description: PropTypes.string,
     doctor_firstname: PropTypes.string,
     doctor_lastname: PropTypes.string,
-    id: PropTypes.number,
   }).isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.number,

@@ -13,7 +13,7 @@ export const AppointmentList = props => {
     if (currentUser) {
       props.fetchAppointments(currentUser);
     }
-  }, [props]);
+  }, [props, currentUser]);
 
   return (
     <>

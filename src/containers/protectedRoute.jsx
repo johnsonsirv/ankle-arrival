@@ -9,14 +9,14 @@ const mapStateToProps = state => state;
 
 const ProtectedRoute = ({
   getCurrentUser,
-  isAuthenticated,
+  currentUser: { isAuthenticated },
   component: Component,
   render,
   ...rest
 }) => {
   useEffect(() => {
     getCurrentUser();
-  }, []);
+  }, [getCurrentUser]);
   return (
     <Route
       {...rest}
@@ -28,9 +28,18 @@ const ProtectedRoute = ({
   );
 };
 
+ProtectedRoute.defaultProps = {
+  currentUser: {},
+};
+
 ProtectedRoute.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    token: PropTypes.string,
+    isAuthenticated: PropTypes.bool,
+  }),
 };
 
 export default connect(mapStateToProps, dispatchActions)(ProtectedRoute);

@@ -32,7 +32,7 @@ export const requestDoctors = () => ({
 
 export const receiveDoctors = response => ({
   type: RECEIVE_DOCTORS,
-  payload: response.map(data => JSON.parse(data)),
+  payload: response,
 });
 
 export const fetchDoctors = token => async dispatch => {
@@ -45,7 +45,7 @@ export const fetchDoctors = token => async dispatch => {
   dispatch(requestDoctors());
   return axios
     .get(url, { headers: header })
-    .then(response => dispatch(receiveDoctors(response)));
+    .then(({ data }) => dispatch(receiveDoctors(data)));
 };
 
 // 2. appointments
@@ -101,10 +101,8 @@ export const fetchAppointments = user => async dispatch => {
 };
 
 // 3. auth
-const getUserFromLocalStorage = () =>
-  localStorage.getItem('currentUser') || null;
-const syncToLocalStorage = data =>
-  localStorage.setItem('currentUser', JSON.stringify(data));
+const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem('currentUser')) || null;
+const syncToLocalStorage = data => localStorage.setItem('currentUser', JSON.stringify(data));
 
 export const getCurrentUser = () => ({
   type: GET_CURRENT_USER,

@@ -25,22 +25,11 @@ export const Signup = props => {
   });
 
   const schema = {
-    firstname: Joi.string()
-      .required()
-      .label('Firstname'),
-    lastname: Joi.string()
-      .required()
-      .label('Lastname'),
-    email: Joi.string()
-      .email()
-      .required()
-      .label('Email'),
-    username: Joi.string()
-      .required()
-      .label('Username'),
-    password: Joi.string()
-      .required()
-      .label('Password'),
+    firstname: Joi.string().required().label('Firstname'),
+    lastname: Joi.string().required().label('Lastname'),
+    email: Joi.string().email().required().label('Email'),
+    username: Joi.string().required().label('Username'),
+    password: Joi.string().required().label('Password'),
   };
 
   const validateProperty = ({ name, value }) => {
@@ -75,7 +64,7 @@ export const Signup = props => {
 
   useEffect(() => {
     props.getCurrentUser();
-  }, []);
+  });
 
   const { userAccount } = props;
   const { isAuthenticated } = props;

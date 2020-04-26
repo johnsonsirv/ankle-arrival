@@ -9,24 +9,20 @@ import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
-import { SocialLoginPanel } from './socialLoginPanel';
+// import { SocialLoginPanel } from './socialLoginPanel';
 
 const mapStateToProps = state => state;
 
 export const Login = props => {
   const [account, setAccount] = useState({
-    username: null,
-    password: null,
+    username: '',
+    password: '',
     isValid: false,
   });
 
   const schema = {
-    username: Joi.string()
-      .required()
-      .label('Username'),
-    password: Joi.string()
-      .required()
-      .label('Password'),
+    username: Joi.string().required().label('Username'),
+    password: Joi.string().required().label('Password'),
   };
 
   const validateProperty = ({ name, value }) => {
@@ -55,19 +51,22 @@ export const Login = props => {
     });
   };
 
+  const { getCurrentUser } = props;
   useEffect(() => {
-    props.getCurrentUser();
-  }, []);
+    getCurrentUser();
+  }, [getCurrentUser]);
 
-  const { userLogin } = props;
-  const { isAuthenticated } = props;
+  const {
+    userLogin,
+    currentUser: { isAuthenticated },
+  } = props;
   return (
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {!userLogin.ok && <Spinner name="three-bounce" fadeIn="none" />}
-      <div>
-        <SocialLoginPanel />
-      </div>
+      {userLogin && !userLogin.ok && (
+        <Spinner name="three-bounce" fadeIn="none" />
+      )}
+      <div>{/* <SocialLoginPanel /> */}</div>
       <div>
         <form>
           <InputTextField
@@ -95,7 +94,8 @@ export const Login = props => {
 };
 
 Login.defaultProps = {
-  isAuthenticated: false,
+  userLogin: null,
+  currentUser: {},
 };
 
 Login.propTypes = {
@@ -104,7 +104,13 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool,
   userLogin: PropTypes.shape({
     ok: PropTypes.bool,
-  }).isRequired,
+  }),
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    token: PropTypes.string,
+    isAuthenticated: PropTypes.bool,
+  }),
 };
 
 export default connect(mapStateToProps, dispatchActions)(Login);

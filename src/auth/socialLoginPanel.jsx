@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { google, facebook, twitter, instagram } from '../config/socialLogin';
+import { google, facebook, instagram } from '../config/socialLogin';
 import * as dispatchActions from '../actions';
 import SocialButton from '../components/forms/inputs/socialButton';
 
@@ -18,9 +18,9 @@ export const SocialLoginPanel = props => {
       email,
       city: 'Remote',
     };
-    console.log(userParams);
     setUser(userParams);
-    props.userFromOauth(userParams);
+    props.userFromOauth(user);
+    console.log(user);
   };
 
   const handleSocialLoginFailure = err => {
@@ -47,7 +47,7 @@ export const SocialLoginPanel = props => {
         className=""
         value="Login with Facebook"
       />
-      <SocialButton
+      {/* <SocialButton
         provider={twitter.providerName}
         appId={twitter.appId}
         onLoginSuccess={handleSocialLogin}
@@ -55,7 +55,7 @@ export const SocialLoginPanel = props => {
         id="twitter-login"
         className=""
         value="Login with Twitter"
-      />
+      /> */}
       <SocialButton
         provider={instagram.providerName}
         appId={instagram.appId}
