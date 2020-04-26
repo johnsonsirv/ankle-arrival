@@ -16,7 +16,7 @@ const Doctor = props => {
         <p>{city}</p>
         <p>{email}</p>
         <p>{username}</p>
-        <Link to={`/book-apointment/${username}`}>Book Appointment</Link>
+        <Link to={`/book-appointment/${username}`}>Book Appointment</Link>
       </div>
       <Route
         path="/book-appointment/:username"
