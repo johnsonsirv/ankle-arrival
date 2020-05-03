@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "faker": "^4.1.0",
     "joi-browser": "^13.4.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
@@ -28,6 +29,7 @@
     "build": "react-scripts build",
     "test": "jest --colors",
     "testWithCoverage": "jest --coverage",
+    "mock:api": "json-server test/api/seed.js --port 3030",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

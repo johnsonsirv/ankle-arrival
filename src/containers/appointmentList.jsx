@@ -5,20 +5,25 @@ import Spinner from 'react-spinkit';
 import * as dispatchActions from '../actions';
 import AppointmentDetails from '../components/appointmentDetails';
 
+const mapStateToProps = state => state;
+
 export const AppointmentList = props => {
-  const { appointments, isFetching, currentUser } = props;
+  const {
+    fetchAppointments,
+    getCurrentUser,
+    appointments: { appointments: appointmentData, isFetching },
+    currentUser,
+  } = props;
 
   useEffect(() => {
-    props.getCurrentUser();
-    if (currentUser) {
-      props.fetchAppointments(currentUser);
-    }
-  }, [props, currentUser]);
+    getCurrentUser();
+    fetchAppointments(currentUser);
+  }, [fetchAppointments, currentUser, getCurrentUser]);
 
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
-      {appointments.map(appointment => (
+      {appointmentData.map(appointment => (
         <AppointmentDetails
           appointment={appointment}
           currentUser={currentUser}
@@ -30,17 +35,19 @@ export const AppointmentList = props => {
 };
 
 AppointmentList.propTypes = {
-  appointments: PropTypes.arrayOf(
-    PropTypes.shape({
-      dateOfAppointment: PropTypes.string,
-      timeOfAppointment: PropTypes.string,
-      description: PropTypes.string,
-      doctor_firstname: PropTypes.string,
-      doctor_lastname: PropTypes.string,
-      id: PropTypes.number,
-    }).isRequired
-  ).isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  appointments: PropTypes.shape({
+    appointments: PropTypes.arrayOf(
+      PropTypes.shape({
+        dateOfAppointment: PropTypes.string,
+        timeOfAppointment: PropTypes.string,
+        description: PropTypes.string,
+        doctor_firstname: PropTypes.string,
+        doctor_lastname: PropTypes.string,
+        id: PropTypes.number,
+      }).isRequired
+    ).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+  }).isRequired,
   fetchAppointments: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
@@ -52,4 +59,4 @@ AppointmentList.propTypes = {
   }).isRequired,
 };
 
-export default connect(null, dispatchActions)(AppointmentList);
+export default connect(mapStateToProps, dispatchActions)(AppointmentList);

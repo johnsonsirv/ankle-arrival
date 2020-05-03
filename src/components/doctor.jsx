@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Route } from 'react-router-dom';
 import BookAppointment from '../containers/bookAppointment';
+import { Signup } from '../auth/signup';
 
 const Doctor = props => {
   const {
@@ -29,6 +30,7 @@ const Doctor = props => {
           />
         )}
       />
+      <Route path="/book-appointment/:username" exact component={Signup} />
     </>
   );
 };

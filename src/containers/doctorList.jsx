@@ -37,7 +37,7 @@ DoctorList.propTypes = {
         city: PropTypes.string,
         email: PropTypes.string,
         username: PropTypes.string,
-        id: PropTypes.string,
+        id: PropTypes.number,
       }).isRequired
     ).isRequired,
     isFetching: PropTypes.bool.isRequired,

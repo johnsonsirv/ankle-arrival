@@ -1,6 +1,7 @@
 import React from 'react';
 
-const HomePage = () => {
+const HomePage = ({ match }) => {
+  console.log(match)
   return <div>Home</div>;
 };
 

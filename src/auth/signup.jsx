@@ -46,7 +46,6 @@ export const Signup = props => {
     account.isValid = !error;
 
     setAccount({ ...account });
-    // toastify
     toast.error(error);
   };
   const handleClick = e => {
@@ -66,8 +65,7 @@ export const Signup = props => {
     props.getCurrentUser();
   });
 
-  const { userAccount } = props;
-  const { isAuthenticated } = props;
+  const { currentUser: { userAccount, isAuthenticated } } = props;
   return (
     // render social login section here
     <>
@@ -116,16 +114,24 @@ export const Signup = props => {
 };
 
 Signup.defaultProps = {
-  isAuthenticated: false,
+  currentUser: {}
 };
 
 Signup.propTypes = {
   createUserAccount: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-  userAccount: PropTypes.shape({
-    created: PropTypes.bool,
-  }).isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    token: PropTypes.string,
+    isAuthenticated: PropTypes.bool,
+    userLogin: PropTypes.shape({
+      ok: PropTypes.bool,
+    }),
+    userAccount: PropTypes.shape({
+      created: PropTypes.bool,
+    })
+  }),
 };
 
 export default connect(mapStateToProps, dispatchActions)(Signup);

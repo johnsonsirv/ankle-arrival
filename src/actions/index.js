@@ -23,7 +23,6 @@ import {
 } from './actionTypes';
 
 // configure apiEndpoint to prod
-// const apiEndPoint = config.demoApiEndPoint;
 const { demoApiEndPoint: apiEndPoint, wizardApiEndPoint } = config;
 
 export const requestDoctors = () => ({
@@ -32,7 +31,7 @@ export const requestDoctors = () => ({
 
 export const receiveDoctors = response => ({
   type: RECEIVE_DOCTORS,
-  payload: response,
+  payload: response.map(data => JSON.parse(data)),
 });
 
 export const fetchDoctors = token => async dispatch => {
@@ -46,6 +45,7 @@ export const fetchDoctors = token => async dispatch => {
   return axios
     .get(url, { headers: header })
     .then(({ data }) => dispatch(receiveDoctors(data)));
+  // .then(({ data }) => console.log(data));
 };
 
 // 2. appointments
@@ -97,12 +97,14 @@ export const fetchAppointments = user => async dispatch => {
   dispatch(requestAppointments());
   return axios
     .get(url, { headers: header })
-    .then(response => dispatch(receiveAppointments(response)));
+    .then(({ data }) => dispatch(receiveAppointments(data)));
 };
 
 // 3. auth
-const getUserFromLocalStorage = () => JSON.parse(localStorage.getItem('currentUser')) || null;
-const syncToLocalStorage = data => localStorage.setItem('currentUser', JSON.stringify(data));
+const getUserFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem('currentUser')) || null;
+const syncToLocalStorage = data =>
+  localStorage.setItem('currentUser', JSON.stringify(data));
 
 export const getCurrentUser = () => ({
   type: GET_CURRENT_USER,
@@ -165,7 +167,7 @@ export const createUserAccount = params => async dispatch => {
   dispatch(requestSignup());
   return axios
     .post(url, params, { headers })
-    .then(response => dispatch(setCurrentUser(response)))
+    .then(({ data }) => dispatch(setCurrentUser(data)))
     .catch(ex => dispatch(signupFailure(ex)));
 };
 
@@ -178,7 +180,7 @@ export const userFromOauth = params => async dispatch => {
   dispatch(requestSignup());
   return axios
     .post(url, params, { headers })
-    .then(response => dispatch(setCurrentUser(response)))
+    .then(({ data }) => dispatch(setCurrentUser(data)))
     .catch(ex => dispatch(signupFailure(ex)));
 };
 
@@ -197,11 +199,11 @@ export const wizardFetchInjuries = () => async dispatch => {
     'Content-type': 'application/json',
   };
   const url = `${wizardApiEndPoint}/injuries`;
-
   dispatch(wizardRequestInjuries());
   return axios
     .get(url, { headers })
-    .then(response => dispatch(wizardReceiveInjuries(response)));
+    .then(response => dispatch(wizardReceiveInjuries(response)))
+    .catch(({ message }) => console.log(message));
 };
 
 export const wizardRequestSymptoms = () => ({
@@ -222,7 +224,8 @@ export const wizardFetchSymptoms = params => async dispatch => {
   dispatch(wizardRequestSymptoms());
   return axios
     .get(url, { headers })
-    .then(response => dispatch(wizardReceiveSymptoms(response)));
+    .then(response => dispatch(wizardReceiveSymptoms(response)))
+    .catch(({ message }) => console.log(message));
 };
 
 export const wizardRequestDiagnosis = () => ({

@@ -39,7 +39,6 @@ export const Login = props => {
     account.isValid = !error;
 
     setAccount({ ...account });
-    // toastify
     toast.error(error);
   };
   const handleLogin = e => {
@@ -57,8 +56,7 @@ export const Login = props => {
   }, [getCurrentUser]);
 
   const {
-    userLogin,
-    currentUser: { isAuthenticated },
+    currentUser: { isAuthenticated, userLogin },
   } = props;
   return (
     <>
@@ -94,22 +92,23 @@ export const Login = props => {
 };
 
 Login.defaultProps = {
-  userLogin: null,
   currentUser: {},
 };
 
 Login.propTypes = {
   authenticateUser: PropTypes.func.isRequired,
   getCurrentUser: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-  userLogin: PropTypes.shape({
-    ok: PropTypes.bool,
-  }),
   currentUser: PropTypes.shape({
     id: PropTypes.number,
     username: PropTypes.string,
     token: PropTypes.string,
     isAuthenticated: PropTypes.bool,
+    userLogin: PropTypes.shape({
+      ok: PropTypes.bool,
+    }),
+    userAccount: PropTypes.shape({
+      created: PropTypes.bool,
+    })
   }),
 };
 

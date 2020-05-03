@@ -54,7 +54,9 @@ export const Wizard = props => {
 
   const handleClickSymptoms = () => {};
 
-  const { isFetching, injuries, symptoms, diagnosis } = props;
+  const {
+    wizard: { isFetching, injuries, symptoms, diagnosis },
+  } = props;
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
@@ -120,30 +122,32 @@ Wizard.propTypes = {
   wizardFetchSymptoms: PropTypes.func.isRequired,
   wizardFetchInjuries: PropTypes.func.isRequired,
   wizardFetchDiagnosis: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  injuries: PropTypes.arrayOf(
-    PropTypes.shape({
+  wizard: PropTypes.shape({
+    injuries: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        code: PropTypes.number,
+        name: PropTypes.string,
+      })
+    ),
+    symptoms: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        code: PropTypes.string,
+        description: PropTypes.string,
+      })
+    ),
+    diagnosis: PropTypes.shape({
       id: PropTypes.number,
-      code: PropTypes.number,
-      name: PropTypes.string,
-    }).isRequired
-  ).isRequired,
-  symptoms: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      code: PropTypes.string,
-      description: PropTypes.string,
-    }).isRequired
-  ).isRequired,
-  diagnosis: PropTypes.shape({
-    id: PropTypes.number,
-    injury: PropTypes.string,
-    disease: PropTypes.string,
-    symptoms: PropTypes.string,
-    player: PropTypes.string,
-    inference: PropTypes.string,
-    treatment: PropTypes.string,
-    lifestyle: PropTypes.string,
+      injury: PropTypes.string,
+      disease: PropTypes.string,
+      symptoms: PropTypes.string,
+      player: PropTypes.string,
+      inference: PropTypes.string,
+      treatment: PropTypes.string,
+      lifestyle: PropTypes.string,
+    }),
+    isFetching: PropTypes.bool.isRequired,
   }).isRequired,
 };
 
