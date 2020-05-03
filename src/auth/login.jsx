@@ -26,20 +26,30 @@ export const Login = props => {
   };
 
   const validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
+    const property = { [name]: value };
     const subSchema = { [name]: schema[name] };
-    const { error } = Joi.validate(obj, subSchema);
+    const { error } = Joi.validate(property, subSchema);
     return error ? error.details[0].message : null;
+  };
+
+  const validateAllProperty = () => {
+    const loginCredentials = {
+      username: account.username,
+      password: account.password,
+    };
+    const { error } = Joi.validate(loginCredentials, schema);
+
+    return !error;
   };
 
   const handleChange = e => {
     const { name, value } = e.target;
     account[name] = value;
     const error = validateProperty(e.target);
-    account.isValid = !error;
+    account.isValid = validateAllProperty();
 
     setAccount({ ...account });
-    toast.error(error);
+    if (error) toast.error(error);
   };
   const handleLogin = e => {
     e.preventDefault();
@@ -61,9 +71,9 @@ export const Login = props => {
   return (
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {userLogin && !userLogin.ok && (
+      {/* {userLogin && !userLogin.ok && (
         <Spinner name="three-bounce" fadeIn="none" />
-      )}
+      )} */}
       <div>{/* <SocialLoginPanel /> */}</div>
       <div>
         <form>
@@ -108,7 +118,7 @@ Login.propTypes = {
     }),
     userAccount: PropTypes.shape({
       created: PropTypes.bool,
-    })
+    }),
   }),
 };
 

@@ -15,11 +15,11 @@ const mapStateToProps = state => state;
 
 export const Signup = props => {
   const [account, setAccount] = useState({
-    firstname: null,
-    lastname: null,
-    email: null,
-    username: null,
-    password: null,
+    firstname: '',
+    lastname: '',
+    email: '',
+    username: '',
+    password: '',
     city: 'Remote',
     isValid: false,
   });
@@ -39,14 +39,27 @@ export const Signup = props => {
     return error ? error.details[0].message : null;
   };
 
+  const validateAllProperty = () => {
+    const signupCredentials = {
+      firstname: account.firstname,
+      lastname: account.lastname,
+      email: account.email,
+      username: account.username,
+      password: account.password,
+    };
+    const { error } = Joi.validate(signupCredentials, schema);
+
+    return !error;
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     account[name] = value;
     const error = validateProperty(e.target);
-    account.isValid = !error;
+    account.isValid = validateAllProperty();
 
     setAccount({ ...account });
-    toast.error(error);
+    if (error) toast.error(error);
   };
   const handleClick = e => {
     e.preventDefault();
@@ -61,16 +74,19 @@ export const Signup = props => {
     });
   };
 
+  const { getCurrentUser } = props;
   useEffect(() => {
-    props.getCurrentUser();
-  });
+    getCurrentUser();
+  }, [getCurrentUser]);
 
-  const { currentUser: { userAccount, isAuthenticated } } = props;
+  const {
+    currentUser: { userAccount, isAuthenticated },
+  } = props;
   return (
     // render social login section here
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {!userAccount.created && <Spinner name="three-bounce" fadeIn="none" />}
+      {/* {!userAccount.created && <Spinner name="three-bounce" fadeIn="none" />} */}
       <div>
         <form>
           <InputTextField
@@ -92,11 +108,13 @@ export const Signup = props => {
             value={account.username}
           />
           <EmailTextField
+            id="email"
             name="email"
             onChange={handleChange}
             value={account.email}
           />
           <PasswordTextField
+            id="password"
             name="password"
             onChange={handleChange}
             value={account.password}
@@ -114,7 +132,7 @@ export const Signup = props => {
 };
 
 Signup.defaultProps = {
-  currentUser: {}
+  currentUser: {},
 };
 
 Signup.propTypes = {
@@ -130,7 +148,7 @@ Signup.propTypes = {
     }),
     userAccount: PropTypes.shape({
       created: PropTypes.bool,
-    })
+    }),
   }),
 };
 
