@@ -10,14 +10,12 @@ import Signup from '../auth/signup';
 import Login from '../auth/login';
 import ProtectedRoute from '../containers/protectedRoute';
 import PageNotFound from './notFoundPage';
-import NavBar from './navBar';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
       <ToastContainer />
-      <NavBar />
       <div className="App">
         <Switch>
           {/* <ProtectedRoute

@@ -16,7 +16,7 @@ export const DoctorList = props => {
 
   useEffect(() => {
     fetchDoctors(currentUser.token);
-  }, [fetchDoctors, currentUser.token]);
+  }, [fetchDoctors, currentUser]);
 
   return (
     <>

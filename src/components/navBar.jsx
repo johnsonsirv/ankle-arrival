@@ -1,14 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import UserLinks from '../containers/userLinks';
 
-const NavBar = props => (
+const NavBar = () => (
   <div>
     <NavLink to="/">Ankle Arrival|</NavLink>
-    <NavLink to="/doctors">Doctors|</NavLink>
-    <NavLink to="/appointments">Appointments|</NavLink>
     <NavLink to="/wizard">Instant Diagnosis|</NavLink>
-    <NavLink to="/signup">Sign Up|</NavLink>
-    <NavLink to="/login">Login|</NavLink>
+    <UserLinks />
   </div>
 );
 

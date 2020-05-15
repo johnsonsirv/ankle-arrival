@@ -1,8 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import NavBar from './navBar';
 
-const HomePage = ({ match }) => {
-  console.log(match)
-  return <div>Home</div>;
+const HomePage = () => {
+  return (
+    <>
+      <NavBar />
+      <div>Home</div>
+    </>
+  );
 };
 
 export default HomePage;
