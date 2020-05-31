@@ -38,14 +38,12 @@ const generateSeed = () => {
     const doctor_lastname = faker.name.lastName();
 
     currentUserAppointments.push(
-      JSON.stringify({
         id,
         dateOfAppointment,
         timeOfAppointment,
         doctor_firstname,
         doctor_lastname,
         userId: currentUser.id,
-      })
     );
   }
 
