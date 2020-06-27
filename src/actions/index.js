@@ -29,9 +29,9 @@ export const requestDoctors = () => ({
   type: REQUEST_DOCTORS,
 });
 
-export const receiveDoctors = response => ({
+export const receiveDoctors = payload => ({
   type: RECEIVE_DOCTORS,
-  payload: response.map(data => JSON.parse(data)),
+  payload,
 });
 
 export const fetchDoctors = token => async dispatch => {
@@ -44,8 +44,8 @@ export const fetchDoctors = token => async dispatch => {
   dispatch(requestDoctors());
   return axios
     .get(url, { headers: header })
-    .then(({ data }) => dispatch(receiveDoctors(data)));
-  // .then(({ data }) => console.log(data));
+    .then(({ data }) => dispatch(receiveDoctors(data)))
+    .catch(ex => console.log(ex));
 };
 
 // 2. appointments
@@ -81,23 +81,24 @@ export const requestAppointments = () => ({
   type: REQUEST_APPOINTMENTS,
 });
 
-export const receiveAppointments = response => ({
+export const receiveAppointments = payload => ({
   type: RECEIVE_APPOINTMENTS,
-  payload: response.map(data => JSON.parse(data)),
+  payload,
 });
 
-export const fetchAppointments = user => async dispatch => {
-  const { id, token } = user;
+export const fetchAppointments = token => async dispatch => {
+  // const { token } = user;
   const header = {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
-  const url = `${apiEndPoint}/${id}/appointments`;
+  const url = `${apiEndPoint}/users/appointments`;
 
   dispatch(requestAppointments());
   return axios
     .get(url, { headers: header })
-    .then(({ data }) => dispatch(receiveAppointments(data)));
+    .then(({ data }) => dispatch(receiveAppointments(data)))
+    .catch(ex => console.log(ex));
 };
 
 // 3. auth
@@ -112,9 +113,8 @@ export const getCurrentUser = () => ({
 });
 
 export const setCurrentUser = response => {
-  const { user, token } = response;
   const payload = {
-    currentUser: { ...user, token },
+    ...response,
     isAuthenticated: true,
   };
   try {
@@ -146,7 +146,7 @@ export const authenticateUser = params => async dispatch => {
   dispatch(requestLogin());
   return axios
     .post(url, params, { headers: header })
-    .then(response => dispatch(setCurrentUser(response)))
+    .then(({ data }) => dispatch(setCurrentUser(data)))
     .catch(ex => dispatch(loginFailure(ex)));
 };
 

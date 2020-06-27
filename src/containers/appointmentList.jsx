@@ -10,15 +10,15 @@ const mapStateToProps = state => state;
 export const AppointmentList = props => {
   const {
     fetchAppointments,
-    getCurrentUser,
+    // getCurrentUser,
     appointments: { appointments: appointmentData, isFetching },
     currentUser,
   } = props;
 
   useEffect(() => {
-    getCurrentUser();
-    fetchAppointments(currentUser);
-  }, [fetchAppointments, currentUser, getCurrentUser]);
+    // getCurrentUser();
+    fetchAppointments(currentUser.token);
+  }, [fetchAppointments, currentUser]);
 
   return (
     <>
@@ -49,7 +49,7 @@ AppointmentList.propTypes = {
     isFetching: PropTypes.bool.isRequired,
   }).isRequired,
   fetchAppointments: PropTypes.func.isRequired,
-  getCurrentUser: PropTypes.func.isRequired,
+  // getCurrentUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.number,
     username: PropTypes.string,

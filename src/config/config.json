@@ -1,5 +1,5 @@
 {
   "apiEndPoint": "ankle-arrival.herokuapp.com/api/v1",
   "wizardApiEndPoint": "https://abren-api.herokuapp.com",
-  "demoApiEndPoint": "http://localhost:3030"
+  "demoApiEndPoint": "https://book-appointment.run.goorm.io/api/v1"
 }

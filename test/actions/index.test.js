@@ -26,20 +26,51 @@ jest.mock('axios');
 
 describe('fetchDoctors async actions', () => {
   it('should create RECEIVE_DOCTORS when fetching doctors is done', () => {
-    const doctors = [{ firstname: 'John', lastname: 'Mabel' }];
-    const mockResponse = doctors.map(d => JSON.stringify(d));
-    axios.get.mockResolvedValue(mockResponse);
+    const mockResponse = {
+      data: [{ firstname: 'John', lastname: 'Mabel' }],
+    };
+
     const expectedActions = [
       { type: REQUEST_DOCTORS },
       {
         type: RECEIVE_DOCTORS,
-        payload: [{ firstname: 'John', lastname: 'Mabel' }],
+        payload: mockResponse.data,
       },
     ];
 
-    const store = mockStore({ doctors: [] });
     const token = 'xxxx.yyy.zzz';
+    const store = mockStore({ doctors: [] });
+
+    axios.get.mockResolvedValue(mockResponse);
     return store.dispatch(actions.fetchDoctors(token)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});
+
+describe('fetchAppointments async actions', () => {
+  it('should create RECEIVE_APPOINTMENTS when fetching appointment is done', () => {
+    const mockResponse = {
+      data: [
+        { dateOfAppointment: '2020/03/12', timeOfAppointment: '12:00 PM' },
+      ],
+    };
+    const expectedActions = [
+      { type: REQUEST_APPOINTMENTS },
+      {
+        type: RECEIVE_APPOINTMENTS,
+        payload: mockResponse.data,
+      },
+    ];
+    const store = mockStore({ appointments: [] });
+    const currentUser = {
+      id: 1,
+      username: 'testUser',
+      token: 'xxx.yyy.zzz',
+    };
+
+    axios.get.mockResolvedValue(mockResponse);
+    return store.dispatch(actions.fetchAppointments(currentUser)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -55,11 +86,11 @@ describe('currentUser from store', () => {
   });
   it('should create action to setCurrentUser', () => {
     const response = {
-      user: { id: 1, username: 'testUser' },
+      username: 'testUser',
       token: 'xxx.yyy.zzz',
     };
     const payload = {
-      currentUser: { id: 1, username: 'testUser', token: 'xxx.yyy.zzz' },
+      ...response,
       isAuthenticated: true,
     };
     const expectedAction = {
@@ -67,36 +98,7 @@ describe('currentUser from store', () => {
       payload,
     };
 
-     expect(actions.setCurrentUser(response)).toEqual(expectedAction);
-  });
-});
-
-describe('fetchAppointments async actions', () => {
-  it('should create RECEIVE_APPOINTMENTS when fetching appointment is done', () => {
-    const appointments = [
-      { dateOfAppointment: '2020/03/12', timeOfAppointment: '12:00 PM' },
-    ];
-    const mockResponse = appointments.map(d => JSON.stringify(d));
-    axios.get.mockResolvedValue(mockResponse);
-    const expectedActions = [
-      { type: REQUEST_APPOINTMENTS },
-      {
-        type: RECEIVE_APPOINTMENTS,
-        payload: [
-          { dateOfAppointment: '2020/03/12', timeOfAppointment: '12:00 PM' },
-        ],
-      },
-    ];
-
-    const store = mockStore({ appointments: [] });
-    const currentUser = {
-      id: 1,
-      username: 'testUser',
-      token: 'xxx.yyy.zzz',
-    };
-    return store.dispatch(actions.fetchAppointments(currentUser)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    expect(actions.setCurrentUser(response)).toEqual(expectedAction);
   });
 });
 
@@ -107,11 +109,13 @@ describe('book appointment async actions', () => {
 describe('authentication async actions', () => {
   it('should create SET_CURRENT_USER when signup is done', () => {
     const mockResponse = {
-      user: { id: 1, username: 'jobe123' },
-      token: 'xxx.yyy.zzz',
+      data: {
+        username: 'jobe123',
+        token: 'xxx.yyy.zzz',
+      },
     };
     const payload = {
-      currentUser: { id: 1, username: 'jobe123', token: 'xxx.yyy.zzz' },
+      ...mockResponse.data,
       isAuthenticated: true,
     };
     const expectedActions = [
@@ -133,11 +137,13 @@ describe('authentication async actions', () => {
   });
   it('should create SET_CURRENT_USER when login is done', () => {
     const mockResponse = {
-      user: { id: 1, username: 'jobe123' },
-      token: 'xxx.yyy.zzz',
+      data: {
+        username: 'jobe123',
+        token: 'xxx.yyy.zzz',
+      },
     };
     const payload = {
-      currentUser: { id: 1, username: 'jobe123', token: 'xxx.yyy.zzz' },
+      ...mockResponse.data,
       isAuthenticated: true,
     };
     const expectedActions = [
