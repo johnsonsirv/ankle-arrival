@@ -87,7 +87,6 @@ export const receiveAppointments = payload => ({
 });
 
 export const fetchAppointments = token => async dispatch => {
-  // const { token } = user;
   const header = {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
@@ -189,9 +188,10 @@ export const wizardRequestInjuries = () => ({
   type: WIZARD_REQUEST_INJURIES,
 });
 
-export const wizardReceiveInjuries = response => ({
+export const wizardReceiveInjuries = payload => ({
   type: WIZARD_RECEIVE_INJURIES,
-  payload: response.map(data => JSON.parse(data)),
+  // payload: response.map(data => JSON.parse(data)),
+  payload,
 });
 
 export const wizardFetchInjuries = () => async dispatch => {
@@ -200,19 +200,22 @@ export const wizardFetchInjuries = () => async dispatch => {
   };
   const url = `${wizardApiEndPoint}/injuries`;
   dispatch(wizardRequestInjuries());
-  return axios
-    .get(url, { headers })
-    .then(response => dispatch(wizardReceiveInjuries(response)))
-    .catch(({ message }) => console.log(message));
+  return (
+    axios
+      .get(url, { headers })
+      .then(({ data }) => dispatch(wizardReceiveInjuries(data)))
+      // .then(({ data }) => console.log(data))
+      .catch(({ message }) => console.log(message))
+  );
 };
 
 export const wizardRequestSymptoms = () => ({
   type: WIZARD_REQUEST_SYMPTOMS,
 });
 
-export const wizardReceiveSymptoms = response => ({
+export const wizardReceiveSymptoms = payload => ({
   type: WIZARD_RECEIVE_SYMPTOMS,
-  payload: response.map(data => JSON.parse(data)),
+  payload,
 });
 
 export const wizardFetchSymptoms = params => async dispatch => {
@@ -224,7 +227,7 @@ export const wizardFetchSymptoms = params => async dispatch => {
   dispatch(wizardRequestSymptoms());
   return axios
     .get(url, { headers })
-    .then(response => dispatch(wizardReceiveSymptoms(response)))
+    .then(({ data }) => dispatch(wizardReceiveSymptoms(data)))
     .catch(({ message }) => console.log(message));
 };
 
@@ -232,9 +235,9 @@ export const wizardRequestDiagnosis = () => ({
   type: WIZARD_REQUEST_DIAGNOSIS,
 });
 
-export const wizardReceiveDiagnosis = response => ({
+export const wizardReceiveDiagnosis = payload => ({
   type: WIZARD_RECEIVE_DIAGNOSIS,
-  payload: JSON.parse(response),
+  payload,
 });
 
 export const wizardFetchDiagnosis = params => async dispatch => {
@@ -246,5 +249,6 @@ export const wizardFetchDiagnosis = params => async dispatch => {
   dispatch(wizardRequestDiagnosis());
   return axios
     .post(url, params, { headers })
-    .then(response => dispatch(wizardReceiveDiagnosis(response)));
+    .then(({ data }) => dispatch(wizardReceiveDiagnosis(data)))
+    .catch(({ message }) => console.log(message));
 };

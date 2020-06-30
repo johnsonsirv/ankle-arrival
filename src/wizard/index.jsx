@@ -9,6 +9,7 @@ import SymptomsPage from './symptoms';
 import BioPage from './bio';
 import Button from '../components/forms/inputs/button';
 import DiagnosisPage from './diagnosis';
+import CheckBox from '../components/forms/inputs/checkBox';
 
 const mapStateToProps = state => state;
 
@@ -17,6 +18,7 @@ export const Wizard = props => {
     showUserBioPage: false,
     init: true,
     selectedInjury: null,
+    checkedItems: new Map(),
     userBio: {
       fullname: '',
       age: '',
@@ -27,32 +29,38 @@ export const Wizard = props => {
   const handleStartDiagnosis = () => {
     props.wizardFetchInjuries();
     wizard.init = false;
-    setWizard(wizard);
   };
 
   const handleShowSymptoms = () => {
-    props.wizardFetchSymptoms();
+    props.wizardFetchSymptoms(wizard.selectedInjury);
   };
 
   const handleShowBioPage = () => {
     wizard.showUserBioPage = true;
-    setWizard(wizard);
+    console.log(wizard);
   };
 
   const handleSubmitDiagnosis = () => {
     props.wizardFetchDiagnosis();
     wizard.showUserBioPage = true;
-    setWizard(wizard);
   };
 
   const handleRestartDiagnosis = () => {
     wizard.init = true;
-    setWizard(wizard);
   };
 
-  const handleChange = () => {};
+  const handleSelectInjury = ({ target: input }) => {
+    wizard.selectedInjury = input.value;
+  };
 
-  const handleClickSymptoms = () => {};
+  const handleChange = ({ target: input }) => {
+    wizard.selectedInjury = input.value;
+  };
+
+  const handleChooseSymptoms = ({ target: input }) => {
+    wizard.checkedItems.set(input.name, input.checked);
+    console.log(wizard);
+  };
 
   const {
     wizard: { isFetching, injuries, symptoms, diagnosis },
@@ -73,7 +81,7 @@ export const Wizard = props => {
       )}
       {injuries && (
         <>
-          <InjuryPage injuries={injuries} onChange={handleChange} />
+          <InjuryPage injuries={injuries} onChange={handleSelectInjury} />
           <Button
             onClick={handleShowSymptoms}
             value="Next"
@@ -84,7 +92,8 @@ export const Wizard = props => {
       )}
       {symptoms && (
         <>
-          <SymptomsPage symptoms={symptoms} onClick={handleClickSymptoms} />
+          {wizard.checkedItems.clear()}
+          <SymptomsPage symptoms={symptoms} onChange={handleChooseSymptoms} />
           <Button
             onClick={handleShowBioPage}
             value="Next"

@@ -62,11 +62,6 @@ describe('<AppointmentList /> rendering', () => {
     expect(subcomponentProps.currentUser).toEqual(props.currentUser);
   });
 
-  it('should dispatch getCurrentUser in useEffect', () => {
-    mount(<AppointmentList {...props} />);
-    expect(props.getCurrentUser).toHaveBeenCalled();
-  });
-
   it('should dispatch fetchAppointments in useEffect', () => {
     mount(<AppointmentList {...props} />);
     expect(props.fetchAppointments).toHaveBeenCalledWith(props.currentUser);
