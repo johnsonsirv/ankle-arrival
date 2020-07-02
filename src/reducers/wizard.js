@@ -5,6 +5,7 @@ import {
   WIZARD_RECEIVE_SYMPTOMS,
   WIZARD_REQUEST_DIAGNOSIS,
   WIZARD_RECEIVE_DIAGNOSIS,
+  WIZARD_NEXT_STEP,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -45,6 +46,11 @@ const wizard = (state = initialState, action) => {
         ...state,
         diagnosis: { ...action.payload },
         isFetching: false,
+      };
+    case WIZARD_NEXT_STEP:
+      return {
+        ...state,
+        next: { ...action.payload },
       };
     default:
       return state;

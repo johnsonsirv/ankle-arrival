@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -9,26 +9,23 @@ import SymptomsPage from './symptoms';
 import BioPage from './bio';
 import Button from '../components/forms/inputs/button';
 import DiagnosisPage from './diagnosis';
-import CheckBox from '../components/forms/inputs/checkBox';
 
 const mapStateToProps = state => state;
 
 export const Wizard = props => {
   const [wizard, setWizard] = useState({
-    showUserBioPage: false,
     init: true,
     selectedInjury: null,
     checkedItems: new Map(),
-    userBio: {
-      fullname: '',
-      age: '',
-      height: '',
+    guestBio: {
+      firstName: 'Guest',
     },
   });
 
   const handleStartDiagnosis = () => {
     props.wizardFetchInjuries();
     wizard.init = false;
+    setWizard({ ...wizard });
   };
 
   const handleShowSymptoms = () => {
@@ -36,35 +33,43 @@ export const Wizard = props => {
   };
 
   const handleShowBioPage = () => {
-    wizard.showUserBioPage = true;
-    console.log(wizard);
+    props.wizardShowBioPage(wizard.selectedInjury);
   };
 
   const handleSubmitDiagnosis = () => {
-    props.wizardFetchDiagnosis();
-    wizard.showUserBioPage = true;
+    // props.wizardFetchDiagnosis();
+    console.log(wizard);
   };
 
   const handleRestartDiagnosis = () => {
     wizard.init = true;
+    setWizard({ ...wizard });
   };
 
   const handleSelectInjury = ({ target: input }) => {
     wizard.selectedInjury = input.value;
+    setWizard({ ...wizard });
   };
 
   const handleChange = ({ target: input }) => {
-    wizard.selectedInjury = input.value;
+    wizard.guestBio[input.name] = input.value || 'Guest';
+    setWizard({ ...wizard });
   };
 
   const handleChooseSymptoms = ({ target: input }) => {
     wizard.checkedItems.set(input.name, input.checked);
-    console.log(wizard);
+  };
+
+  const handleShowPrevious = previous => {
+    props.wizardPreviousStep(previous);
   };
 
   const {
-    wizard: { isFetching, injuries, symptoms, diagnosis },
+    wizard: { isFetching, injuries, symptoms, diagnosis, next },
   } = props;
+
+  const { firstName } = wizard.guestBio;
+
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
@@ -79,7 +84,7 @@ export const Wizard = props => {
           />
         </>
       )}
-      {injuries && (
+      {next && next.injury && (
         <>
           <InjuryPage injuries={injuries} onChange={handleSelectInjury} />
           <Button
@@ -90,25 +95,37 @@ export const Wizard = props => {
           />
         </>
       )}
-      {symptoms && (
+      {next && next.symptoms && (
         <>
           {wizard.checkedItems.clear()}
           <SymptomsPage symptoms={symptoms} onChange={handleChooseSymptoms} />
           <Button
+            onClick={() => handleShowPrevious({ title: 'injury' })}
+            value="Back"
+            disabled={!symptoms}
+            id="back-to-step-2-injury"
+          />
+          <Button
             onClick={handleShowBioPage}
             value="Next"
-            disabled={!symptoms}
+            // disabled={!symptoms}
             id="step-3-bio"
           />
         </>
       )}
-      {wizard.showUserBioPage && (
+      {next && next.bio && (
         <>
-          <BioPage userBio={wizard.userBio} onInputChange={handleChange} />
+          <BioPage guestName={firstName} onInputChange={handleChange} />
+          <Button
+            onClick={() => handleShowPrevious({ title: 'symptoms' })}
+            value="Back"
+            // disabled={!symptoms}
+            id="back-to-step-3-symptoms"
+          />
           <Button
             onClick={handleSubmitDiagnosis}
             value="Submit"
-            disabled={!wizard.showUserBioPage}
+            // disabled={!wizard.showUserBioPage}
             id="step-4-submit"
           />
         </>
@@ -127,10 +144,16 @@ export const Wizard = props => {
   );
 };
 
+Wizard.defaultProp = {
+  next: null,
+};
+
 Wizard.propTypes = {
   wizardFetchSymptoms: PropTypes.func.isRequired,
   wizardFetchInjuries: PropTypes.func.isRequired,
   wizardFetchDiagnosis: PropTypes.func.isRequired,
+  wizardPreviousStep: PropTypes.func.isRequired,
+  wizardShowBioPage: PropTypes.func.isRequired,
   wizard: PropTypes.shape({
     injuries: PropTypes.arrayOf(
       PropTypes.shape({
@@ -157,6 +180,7 @@ Wizard.propTypes = {
       lifestyle: PropTypes.string,
     }),
     isFetching: PropTypes.bool.isRequired,
+    next: PropTypes.object,
   }).isRequired,
 };
 

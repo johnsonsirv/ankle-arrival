@@ -20,6 +20,7 @@ import {
   WIZARD_RECEIVE_SYMPTOMS,
   WIZARD_REQUEST_DIAGNOSIS,
   WIZARD_RECEIVE_DIAGNOSIS,
+  WIZARD_NEXT_STEP,
 } from './actionTypes';
 
 // configure apiEndpoint to prod
@@ -184,13 +185,30 @@ export const userFromOauth = params => async dispatch => {
 };
 
 // 4. Wizard
+export const wizardNextStep = step => {
+  const payload = {};
+  payload[step.title] = true;
+  return {
+    type: WIZARD_NEXT_STEP,
+    payload,
+  };
+};
+
+export const wizardPreviousStep = step => dispatch => {
+  const payload = {};
+  payload[step.title] = true;
+  dispatch({
+    type: WIZARD_NEXT_STEP,
+    payload,
+  });
+};
+
 export const wizardRequestInjuries = () => ({
   type: WIZARD_REQUEST_INJURIES,
 });
 
 export const wizardReceiveInjuries = payload => ({
   type: WIZARD_RECEIVE_INJURIES,
-  // payload: response.map(data => JSON.parse(data)),
   payload,
 });
 
@@ -203,8 +221,11 @@ export const wizardFetchInjuries = () => async dispatch => {
   return (
     axios
       .get(url, { headers })
-      .then(({ data }) => dispatch(wizardReceiveInjuries(data)))
-      // .then(({ data }) => console.log(data))
+      // .then(({ data }) => dispatch(wizardReceiveInjuries(data)))
+      .then(({ data }) => {
+        dispatch(wizardReceiveInjuries(data));
+        dispatch(wizardNextStep({ title: 'injury' }));
+      })
       .catch(({ message }) => console.log(message))
   );
 };
@@ -227,9 +248,15 @@ export const wizardFetchSymptoms = params => async dispatch => {
   dispatch(wizardRequestSymptoms());
   return axios
     .get(url, { headers })
-    .then(({ data }) => dispatch(wizardReceiveSymptoms(data)))
+    .then(({ data }) => {
+      dispatch(wizardReceiveSymptoms(data));
+      dispatch(wizardNextStep({ title: 'symptoms' }));
+    })
     .catch(({ message }) => console.log(message));
 };
+
+export const wizardShowBioPage = () => dispatch =>
+  dispatch(wizardNextStep({ title: 'bio' }));
 
 export const wizardRequestDiagnosis = () => ({
   type: WIZARD_REQUEST_DIAGNOSIS,
