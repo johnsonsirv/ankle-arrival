@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import * as dispatchActions from '../actions';
+import Joi from 'joi-browser';
 import WizardSteps from './wizardSteps';
 import InjuryPage from './injury';
 import SymptomsPage from './symptoms';
@@ -20,6 +21,8 @@ export const Wizard = props => {
     guestBio: {
       firstName: 'Guest',
     },
+    passedInjuryValidation: false,
+    passedSymptomsValidation: false,
   });
 
   const handleStartDiagnosis = () => {
@@ -30,6 +33,7 @@ export const Wizard = props => {
 
   const handleShowSymptoms = () => {
     props.wizardFetchSymptoms(wizard.selectedInjury);
+    wizard.checkedItems.clear();
   };
 
   const handleShowBioPage = () => {
@@ -37,8 +41,23 @@ export const Wizard = props => {
   };
 
   const handleSubmitDiagnosis = () => {
-    // props.wizardFetchDiagnosis();
-    console.log(wizard);
+    const checkedSymptoms = [];
+    wizard.checkedItems.forEach((value, key) => {
+      if (value) {
+        checkedSymptoms.push(key);
+      }
+    });
+
+    const {
+      selectedInjury,
+      guestBio: { firstName },
+    } = wizard;
+    const params = {
+      d_injury: selectedInjury,
+      d_symptoms: checkedSymptoms[0],
+      d_name: firstName,
+    };
+    props.wizardFetchDiagnosis(JSON.stringify(params));
   };
 
   const handleRestartDiagnosis = () => {
@@ -47,7 +66,12 @@ export const Wizard = props => {
   };
 
   const handleSelectInjury = ({ target: input }) => {
-    wizard.selectedInjury = input.value;
+    if (input.value === '0') {
+      wizard.passedInjuryValidation = false;
+    } else {
+      wizard.selectedInjury = input.value;
+      wizard.passedInjuryValidation = true;
+    }
     setWizard({ ...wizard });
   };
 
@@ -58,6 +82,12 @@ export const Wizard = props => {
 
   const handleChooseSymptoms = ({ target: input }) => {
     wizard.checkedItems.set(input.name, input.checked);
+    if (input.checked && wizard.checkedItems.size !== 0) {
+      wizard.passedSymptomsValidation = true;
+    } else {
+      wizard.passedSymptomsValidation = false;
+    }
+    setWizard({ ...wizard });
   };
 
   const handleShowPrevious = previous => {
@@ -90,14 +120,13 @@ export const Wizard = props => {
           <Button
             onClick={handleShowSymptoms}
             value="Next"
-            disabled={!injuries}
+            disabled={!wizard.passedInjuryValidation}
             id="step-2-symptoms"
           />
         </>
       )}
       {next && next.symptoms && (
         <>
-          {wizard.checkedItems.clear()}
           <SymptomsPage symptoms={symptoms} onChange={handleChooseSymptoms} />
           <Button
             onClick={() => handleShowPrevious({ title: 'injury' })}
@@ -108,7 +137,7 @@ export const Wizard = props => {
           <Button
             onClick={handleShowBioPage}
             value="Next"
-            // disabled={!symptoms}
+            disabled={!wizard.passedSymptomsValidation}
             id="step-3-bio"
           />
         </>
@@ -119,18 +148,17 @@ export const Wizard = props => {
           <Button
             onClick={() => handleShowPrevious({ title: 'symptoms' })}
             value="Back"
-            // disabled={!symptoms}
             id="back-to-step-3-symptoms"
           />
           <Button
             onClick={handleSubmitDiagnosis}
             value="Submit"
-            // disabled={!wizard.showUserBioPage}
+            disabled={!wizard.passedInjuryValidation}
             id="step-4-submit"
           />
         </>
       )}
-      {diagnosis && (
+      {next && next.diagnosis && (
         <>
           <DiagnosisPage diagnosis={diagnosis} />
           <Button

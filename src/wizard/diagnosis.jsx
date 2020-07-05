@@ -15,8 +15,23 @@ const DiagnosisPage = ({
   <div>
     <header>Results</header>
     <header>Diagnosis &amp; symptoms</header>
+    <div>
+      <p>{injury}</p>
+    </div>
+    <div>
+      <p>{symptoms}</p>
+    </div>
     <header>Possible diseases based on infered analysis</header>
+    <div>
+      <p>{disease}</p>
+    </div>
     <header>Treatment / Lifestyle</header>
+    <div>
+      <p>{treatment}</p>
+    </div>
+    <div>
+      <p>{lifestyle}</p>
+    </div>
   </div>
 );
 

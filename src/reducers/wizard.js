@@ -22,7 +22,7 @@ const wizard = (state = initialState, action) => {
     case WIZARD_RECEIVE_INJURIES:
       return {
         ...state,
-        injuries: [...action.payload],
+        injuries: [{ id: 0, name: '', code: 0 }, ...action.payload],
         isFetching: false,
       };
     case WIZARD_REQUEST_SYMPTOMS:

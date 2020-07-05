@@ -276,6 +276,9 @@ export const wizardFetchDiagnosis = params => async dispatch => {
   dispatch(wizardRequestDiagnosis());
   return axios
     .post(url, params, { headers })
-    .then(({ data }) => dispatch(wizardReceiveDiagnosis(data)))
+    .then(({ data }) => {
+      dispatch(wizardReceiveDiagnosis(data));
+      dispatch(wizardNextStep({ title: 'diagnosis' }));
+    })
     .catch(({ message }) => console.log(message));
 };
