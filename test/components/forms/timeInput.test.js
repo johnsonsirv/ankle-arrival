@@ -7,7 +7,6 @@ function setup(customProps = {}) {
   const props = {
     ...customProps,
     name: '',
-    availablTime: ['time-range'],
     onChange: jest.fn(),
   };
 
@@ -19,9 +18,6 @@ describe('<TimeInput /> rendering', () => {
 
   it('should render correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
-  });
-  it('should include only available time ranges', () => {
-    expect(enzymeWrapper.prop('value')).toEqual(['time-range']);
   });
   it('should render input correctly with empty value', () => {
     const customProps = {

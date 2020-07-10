@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, NavLink } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import HomePage from './homePage';
 // import DoctorDetails from '../containers/doctorDetails';
@@ -10,6 +10,7 @@ import Signup from '../auth/signup';
 import Login from '../auth/login';
 import ProtectedRoute from '../containers/protectedRoute';
 import PageNotFound from './notFoundPage';
+import NavBar from './navBar';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
     <>
       <ToastContainer />
       <div className="App">
+        <NavBar />
         <Switch>
           {/* <ProtectedRoute
             path="/doctors/:id/:username"
@@ -24,7 +26,7 @@ function App() {
           /> */}
           <ProtectedRoute path="/appointments" component={AppointmentList} />
           <ProtectedRoute path="/doctors" component={DoctorList} />
-          <Route path="/wizard" component={Wizard} />
+          <Route path="/diagnosis" component={Wizard} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/" exact component={HomePage} />

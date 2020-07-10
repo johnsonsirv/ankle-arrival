@@ -6,7 +6,7 @@ import SymptomsPage from '../../src/wizard/symptoms';
 function setup() {
   const props = {
     name: 'symptoms',
-    onClick: jest.fn(),
+    onChange: jest.fn(),
     symptoms: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
   };
 

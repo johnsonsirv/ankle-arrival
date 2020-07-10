@@ -10,13 +10,11 @@ const mapStateToProps = state => state;
 export const AppointmentList = props => {
   const {
     fetchAppointments,
-    // getCurrentUser,
     appointments: { appointments: appointmentData, isFetching },
     currentUser,
   } = props;
 
   useEffect(() => {
-    // getCurrentUser();
     fetchAppointments(currentUser.token);
   }, [fetchAppointments, currentUser]);
 

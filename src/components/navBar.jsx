@@ -5,7 +5,7 @@ import UserLinks from '../containers/userLinks';
 const NavBar = () => (
   <div>
     <NavLink to="/">Ankle Arrival|</NavLink>
-    <NavLink to="/wizard">Instant Diagnosis|</NavLink>
+    <NavLink to="/diagnosis">Free checkup|</NavLink>
     <UserLinks />
   </div>
 );

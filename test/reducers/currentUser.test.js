@@ -9,6 +9,8 @@ describe('currentUser actions', () => {
     const state = currentUserReducer(undefined, {});
     expect(state).toEqual({
       isAuthenticated: false,
+      userAccount: { created: false },
+      userLogin: { ok: false },
     });
   });
 

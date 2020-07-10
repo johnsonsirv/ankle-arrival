@@ -3,9 +3,7 @@
 import { MemoryRouter } from 'react-router';
 import App from '../../src/components/App';
 import HomePage from '../../src/components/homePage';
-import { AppointmentList } from '../../src/containers/appointmentList';
-import { DoctorList } from '../../src/containers/doctorList';
-import { Wizard } from '../../src/wizard';
+import PageNotFound from '../../src/components/notFoundPage';
 
 describe('<App /> rendering', () => {
   it('renders correctly', () => {
@@ -22,48 +20,21 @@ describe('<App /> rendering', () => {
 
 describe('<App /> routing', () => {
   it('should show homepage component for "/" router', () => {
-    const wrapper = mount(
+    const wrapper = shallow(
       <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(HomePage)).toHaveLength(1);
-  });
-  it('should show doctorlist component for "/doctors" router', () => {
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={['/doctors']}>
-        <DoctorList />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(DoctorList)).toHaveLength(1);
-  });
-  it('should show appointmentlist component for "/appointments" router', () => {
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={['/appointments']}>
-        <AppointmentList />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(AppointmentList)).toHaveLength(1);
-  });
-  it('should show wizard component for "/wizard" router', () => {
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={['/wizard']}>
-        <Wizard />
-      </MemoryRouter>
-    );
-
-    expect(wrapper.find(Wizard)).toHaveLength(1);
-  });
-  it('should show homepage component as default for unknown route', () => {
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={['/unknown']}>
         <HomePage />
       </MemoryRouter>
     );
 
     expect(wrapper.find(HomePage)).toHaveLength(1);
+  });
+  it('should show pageNotFound component for unknown route', () => {
+    const wrapper = shallow(
+      <MemoryRouter initialEntries={['/unknown']}>
+        <PageNotFound />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(PageNotFound)).toHaveLength(1);
   });
 });

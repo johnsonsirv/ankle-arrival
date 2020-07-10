@@ -6,7 +6,7 @@ import BioPage from '../../src/wizard/bio';
 function setup() {
   const props = {
     onInputChange: jest.fn(),
-    userBio: { age: '25', fullname: 'Joe Smith', height: '5.11' },
+    guestName: 'Joe Smith',
   };
 
   const enzymeWrapper = shallow(<BioPage {...props} />);

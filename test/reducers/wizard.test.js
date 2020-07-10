@@ -39,6 +39,7 @@ describe('Wizard reducer', () => {
     expect(state).toEqual({
       isFetching: false,
       injuries: [
+        { id: 0, name: '', code: 0 },
         { id: 1, name: 'abdominal', code: 1 },
         { id: 2, name: 'bone', code: 2 },
       ],

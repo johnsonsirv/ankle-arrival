@@ -44,7 +44,7 @@ describe('<Doctor /> rendering', () => {
 describe('<Doctor /> routing', () => {
   const { props } = setup();
   it('should render BookAppointment component for "/book-appointment/:username route"', () => {
-    const entry = `/book-appointement/${props.doctor.username}`;
+    const entry = `/book-appointment/${props.doctor.username}`;
     const wrapper = shallow(
       <MemoryRouter initialEntries={[entry]}>
         <BookAppointment {...props} />

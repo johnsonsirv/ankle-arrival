@@ -9,19 +9,24 @@ function setup(stateProps = {}) {
     wizardFetchInjuries: jest.fn(),
     wizardFetchSymptoms: jest.fn(),
     wizardFetchDiagnosis: jest.fn(),
-    isFetching: false,
-    injuries: [],
-    symptoms: [],
-    diagnosis: {},
+    wizardPreviousStep: jest.fn(),
+    wizardShowBioPage: jest.fn(),
+    wizard: {
+      isFetching: false,
+      injuries: [],
+      symptoms: [],
+      diagnosis: {},
+      ...stateProps,
+    },
   };
 
-  const enzymeWrapper = shallow(<Wizard {...props} {...stateProps} />);
+  const enzymeWrapper = shallow(<Wizard {...props} />);
 
   return { props, enzymeWrapper };
 }
 
 describe('<Wizard /> rendering', () => {
-  const { enzymeWrapper } = setup();
+  const { enzymeWrapper, props } = setup();
   it('should render correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
@@ -36,24 +41,22 @@ describe('<Wizard /> rendering', () => {
       { id: 1, name: 'abdominal', code: 1 },
       { id: 2, name: 'bone', code: 2 },
     ];
-    const { enzymeWrapper } = setup({ injuries });
+    const next = { injury: true };
+
+    const { enzymeWrapper } = setup({ injuries, next });
     expect(enzymeWrapper.find('InjuryPage')).toHaveLength(1);
   });
   it('should render <SymptomsPage> when state changes', () => {
     const symptoms = [
       { id: 5, code: 'a14', description: 'excessive abdominal' },
     ];
-    const { enzymeWrapper } = setup({ symptoms });
+    const next = { symptoms: true };
+    const { enzymeWrapper } = setup({ symptoms, next });
     expect(enzymeWrapper.find('SymptomsPage')).toHaveLength(1);
   });
   it('should render <BioPage> when state changes', () => {
-    const symptoms = [
-      { id: 5, code: 'a14', description: 'excessive abdominal' },
-    ];
-    const { enzymeWrapper } = setup({ symptoms });
-    enzymeWrapper
-      .find('#step-3-bio')
-      .simulate('click', { target: {}, preventDefault: jest.fn() });
+    const next = { bio: true };
+    const { enzymeWrapper } = setup({ next });
     expect(enzymeWrapper.find('BioPage')).toHaveLength(1);
   });
   it('should render <DiagnosisPage> when state changes', () => {
@@ -68,7 +71,8 @@ describe('<Wizard /> rendering', () => {
       treatment: 'surgery',
       lifestyle: 'maintain healthy lifestyle',
     };
-    const { enzymeWrapper } = setup({ diagnosis });
+    const next = { diagnosis: true };
+    const { enzymeWrapper } = setup({ diagnosis, next });
     expect(enzymeWrapper.find('DiagnosisPage')).toHaveLength(1);
   });
 });
@@ -86,7 +90,8 @@ describe('<Wizard /> interactions', () => {
       { id: 1, name: 'abdominal', code: 1 },
       { id: 2, name: 'bone', code: 2 },
     ];
-    const { props, enzymeWrapper } = setup({ injuries });
+    const next = { injury: true };
+    const { props, enzymeWrapper } = setup({ injuries, next });
     enzymeWrapper
       .find('#step-2-symptoms')
       .simulate('click', { target: {}, preventDefault: jest.fn() });
@@ -94,13 +99,8 @@ describe('<Wizard /> interactions', () => {
   });
 
   it('STEP 4 <submit> should dispatch wizardFetchDiagnosis', () => {
-    const symptoms = [
-      { id: 5, code: 'a14', description: 'excessive abdominal' },
-    ];
-    const { props, enzymeWrapper } = setup({ symptoms });
-    enzymeWrapper
-      .find('#step-3-bio')
-      .simulate('click', { target: {}, preventDefault: jest.fn() });
+    const next = { bio: true };
+    const { props, enzymeWrapper } = setup({ next });
     enzymeWrapper
       .find('#step-4-submit')
       .simulate('click', { target: {}, preventDefault: jest.fn() });

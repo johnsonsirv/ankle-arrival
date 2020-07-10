@@ -17,6 +17,7 @@ import {
   WIZARD_RECEIVE_SYMPTOMS,
   WIZARD_REQUEST_DIAGNOSIS,
   WIZARD_RECEIVE_DIAGNOSIS,
+  WIZARD_NEXT_STEP,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -164,21 +165,23 @@ describe('authentication async actions', () => {
 
 describe('Wizard async actions', () => {
   it('should create RECEIVE_INJURIES when fetching injuries is done', () => {
-    const injuries = [
-      { id: 1, name: 'abdominal', code: 1 },
-      { id: 2, name: 'bone', code: 2 },
-    ];
-    const mockResponse = injuries.map(i => JSON.stringify(i));
+    const mockResponse = {
+      data: [
+        { id: 1, name: 'abdominal', code: 1 },
+        { id: 2, name: 'bone', code: 2 },
+      ],
+    };
     axios.get.mockResolvedValue(mockResponse);
     const expectedActions = [
       { type: WIZARD_REQUEST_INJURIES },
       {
         type: WIZARD_RECEIVE_INJURIES,
-        payload: [
-          { id: 1, name: 'abdominal', code: 1 },
-          { id: 2, name: 'bone', code: 2 },
-        ],
+        payload: mockResponse.data,
       },
+      {
+        type: WIZARD_NEXT_STEP,
+        payload: { injury: true }
+      }
     ];
 
     const store = mockStore({ injuries: [] });
@@ -188,56 +191,56 @@ describe('Wizard async actions', () => {
   });
 
   it('should create RECEIVE_SYMPTOMS when fetching injuries is done', () => {
-    const symptoms = [
-      { id: 5, code: 'a14', description: 'excessive abdominal' },
-    ];
-    const mockResponse = symptoms.map(i => JSON.stringify(i));
+    const mockResponse = {
+      data: [
+        { id: 5, code: 'a14', description: 'excessive abdominal' },
+      ],
+    };
     axios.get.mockResolvedValue(mockResponse);
     const expectedActions = [
       { type: WIZARD_REQUEST_SYMPTOMS },
       {
         type: WIZARD_RECEIVE_SYMPTOMS,
-        payload: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
+        payload: mockResponse.data,
       },
+      {
+        type: WIZARD_NEXT_STEP,
+        payload: { symptoms: true }
+      }
     ];
 
     const store = mockStore({ symptoms: [] });
-    const { id: params } = symptoms[0];
+    const { id: params } = mockResponse.data[0];
     return store.dispatch(actions.wizardFetchSymptoms(params)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
   it('should create RECEIVE_DIAGNOSIS when fetching diagnosis is done', () => {
-    const diagnosis = {
-      id: 18,
-      injury: 'abdominal',
-      disease: 'blunt abdominal injury',
-      symptoms: 'excessive abdominal',
-      player: 'Joe Smith',
-      inference:
-        'if player exhibits symptoms excessive abdominal, in abdominal affected area, then there is a blunt abdominal injury disease.',
-      treatment: 'surgery',
-      lifestyle: 'maintain healthy lifestyle',
+    const mockResponse = {
+      data: {
+        id: 18,
+        injury: 'abdominal',
+        disease: 'blunt abdominal injury',
+        symptoms: 'excessive abdominal',
+        player: 'Joe Smith',
+        inference:
+          'if player exhibits symptoms excessive abdominal, in abdominal affected area, then there is a blunt abdominal injury disease.',
+        treatment: 'surgery',
+        lifestyle: 'maintain healthy lifestyle',
+      },
     };
-    const mockResponse = JSON.stringify(diagnosis);
     axios.post.mockResolvedValue(mockResponse);
     const expectedActions = [
       { type: WIZARD_REQUEST_DIAGNOSIS },
       {
         type: WIZARD_RECEIVE_DIAGNOSIS,
-        payload: {
-          id: 18,
-          injury: 'abdominal',
-          disease: 'blunt abdominal injury',
-          symptoms: 'excessive abdominal',
-          player: 'Joe Smith',
-          inference:
-            'if player exhibits symptoms excessive abdominal, in abdominal affected area, then there is a blunt abdominal injury disease.',
-          treatment: 'surgery',
-          lifestyle: 'maintain healthy lifestyle',
-        },
+        payload: mockResponse.data,
       },
+      {
+        type: WIZARD_NEXT_STEP,
+        payload: { diagnosis: true }
+      }
     ];
 
     const store = mockStore({ diagnosis: {} });

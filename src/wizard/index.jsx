@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
 import * as dispatchActions from '../actions';
-import Joi from 'joi-browser';
 import WizardSteps from './wizardSteps';
 import InjuryPage from './injury';
 import SymptomsPage from './symptoms';
@@ -61,8 +60,7 @@ export const Wizard = props => {
   };
 
   const handleRestartDiagnosis = () => {
-    wizard.init = true;
-    setWizard({ ...wizard });
+    window.location.reload();
   };
 
   const handleSelectInjury = ({ target: input }) => {

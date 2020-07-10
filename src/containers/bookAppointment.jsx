@@ -66,7 +66,6 @@ export const BookAppointment = props => {
     booking.isValid = !error;
 
     setBooking({ ...booking });
-    // toastify
     toast.error(error);
   };
 

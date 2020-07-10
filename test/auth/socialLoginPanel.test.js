@@ -23,7 +23,7 @@ describe('<SocialLoginPanel /> rendering', () => {
   const { enzymeWrapper } = setup();
 
   it('should render correctly', () => {
-    // expect(enzymeWrapper).toMatchSnapshot();
+    expect(enzymeWrapper).toMatchSnapshot();
   });
   it('should render link to login with Google', () => {
     expect(enzymeWrapper.find('#google-login')).toHaveLength(1);

@@ -6,21 +6,17 @@ import { DoctorList } from '../../src/containers/doctorList';
 
 function setup() {
   const props = {
-    doctors: [
-      {
-        id: 1,
-        firstname: 'John',
-        lastname: 'Mabel',
-      },
-      {
-        id: 2,
-        firstname: 'Larry',
-        lastname: 'Page',
-      },
-    ],
-    isFetching: false,
+    doctors: {
+      doctors: [
+        {
+          id: 1,
+          firstname: 'John',
+          lastname: 'Mabel',
+        },
+      ],
+      isFetching: false,
+    },
     fetchDoctors: jest.fn(),
-    getCurrentUser: jest.fn(),
     currentUser: {
       id: 1,
       username: 'testUser',
@@ -39,35 +35,20 @@ describe('<DoctorList /> rendering', () => {
   });
   it('should render subcomponent', () => {
     const { enzymeWrapper } = setup();
-    expect(enzymeWrapper.find('Doctor')).toHaveLength(2);
+    expect(enzymeWrapper.find('Doctor')).toHaveLength(1);
   });
 
   it('should pass down props to composed component', () => {
     const { props, enzymeWrapper } = setup();
-    const subcomponentProps = enzymeWrapper
-      .find('Doctor')
-      .first()
-      .props();
-    expect(subcomponentProps.doctor).toEqual(props.doctors[0]);
+    const { doctors } = props.doctors;
+    const subcomponentProps = enzymeWrapper.find('Doctor').first().props();
+    expect(subcomponentProps.doctor).toEqual(doctors[0]);
   });
 
   it('should pass down currentUser props to composed component', () => {
     const { props, enzymeWrapper } = setup();
-    const subcomponentProps = enzymeWrapper
-      .find('Doctor')
-      .first()
-      .props();
+    const subcomponentProps = enzymeWrapper.find('Doctor').first().props();
     expect(subcomponentProps.currentUser).toEqual(props.currentUser);
-  });
-
-  it('should dispatch getCurrentUser in useEffect', () => {
-    const { props } = setup();
-    mount(
-      <Router>
-        <DoctorList {...props} />
-      </Router>
-    );
-    expect(props.getCurrentUser).toHaveBeenCalled();
   });
 
   it('should dispatch fetchDoctors in useEffect', () => {
