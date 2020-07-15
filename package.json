@@ -27,8 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --colors",
-    "testWithCoverage": "jest --coverage",
+    "test": "jest --colors --verbose --coverage",
     "mock:api": "json-server test/api/seed.js --port 3030",
     "eject": "react-scripts eject"
   },
