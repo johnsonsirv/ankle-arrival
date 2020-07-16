@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Joi from 'joi-browser';
@@ -9,20 +9,23 @@ import RichTextField from '../components/forms/inputs/richTextField';
 import ReadOnlyTextField from '../components/forms/inputs/readOnlyTextField';
 import * as dispatchActions from '../actions';
 
-export const BookAppointment = props => {
-  const {
-    currentUser: { firstname, lastname },
-    currentUser,
-    doctor,
-    doctor: { firstname: doctorFirstname, lastname: doctorLastname },
-  } = props;
+const mapStateToProps = state => state;
+
+export const BookAppointment = ({
+  currentUser,
+  doctors: { doctors },
+  match,
+  addNewAppointment,
+}) => {
+  const { username } = match.params;
+  const doctor = doctors.filter(d => d.username === username)[0];
 
   const [booking, setBooking] = useState({
     dateOfAppointment: null,
     timeOfAppointment: null,
     description: '',
-    currentUser,
-    doctor,
+    // currentUser,
+    // doctor,
     isValid: false,
   });
 
@@ -48,7 +51,8 @@ export const BookAppointment = props => {
       doctor,
       currentUser,
     } = booking;
-    props.addNewAppointment({
+
+    addNewAppointment({
       dateOfAppointment,
       timeOfAppointment,
       description,
@@ -66,26 +70,19 @@ export const BookAppointment = props => {
     booking.isValid = !error;
 
     setBooking({ ...booking });
-    toast.error(error);
+    if (!booking.isValid) toast.error(error);
   };
-
-  useEffect(() => {
-    setBooking({
-      currentUser,
-      doctor,
-    });
-  }, [doctor, currentUser]);
 
   return (
     <div>
       <form>
         <ReadOnlyTextField
           name="doctor"
-          value={`${doctorFirstname} ${doctorLastname}`}
+          value={`${doctor.firstname} ${doctor.lastname}`}
         />
         <ReadOnlyTextField
           name="current-user"
-          value={`${firstname} ${lastname}`}
+          value={`${currentUser.username}`}
         />
         <RichTextField
           name="description"
@@ -116,22 +113,30 @@ export const BookAppointment = props => {
 };
 
 BookAppointment.propTypes = {
-  doctor: PropTypes.shape({
-    firstname: PropTypes.string,
-    lastname: PropTypes.string,
-    city: PropTypes.string,
-    email: PropTypes.string,
-    username: PropTypes.string,
-    id: PropTypes.number,
+  doctors: PropTypes.shape({
+    doctors: PropTypes.arrayOf(
+      PropTypes.shape({
+        firstname: PropTypes.string,
+        lastname: PropTypes.string,
+        city: PropTypes.string,
+        email: PropTypes.string,
+        username: PropTypes.string,
+        id: PropTypes.number,
+      }).isRequired,
+    ).isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }).isRequired,
+
   currentUser: PropTypes.shape({
-    id: PropTypes.number,
     username: PropTypes.string,
     token: PropTypes.string,
-    firstname: PropTypes.string,
-    lastname: PropTypes.string,
   }).isRequired,
   addNewAppointment: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      username: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default connect(null, dispatchActions)(BookAppointment);
+export default connect(mapStateToProps, dispatchActions)(BookAppointment);

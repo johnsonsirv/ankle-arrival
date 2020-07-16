@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const AppointmentDetails = props => {
   const {
     appointment: {
-      dateOfAppointment,
+      date_of_appointment: dateOfAppointment,
       timeOfAppointment,
       description,
       doctor_firstname: doctorFirstname,
@@ -31,7 +31,7 @@ const AppointmentDetails = props => {
 
 AppointmentDetails.propTypes = {
   appointment: PropTypes.shape({
-    dateOfAppointment: PropTypes.string,
+    date_of_appointment: PropTypes.string,
     timeOfAppointment: PropTypes.string,
     description: PropTypes.string,
     doctor_firstname: PropTypes.string,

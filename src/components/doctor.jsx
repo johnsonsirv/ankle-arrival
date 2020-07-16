@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Route } from 'react-router-dom';
-import BookAppointment from '../containers/bookAppointment';
+// import BookAppointment from '../containers/bookAppointment';
+// import ProtectedRoute from '../containers/protectedRoute';
 
 const Doctor = props => {
   const {
@@ -18,7 +19,7 @@ const Doctor = props => {
         <p>{username}</p>
         <Link to={`/book-appointment/${username}`}>Book Appointment</Link>
       </div>
-      <Route
+      {/* <Route
         path="/book-appointment/:username"
         render={props => (
           <BookAppointment
@@ -28,7 +29,7 @@ const Doctor = props => {
             {...props}
           />
         )}
-      />
+      /> */}
     </>
   );
 };
