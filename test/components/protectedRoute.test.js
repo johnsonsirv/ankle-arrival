@@ -1,39 +1,25 @@
-import ProtectedRoute from '../../src/containers/protectedRoute';
+import { ProtectedRoute } from '../../src/containers/protectedRoute';
 import { DoctorList } from '../../src/containers/doctorList';
 
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
 
-function setup(customProps) {
+function setup() {
   const props = {
     render: jest.fn(),
     component: DoctorList,
     isAuthenticated: false,
-    getCurrentUser: jest.fn()
+    getCurrentUser: jest.fn(),
   };
-  const enzymewrapper = shallow(<ProtectedRoute {...customProps} {...props} />)
-  return { enzymewrapper, props }
+  const enzymeWrapper = shallow(<ProtectedRoute {...props} />)
+  return { enzymeWrapper, props }
 }
 
 describe('<ProtectedRoute /> rendering', () => {
+  const { enzymeWrapper } = setup();
   it('should render correctly', () => {
-    
+    expect(enzymeWrapper).toMatchSnapshot();
   });
 
-});
-
-describe('<ProtectedRoute /> routing', () => {
-  it('should routes authenticated users to <Component />', () => {
-    
-  });
-  it('should routes unauthenticated users to  <Login>', () => {
-    
-  });
-});
-
-describe('<ProtectedRoute /> interactions', () => {
-  it('should dispatch getCurrentUser action in useEffect', () => {
-    
-  });
 });

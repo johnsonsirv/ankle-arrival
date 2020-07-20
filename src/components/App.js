@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, NavLink } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import HomePage from './homePage';
 // import DoctorDetails from '../containers/doctorDetails';

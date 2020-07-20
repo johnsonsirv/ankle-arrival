@@ -36,46 +36,51 @@ export const receiveDoctors = payload => ({
 });
 
 export const fetchDoctors = token => async dispatch => {
-  const header = {
+  const headers = {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
   const url = `${apiEndPoint}/doctors`;
 
-  dispatch(requestDoctors());
-  return axios
-    .get(url, { headers: header })
-    .then(({ data }) => dispatch(receiveDoctors(data)))
-    .catch(ex => console.log(ex));
+  try {
+    await dispatch(requestDoctors());
+    const { data: res } = await axios.get(url, { headers });
+    await dispatch(receiveDoctors(res));
+  } catch (ex) {
+    console.log(ex);
+  }
 };
 
 // 2. appointments
-export const addNewAppointmentSuccess = response => ({
+export const addNewAppointmentSuccess = payload => ({
   type: NEW_APPOINTMENT_SUCCESS,
-  payload: JSON.parse(response),
+  payload,
 });
 
-export const addNewAppointmentFailure = response => ({
+export const addNewAppointmentFailure = () => ({
   type: NEW_APPOINTMENT_FAILURE,
-  payload: JSON.parse(response),
 });
 
 export const requestNewAppointment = () => ({
   type: REQUEST_NEW_APPOINTMENT,
 });
 
-export const addNewAppointment = data => async dispatch => {
-  const { token } = data.currentUser;
+export const addNewAppointment = payload => async dispatch => {
+  const { params, token } = payload;
+
   const headers = {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
   const url = `${apiEndPoint}/appointments`;
-  dispatch(requestNewAppointment());
-  return axios
-    .post(url, {}, { headers })
-    .then(response => dispatch(addNewAppointmentSuccess(response)))
-    .catch(ex => dispatch(addNewAppointmentFailure(ex)));
+
+  try {
+    dispatch(requestNewAppointment());
+    const { data: res } = await axios.post(url, params, { headers });
+    dispatch(addNewAppointmentSuccess(res));
+  } catch (ex) {
+    dispatch(addNewAppointmentFailure());
+  }
 };
 
 export const requestAppointments = () => ({
@@ -88,24 +93,29 @@ export const receiveAppointments = payload => ({
 });
 
 export const fetchAppointments = token => async dispatch => {
-  const header = {
+  const headers = {
     'Content-type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
   const url = `${apiEndPoint}/users/appointments`;
 
-  dispatch(requestAppointments());
-  return axios
-    .get(url, { headers: header })
-    .then(({ data }) => dispatch(receiveAppointments(data)))
-    .catch(ex => console.log(ex));
+  try {
+    await dispatch(requestAppointments());
+    const { data: res } = await axios.get(url, { headers });
+    await dispatch(receiveAppointments(res));
+  } catch (ex) {
+    console.log(ex);
+  }
 };
 
 // 3. auth
-const getUserFromLocalStorage = () =>
-  JSON.parse(localStorage.getItem('currentUser')) || null;
-const syncToLocalStorage = data =>
-  localStorage.setItem('currentUser', JSON.stringify(data));
+
+const getUserFromLocalStorage = () => (
+  JSON.parse(localStorage.getItem('currentUser')) || null
+);
+const syncToLocalStorage = data => (
+  localStorage.setItem('currentUser', JSON.stringify(data))
+);
 
 export const getCurrentUser = () => ({
   type: GET_CURRENT_USER,
@@ -133,28 +143,30 @@ export const requestLogin = () => ({
   type: REQUEST_LOGIN,
 });
 
-export const loginFailure = response => ({
+export const loginFailure = () => ({
   type: LOGIN_FAILURE,
 });
 
 export const authenticateUser = params => async dispatch => {
-  const header = {
+  const headers = {
     'Content-type': 'application/json',
   };
   const url = `${apiEndPoint}/auth/login`;
 
-  dispatch(requestLogin());
-  return axios
-    .post(url, params, { headers: header })
-    .then(({ data }) => dispatch(setCurrentUser(data)))
-    .catch(ex => dispatch(loginFailure(ex)));
+  try {
+    await dispatch(requestLogin());
+    const { data: res } = await axios.post(url, params, { headers });
+    await dispatch(setCurrentUser(res));
+  } catch (ex) {
+    dispatch(loginFailure());
+  }
 };
 
 export const requestSignup = () => ({
   type: REQUEST_SIGNUP,
 });
 
-export const signupFailure = response => ({
+export const signupFailure = () => ({
   type: SIGNUP_FAILURE,
 });
 
@@ -164,11 +176,13 @@ export const createUserAccount = params => async dispatch => {
   };
   const url = `${apiEndPoint}/users/signup`;
 
-  dispatch(requestSignup());
-  return axios
-    .post(url, params, { headers })
-    .then(({ data }) => dispatch(setCurrentUser(data)))
-    .catch(ex => dispatch(signupFailure(ex)));
+  try {
+    await dispatch(requestSignup());
+    const { data: res } = await axios.post(url, params, { headers });
+    await dispatch(setCurrentUser(res));
+  } catch (ex) {
+    dispatch(signupFailure());
+  }
 };
 
 export const userFromOauth = params => async dispatch => {
@@ -217,17 +231,15 @@ export const wizardFetchInjuries = () => async dispatch => {
     'Content-type': 'application/json',
   };
   const url = `${wizardApiEndPoint}/injuries`;
-  dispatch(wizardRequestInjuries());
-  return (
-    axios
-      .get(url, { headers })
-      // .then(({ data }) => dispatch(wizardReceiveInjuries(data)))
-      .then(({ data }) => {
-        dispatch(wizardReceiveInjuries(data));
-        dispatch(wizardNextStep({ title: 'injury' }));
-      })
-      .catch(({ message }) => console.log(message))
-  );
+
+  try {
+    await dispatch(wizardRequestInjuries());
+    const { data: res } = await axios.get(url, { headers });
+    await dispatch(wizardReceiveInjuries(res));
+    await dispatch(wizardNextStep({ title: 'injury' }));
+  } catch (ex) {
+    console.log(ex.message);
+  }
 };
 
 export const wizardRequestSymptoms = () => ({
@@ -245,18 +257,19 @@ export const wizardFetchSymptoms = params => async dispatch => {
   };
   const url = `${wizardApiEndPoint}/symptoms/${params}`;
 
-  dispatch(wizardRequestSymptoms());
-  return axios
-    .get(url, { headers })
-    .then(({ data }) => {
-      dispatch(wizardReceiveSymptoms(data));
-      dispatch(wizardNextStep({ title: 'symptoms' }));
-    })
-    .catch(({ message }) => console.log(message));
+  try {
+    await dispatch(wizardRequestSymptoms());
+    const { data: res } = await axios.get(url, { headers });
+    await dispatch(wizardReceiveSymptoms(res));
+    await dispatch(wizardNextStep({ title: 'symptoms' }));
+  } catch (ex) {
+    console.log(ex.message);
+  }
 };
 
-export const wizardShowBioPage = () => dispatch =>
-  dispatch(wizardNextStep({ title: 'bio' }));
+export const wizardShowBioPage = () => dispatch => (
+  dispatch(wizardNextStep({ title: 'bio' }))
+);
 
 export const wizardRequestDiagnosis = () => ({
   type: WIZARD_REQUEST_DIAGNOSIS,
@@ -273,12 +286,12 @@ export const wizardFetchDiagnosis = params => async dispatch => {
   };
   const url = `${wizardApiEndPoint}/diagnose`;
 
-  dispatch(wizardRequestDiagnosis());
-  return axios
-    .post(url, params, { headers })
-    .then(({ data }) => {
-      dispatch(wizardReceiveDiagnosis(data));
-      dispatch(wizardNextStep({ title: 'diagnosis' }));
-    })
-    .catch(({ message }) => console.log(message));
+  try {
+    await dispatch(wizardRequestDiagnosis());
+    const { data: res } = await axios.post(url, params, { headers });
+    await dispatch(wizardReceiveDiagnosis(res));
+    await dispatch(wizardNextStep({ title: 'diagnosis' }));
+  } catch (ex) {
+    console.log(ex.message);
+  }
 };

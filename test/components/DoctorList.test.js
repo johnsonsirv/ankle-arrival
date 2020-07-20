@@ -45,12 +45,6 @@ describe('<DoctorList /> rendering', () => {
     expect(subcomponentProps.doctor).toEqual(doctors[0]);
   });
 
-  it('should pass down currentUser props to composed component', () => {
-    const { props, enzymeWrapper } = setup();
-    const subcomponentProps = enzymeWrapper.find('Doctor').first().props();
-    expect(subcomponentProps.currentUser).toEqual(props.currentUser);
-  });
-
   it('should dispatch fetchDoctors in useEffect', () => {
     const { props } = setup();
     mount(

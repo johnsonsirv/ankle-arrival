@@ -71,9 +71,12 @@ export const Login = props => {
   return (
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {/* {userLogin && !userLogin.ok && (
+      {userLogin && userLogin.isFetching && (
         <Spinner name="three-bounce" fadeIn="none" />
-      )} */}
+      )}
+      {userLogin && userLogin.invalid && (
+        <h4>Wrong Username or Password</h4>
+      )}
       <div>{/* <SocialLoginPanel /> */}</div>
       <div>
         <form>
@@ -114,7 +117,8 @@ Login.propTypes = {
     token: PropTypes.string,
     isAuthenticated: PropTypes.bool,
     userLogin: PropTypes.shape({
-      ok: PropTypes.bool,
+      invalid: PropTypes.bool,
+      isFetching: PropTypes.bool,
     }),
     userAccount: PropTypes.shape({
       created: PropTypes.bool,

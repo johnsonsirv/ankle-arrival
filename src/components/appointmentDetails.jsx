@@ -37,10 +37,5 @@ AppointmentDetails.propTypes = {
     doctor_firstname: PropTypes.string,
     doctor_lastname: PropTypes.string,
   }).isRequired,
-  currentUser: PropTypes.shape({
-    id: PropTypes.number,
-    username: PropTypes.string,
-    token: PropTypes.string,
-  }).isRequired,
 };
 export default AppointmentDetails;

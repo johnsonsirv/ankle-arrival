@@ -7,7 +7,7 @@ import * as dispatchActions from '../actions';
 
 const mapStateToProps = state => state;
 
-const ProtectedRoute = ({
+export const ProtectedRoute = ({
   getCurrentUser,
   currentUser: { isAuthenticated },
   component: Component,

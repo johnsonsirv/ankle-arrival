@@ -86,7 +86,12 @@ export const Signup = props => {
     // render social login section here
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
-      {/* {!userAccount.created && <Spinner name="three-bounce" fadeIn="none" />} */}
+      {userAccount && userAccount.isFetching && (
+        <Spinner name="three-bounce" fadeIn="none" />
+      )}
+      {userAccount && userAccount.invalid && (
+        <h4>Something went wrong. Try again.</h4>
+      )}
       <div>
         <form>
           <InputTextField
@@ -147,7 +152,8 @@ Signup.propTypes = {
       ok: PropTypes.bool,
     }),
     userAccount: PropTypes.shape({
-      created: PropTypes.bool,
+      invalid: PropTypes.bool,
+      isFetching: PropTypes.bool,
     }),
   }),
 };

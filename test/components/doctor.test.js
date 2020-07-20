@@ -1,9 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
-import { MemoryRouter } from 'react-router-dom';
 import Doctor from '../../src/components/doctor';
-import { BookAppointment } from '../../src/containers/bookAppointment';
 
 function setup() {
   const props = {
@@ -15,12 +13,6 @@ function setup() {
       city: 'NY',
       username: 'larryp123',
     },
-    currentUser: {
-      id: 1,
-      username: 'testUser',
-      token: 'xxx.yyy.zzz',
-    },
-    addNewAppointment: jest.fn(),
   };
 
   const enzymeWrapper = shallow(<Doctor {...props} />);
@@ -35,21 +27,5 @@ describe('<Doctor /> rendering', () => {
   });
   it('should require a doctor prop', () => {
     expect(enzymeWrapper.find('div').text()).toMatch(/Larry Page/);
-  });
-  it('should render 1 <a> to book appointment', () => {
-    expect(enzymeWrapper.find('Link').text()).toMatch(/Book Appointment/);
-  });
-});
-
-describe('<Doctor /> routing', () => {
-  const { props } = setup();
-  it('should render BookAppointment component for "/book-appointment/:username route"', () => {
-    const entry = `/book-appointment/${props.doctor.username}`;
-    const wrapper = shallow(
-      <MemoryRouter initialEntries={[entry]}>
-        <BookAppointment {...props} />
-      </MemoryRouter>
-    );
-    expect(wrapper.find(BookAppointment)).toHaveLength(1);
   });
 });

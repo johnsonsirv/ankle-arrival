@@ -7,7 +7,7 @@ import ProtectedLinks from '../components/protectedLinks';
 
 const mapStateToProps = state => state;
 
-const UserLinks = props => {
+export const UserLinks = props => {
   const {
     getCurrentUser,
     currentUser: { isAuthenticated },

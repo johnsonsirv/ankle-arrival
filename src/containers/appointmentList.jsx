@@ -24,7 +24,6 @@ export const AppointmentList = props => {
       {appointmentData.map(appointment => (
         <AppointmentDetails
           appointment={appointment}
-          currentUser={currentUser}
           key={appointment.id}
         />
       ))}
@@ -47,12 +46,8 @@ AppointmentList.propTypes = {
     isFetching: PropTypes.bool.isRequired,
   }).isRequired,
   fetchAppointments: PropTypes.func.isRequired,
-  // getCurrentUser: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
-    id: PropTypes.number,
     username: PropTypes.string,
-    firstname: PropTypes.string,
-    lastname: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
 };

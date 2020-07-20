@@ -49,14 +49,6 @@ describe('<AppointmentList /> rendering', () => {
     expect(subcomponentProps.appointment).toEqual(appointments[0]);
   });
 
-  it('should pass down currentUser props to composed component', () => {
-    const subcomponentProps = enzymeWrapper
-      .find('AppointmentDetails')
-      .first()
-      .props();
-    expect(subcomponentProps.currentUser).toEqual(props.currentUser);
-  });
-
   it('should dispatch fetchAppointments in useEffect', () => {
     mount(<AppointmentList {...props} />);
     expect(props.fetchAppointments).toHaveBeenCalled();

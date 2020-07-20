@@ -18,6 +18,11 @@ import {
   WIZARD_REQUEST_DIAGNOSIS,
   WIZARD_RECEIVE_DIAGNOSIS,
   WIZARD_NEXT_STEP,
+  REQUEST_NEW_APPOINTMENT,
+  NEW_APPOINTMENT_SUCCESS,
+  LOGIN_FAILURE,
+  SIGNUP_FAILURE,
+  NEW_APPOINTMENT_FAILURE,
 } from '../../src/actions/actionTypes';
 
 const middlewares = [thunk];
@@ -104,7 +109,63 @@ describe('currentUser from store', () => {
 });
 
 describe('book appointment async actions', () => {
-  it('should create NEW_APPOINTMENT_SUCCESS when book appointment is done', () => {});
+  it('should create NEW_APPOINTMENT_SUCCESS when book new appointment is done', () => {
+    const mockResponse = {
+      data: { message: 'Successful' },
+    };
+
+    const payload = { ...mockResponse.data };
+
+    const newAppointmentParams = {
+      token: 'xxx.yyy.zzz',
+      params: {
+        doctor: { id: 1 },
+        description: 'description',
+        appointment_date: 'date',
+        appointment_time: 'time',
+      },
+    };
+
+    const expectedActions = [
+      { type: REQUEST_NEW_APPOINTMENT },
+      {
+        type: NEW_APPOINTMENT_SUCCESS,
+        payload,
+      },
+    ];
+
+    axios.post.mockResolvedValue(mockResponse);
+    const store = mockStore({});
+    return store.dispatch(actions.addNewAppointment(newAppointmentParams))
+      .then(() => {
+        expect(store.getActions()).toMatchObject(expectedActions);
+      });
+  });
+
+  it('should dispatch NEW_APPOINTMENT_FAILURE when saving new appointment fails', () => {
+    const mockResponse = {
+      data: {
+        message: 'bad request',
+      },
+    };
+
+    const invalidApppointmentParams = {
+      token: 'xxx.yyy.zzz',
+      params: {},
+    };
+
+    const expectedAction = [
+      { type: REQUEST_NEW_APPOINTMENT },
+      { type: NEW_APPOINTMENT_FAILURE },
+    ];
+
+    const store = mockStore({});
+    axios.post.mockRejectedValue(mockResponse);
+    return store.dispatch(actions.addNewAppointment(invalidApppointmentParams))
+      .then(() => {
+        expect(store.getActions()).toMatchObject(expectedAction);
+      });
+  });
 });
 
 describe('authentication async actions', () => {
@@ -131,11 +192,32 @@ describe('authentication async actions', () => {
       city: 'Remote',
     };
     axios.post.mockResolvedValue(mockResponse);
-    const store = mockStore({ userAccount: { created: false } });
+    const store = mockStore({ userAccount: { invalid: false, isFetching: false } });
     return store.dispatch(actions.createUserAccount(signupParams)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
+
+  it('should dispatch signupFaluire when signup fails', () => {
+    const mockResponse = {
+      data: {
+        message: 'bad request',
+      },
+    };
+
+    const expectedAction = [
+      { type: REQUEST_SIGNUP },
+      { type: SIGNUP_FAILURE },
+    ];
+
+    const store = mockStore({ userAccount: { invalid: false, isFetching: false } });
+    axios.post.mockRejectedValue(mockResponse);
+    return store.dispatch(actions.createUserAccount({}))
+      .then(() => {
+        expect(store.getActions()).toMatchObject(expectedAction);
+      });
+  });
+
   it('should create SET_CURRENT_USER when login is done', () => {
     const mockResponse = {
       data: {
@@ -156,10 +238,30 @@ describe('authentication async actions', () => {
       password: '1234',
     };
     axios.post.mockResolvedValue(mockResponse);
-    const store = mockStore({ userLogin: { ok: false } });
+    const store = mockStore({ userLogin: { invalid: false, isFetching: false } });
     return store.dispatch(actions.authenticateUser(loginParams)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
+  });
+
+  it('should dispatch loginFaluire when login credential is incorrect', () => {
+    const mockResponse = {
+      data: {
+        message: 'unauthorized access',
+      },
+    };
+
+    const expectedAction = [
+      { type: REQUEST_LOGIN },
+      { type: LOGIN_FAILURE },
+    ];
+
+    const store = mockStore({ userLogin: { invalid: false, isFetching: false } });
+    axios.post.mockRejectedValue(mockResponse);
+    return store.dispatch(actions.authenticateUser({}))
+      .then(() => {
+        expect(store.getActions()).toMatchObject(expectedAction);
+      });
   });
 });
 

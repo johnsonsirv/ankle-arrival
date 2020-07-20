@@ -5,22 +5,34 @@ import {
   WIZARD_RECEIVE_SYMPTOMS,
   WIZARD_REQUEST_DIAGNOSIS,
   WIZARD_RECEIVE_DIAGNOSIS,
+  WIZARD_NEXT_STEP,
 } from '../../src/actions/actionTypes';
 import wizardReducer from '../../src/reducers/wizard';
 
 describe('Wizard reducer', () => {
   it('should return an initial state', () => {
     const state = wizardReducer(undefined, {});
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: false,
     });
   });
+
+  it('should handle WIZARD_NEXT_STEP action', () => {
+    const state = wizardReducer(undefined, {
+      type: WIZARD_NEXT_STEP,
+      payload: { injury: true },
+    });
+    expect(state).toMatchObject({
+      next: { injury: true },
+    });
+  });
+
 
   it('should handle WIZARD_REQUEST_INJURIES action', () => {
     const state = wizardReducer(undefined, {
       type: WIZARD_REQUEST_INJURIES,
     });
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: true,
     });
   });
@@ -36,7 +48,7 @@ describe('Wizard reducer', () => {
         ],
       }
     );
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: false,
       injuries: [
         { id: 0, name: '', code: 0 },
@@ -50,7 +62,7 @@ describe('Wizard reducer', () => {
     const state = wizardReducer(undefined, {
       type: WIZARD_REQUEST_SYMPTOMS,
     });
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: true,
     });
   });
@@ -63,7 +75,7 @@ describe('Wizard reducer', () => {
         payload: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
       }
     );
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: false,
       symptoms: [{ id: 5, code: 'a14', description: 'excessive abdominal' }],
     });
@@ -73,7 +85,7 @@ describe('Wizard reducer', () => {
     const state = wizardReducer(undefined, {
       type: WIZARD_REQUEST_DIAGNOSIS,
     });
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: true,
     });
   });
@@ -96,7 +108,7 @@ describe('Wizard reducer', () => {
         },
       }
     );
-    expect(state).toEqual({
+    expect(state).toMatchObject({
       isFetching: false,
       diagnosis: {
         id: 18,

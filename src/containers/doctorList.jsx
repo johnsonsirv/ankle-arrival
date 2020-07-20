@@ -22,7 +22,7 @@ export const DoctorList = props => {
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
       {doctorData.map(doctor => (
-        <Doctor doctor={doctor} currentUser={currentUser} key={doctor.id} />
+        <Doctor doctor={doctor} key={doctor.id} />
       ))}
     </>
   );
@@ -45,10 +45,7 @@ DoctorList.propTypes = {
 
   fetchDoctors: PropTypes.func.isRequired,
   currentUser: PropTypes.shape({
-    id: PropTypes.number,
     username: PropTypes.string,
-    firstname: PropTypes.string,
-    lastname: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
 };

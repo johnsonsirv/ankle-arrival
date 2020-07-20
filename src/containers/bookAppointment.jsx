@@ -3,29 +3,33 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Joi from 'joi-browser';
 import { toast } from 'react-toastify';
+import Spinner from 'react-spinkit';
 import DateInput from '../components/forms/inputs/dateInput';
 import TimeInput from '../components/forms/inputs/timeInput';
 import RichTextField from '../components/forms/inputs/richTextField';
 import ReadOnlyTextField from '../components/forms/inputs/readOnlyTextField';
 import * as dispatchActions from '../actions';
+import { Redirect } from 'react-router-dom';
 
 const mapStateToProps = state => state;
 
-export const BookAppointment = ({
-  currentUser,
-  doctors: { doctors },
-  match,
-  addNewAppointment,
-}) => {
-  const { username } = match.params;
-  const doctor = doctors.filter(d => d.username === username)[0];
+export const BookAppointment = props => {
+  const {
+    currentUser,
+    doctors: { doctors },
+    match: { params },
+    addNewAppointment,
+    appointments: { isFetching, error, newRecord },
+  } = props;
+
+  const doctor = doctors.filter(d => d.username === params.username)[0];
 
   const [booking, setBooking] = useState({
-    dateOfAppointment: null,
-    timeOfAppointment: null,
+    dateOfAppointment: `${new Date().toLocaleDateString()}`,
+    timeOfAppointment: `${new Date().toLocaleTimeString()}`,
     description: '',
-    // currentUser,
-    // doctor,
+    currentUser,
+    doctor,
     isValid: false,
   });
 
@@ -52,15 +56,14 @@ export const BookAppointment = ({
       currentUser,
     } = booking;
 
-    addNewAppointment({
-      dateOfAppointment,
-      timeOfAppointment,
+    const params = {
+      doctor_id: doctor.id,
       description,
-      currentUser,
-      doctor,
-    });
+      appointment_date: dateOfAppointment,
+      appointment_time: timeOfAppointment,
+    };
 
-    // redirect here
+    addNewAppointment({ params, ...currentUser });
   };
 
   const handleChange = e => {
@@ -74,42 +77,53 @@ export const BookAppointment = ({
   };
 
   return (
-    <div>
-      <form>
-        <ReadOnlyTextField
-          name="doctor"
-          value={`${doctor.firstname} ${doctor.lastname}`}
-        />
-        <ReadOnlyTextField
-          name="current-user"
-          value={`${currentUser.username}`}
-        />
-        <RichTextField
-          name="description"
-          value={booking.description}
-          onChange={handleChange}
-        />
-        <DateInput
-          onChange={handleChange}
-          name="dateOfAppointment"
-          value={booking.dateOfAppointment}
-        />
-        <TimeInput
-          onChange={handleChange}
-          name="timeOfAppointment"
-          value={booking.timeOfAppointment}
-        />
-        <button
-          type="button"
-          onClick={handleSubmit}
-          id="book-appointment"
-          disabled={!booking.isValid}
-        >
-          Save Appointment
-        </button>
-      </form>
-    </div>
+    <>
+      {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
+      {newRecord && <Redirect to="/appointments" />}
+      {error && error.invalid && (
+        <h4>Could not save this record. Try again.</h4>
+      )}
+      <div>
+        <form>
+          <ReadOnlyTextField
+            name="doctor"
+            value={`${doctor.firstname} ${doctor.lastname}`}
+          />
+          <ReadOnlyTextField
+            name="current-user"
+            value={`${currentUser.username}`}
+          />
+          <RichTextField
+            name="description"
+            value={booking.description}
+            onChange={handleChange}
+          />
+          {/* <DateInput
+            onChange={handleChange}
+            name="dateOfAppointment"
+            value={booking.dateOfAppointment}
+          /> */}
+          {/* <TimeInput
+            onChange={handleChange}
+            name="timeOfAppointment"
+            value={booking.timeOfAppointment}
+          /> */}
+          <button
+            type="button"
+            onClick={handleSubmit}
+            id="book-appointment"
+            disabled={!booking.isValid}
+          >
+            Save Appointment
+          </button>
+        </form>
+      </div>
+    </>
   );
+};
+
+BookAppointment.defaultProps = {
+  appointments: null,
 };
 
 BookAppointment.propTypes = {
@@ -137,6 +151,13 @@ BookAppointment.propTypes = {
       username: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  appointments: PropTypes.shape({
+    isFetching: PropTypes.bool,
+    newRecord: PropTypes.bool,
+    error: PropTypes.shape({
+      invalid: PropTypes.bool,
+    }),
+  }),
 };
 
 export default connect(mapStateToProps, dispatchActions)(BookAppointment);

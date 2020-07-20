@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from 'react-spinkit';
@@ -14,6 +15,7 @@ const mapStateToProps = state => state;
 
 export const Wizard = props => {
   const [wizard, setWizard] = useState({
+    isBlocking: false,
     init: true,
     selectedInjury: null,
     checkedItems: new Map(),
@@ -27,6 +29,7 @@ export const Wizard = props => {
   const handleStartDiagnosis = () => {
     props.wizardFetchInjuries();
     wizard.init = false;
+    wizard.isBlocking = true; // block navigation when diagnosis starts
     setWizard({ ...wizard });
   };
 
@@ -92,15 +95,36 @@ export const Wizard = props => {
     props.wizardPreviousStep(previous);
   };
 
+  const handleShowPromptMessage = () => (
+    `Are you sure you want to leave this page?
+    This action will re-start your free diagnosis`
+  );
+
   const {
     wizard: { isFetching, injuries, symptoms, diagnosis, next },
+    history,
   } = props;
 
   const { firstName } = wizard.guestBio;
 
+  useEffect(() => {
+    // listen for when user navigates away
+    // reset diagnosis when they accept
+    const unlisten = history.listen(location => {
+      if (wizard.isBlocking) {
+        window.location = location.pathname;
+      }
+    });
+
+    return function cleanup() {
+      unlisten();
+    };
+  }, [wizard.isBlocking, history]);
+
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
+      {<Prompt when={wizard.isBlocking} message={handleShowPromptMessage} />}
       {wizard.init && (
         <>
           <WizardSteps />
@@ -207,6 +231,9 @@ Wizard.propTypes = {
     }),
     isFetching: PropTypes.bool.isRequired,
     next: PropTypes.object,
+  }).isRequired,
+  history: PropTypes.shape({
+    listen: PropTypes.func,
   }).isRequired,
 };
 
