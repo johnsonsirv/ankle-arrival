@@ -3,10 +3,13 @@ import { NavLink } from 'react-router-dom';
 import UserLinks from '../containers/userLinks';
 
 const NavBar = () => (
-  <div>
-    <NavLink to="/">Ankle Arrival|</NavLink>
-    <NavLink to="/diagnosis">Free checkup|</NavLink>
+  <div className="navbar">
+    <NavLink to="/">Ankle Arrival Logo</NavLink>
+    <NavLink to="/diagnosis">Free checkup</NavLink>
+    <NavLink to="/">I&apos;m a Physiotherapist</NavLink>
+    <a href="https://bit.ly/39ZtQh2" target="_blank" rel="noopener noreferrer">Covid-19</a>
     <UserLinks />
+
   </div>
 );
 

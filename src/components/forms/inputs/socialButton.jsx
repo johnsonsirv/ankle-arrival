@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SocialLogin from 'react-social-login';
 
 const SocialButton = props => {
   const { triggerLogin, value, name, className, id } = props;
@@ -32,4 +31,4 @@ SocialButton.propTypes = {
   id: PropTypes.string,
 };
 
-export default SocialLogin(SocialButton);
+export default SocialButton;

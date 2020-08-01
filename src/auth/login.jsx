@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Spinner from 'react-spinkit';
 import Joi from 'joi-browser';
-import { toast } from 'react-toastify';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
-// import { SocialLoginPanel } from './socialLoginPanel';
+import SocialLoginPanel from './socialLoginPanel';
 
 const mapStateToProps = state => state;
 
@@ -18,6 +17,10 @@ export const Login = props => {
     username: '',
     password: '',
     isValid: false,
+    error: {
+      username: null,
+      password: null,
+    },
   });
 
   const schema = {
@@ -29,7 +32,7 @@ export const Login = props => {
     const property = { [name]: value };
     const subSchema = { [name]: schema[name] };
     const { error } = Joi.validate(property, subSchema);
-    return error ? error.details[0].message : null;
+    return error ? error.details[0] : null;
   };
 
   const validateAllProperty = () => {
@@ -48,8 +51,18 @@ export const Login = props => {
     const error = validateProperty(e.target);
     account.isValid = validateAllProperty();
 
+
+    if (error) {
+      const errorProperty = error.path[0];
+      account.error[errorProperty] = error.message;
+    } else {
+      account.error = {
+        username: null,
+        password: null,
+      };
+    }
+
     setAccount({ ...account });
-    if (error) toast.error(error);
   };
   const handleLogin = e => {
     e.preventDefault();
@@ -68,6 +81,14 @@ export const Login = props => {
   const {
     currentUser: { isAuthenticated, userLogin },
   } = props;
+  const { error } = account;
+
+  const inputTextErrorStyle = {
+    outlineWidth: '2px',
+    outlineColor: 'red',
+    outlineStyle: 'solid',
+  };
+
   return (
     <>
       {isAuthenticated && <Redirect to="/doctors" />}
@@ -77,7 +98,7 @@ export const Login = props => {
       {userLogin && userLogin.invalid && (
         <h4>Wrong Username or Password</h4>
       )}
-      <div>{/* <SocialLoginPanel /> */}</div>
+      <div><SocialLoginPanel /></div>
       <div>
         <form>
           <InputTextField
@@ -85,12 +106,14 @@ export const Login = props => {
             name="username"
             onChange={handleChange}
             value={account.username}
+            style={(error && error.username) ? inputTextErrorStyle : {}}
           />
 
           <PasswordTextField
             name="password"
             onChange={handleChange}
             value={account.password}
+            style={(error && error.password) ? inputTextErrorStyle : {}}
           />
           <Button
             onClick={handleLogin}

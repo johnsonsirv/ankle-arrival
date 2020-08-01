@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Spinner from 'react-spinkit';
 import Joi from 'joi-browser';
-import { toast } from 'react-toastify';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import EmailTextField from '../components/forms/inputs/emailTextField';
 import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
+import SocialLoginPanel from './socialLoginPanel';
 
 const mapStateToProps = state => state;
 
@@ -22,6 +22,13 @@ export const Signup = props => {
     password: '',
     city: 'Remote',
     isValid: false,
+    error: {
+      firstname: null,
+      lastname: null,
+      email: null,
+      username: null,
+      password: null,
+    },
   });
 
   const schema = {
@@ -36,7 +43,7 @@ export const Signup = props => {
     const obj = { [name]: value };
     const subSchema = { [name]: schema[name] };
     const { error } = Joi.validate(obj, subSchema);
-    return error ? error.details[0].message : null;
+    return error ? error.details[0] : null;
   };
 
   const validateAllProperty = () => {
@@ -58,10 +65,22 @@ export const Signup = props => {
     const error = validateProperty(e.target);
     account.isValid = validateAllProperty();
 
+    if (error) {
+      const errorProperty = error.path[0];
+      account.error[errorProperty] = error.message;
+    } else {
+      account.error = {
+        firstname: null,
+        lastname: null,
+        email: null,
+        username: null,
+        password: null,
+      };
+    }
+
     setAccount({ ...account });
-    if (error) toast.error(error);
   };
-  const handleClick = e => {
+  const handleSignUp = e => {
     e.preventDefault();
     const { firstname, lastname, username, password, email, city } = account;
     props.createUserAccount({
@@ -82,6 +101,15 @@ export const Signup = props => {
   const {
     currentUser: { userAccount, isAuthenticated },
   } = props;
+
+  const { error } = account;
+
+  const inputTextErrorStyle = {
+    outlineWidth: '2px',
+    outlineColor: 'red',
+    outlineStyle: 'solid',
+  };
+
   return (
     // render social login section here
     <>
@@ -93,39 +121,47 @@ export const Signup = props => {
         <h4>Something went wrong. Try again.</h4>
       )}
       <div>
+        <SocialLoginPanel />
+      </div>
+      <div>
         <form>
           <InputTextField
             id="firstname"
             name="firstname"
             onChange={handleChange}
             value={account.firstname}
+            style={error && error.firstname ? inputTextErrorStyle : {}}
           />
           <InputTextField
             id="lastname"
             name="lastname"
             onChange={handleChange}
             value={account.lastname}
-          />
-          <InputTextField
-            id="username"
-            name="username"
-            onChange={handleChange}
-            value={account.username}
+            style={error && error.lastname ? inputTextErrorStyle : {}}
           />
           <EmailTextField
             id="email"
             name="email"
             onChange={handleChange}
             value={account.email}
+            style={error && error.email ? inputTextErrorStyle : {}}
+          />
+          <InputTextField
+            id="username"
+            name="username"
+            onChange={handleChange}
+            value={account.username}
+            style={error && error.username ? inputTextErrorStyle : {}}
           />
           <PasswordTextField
             id="password"
             name="password"
             onChange={handleChange}
             value={account.password}
+            style={error && error.password ? inputTextErrorStyle : {}}
           />
           <Button
-            onClick={handleClick}
+            onClick={handleSignUp}
             value="Sign Up"
             disabled={!account.isValid}
             id="signup"

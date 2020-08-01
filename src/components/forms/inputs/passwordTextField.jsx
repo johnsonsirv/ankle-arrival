@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PasswordTextField = ({ className, id, name, value, onChange }) => (
+const PasswordTextField = ({ className, id, name, value, onChange, style }) => (
   <input
     type="password"
     className={className}
@@ -9,6 +9,7 @@ const PasswordTextField = ({ className, id, name, value, onChange }) => (
     id={id}
     value={value}
     onChange={onChange}
+    style={style}
   />
 );
 
@@ -17,6 +18,7 @@ PasswordTextField.defaultProps = {
   id: '',
   className: '',
   value: '',
+  style: {},
 };
 
 PasswordTextField.propTypes = {
@@ -24,6 +26,7 @@ PasswordTextField.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.string,
+  style: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
 };
 

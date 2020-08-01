@@ -189,13 +189,16 @@ export const userFromOauth = params => async dispatch => {
   const headers = {
     'Content-type': 'application/json',
   };
-  const url = `${apiEndPoint}/oauth/authenticate`;
+  const url = `${apiEndPoint}/users/oauth`;
 
-  dispatch(requestSignup());
-  return axios
-    .post(url, params, { headers })
-    .then(({ data }) => dispatch(setCurrentUser(data)))
-    .catch(ex => dispatch(signupFailure(ex)));
+  try {
+    await dispatch(requestSignup());
+    const { data: res } = await axios.post(url, params, { headers });
+    await dispatch(setCurrentUser(res));
+  } catch (ex) {
+    dispatch(loginFailure());
+    console.log(ex.message);
+  }
 };
 
 // 4. Wizard

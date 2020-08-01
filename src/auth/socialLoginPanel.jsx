@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
+import faker from 'faker';
 import { google } from '../config/socialLogin';
 import * as dispatchActions from '../actions';
 
 export const SocialLoginPanel = props => {
-  const [user, setUser] = useState({});
-
   const handleSocialLoginSuccess = response => {
-    const { firstname, email, lastname } = response;
+    const {
+      givenName, familyName, email, googleId: token,
+    } = response.profileObj;
+    const { idpId: provider } = response.tokenObj;
 
     const userParams = {
-      firstname,
-      lastname,
-      username: 'uniq_gen',
+      firstname: givenName,
+      lastname: familyName,
+      username: faker.internet.userName(),
       email,
       city: 'Remote',
-      password: 'random-password',
+      password: faker.internet.password(),
+      provider,
+      token,
     };
-    setUser({ ...userParams });
-    props.userFromOauth(user);
-    console.log(user);
-    console.log(response);
+    props.userFromOauth(userParams);
   };
 
   const handleSocialLoginFailure = err => {
@@ -33,7 +34,7 @@ export const SocialLoginPanel = props => {
     <>
       <GoogleLogin
         clientId={google.clientId}
-        buttonText="Login"
+        buttonText="Continue With Google"
         onSuccess={handleSocialLoginSuccess}
         onFailure={handleSocialLoginFailure}
         cookiePolicy={google.cookiePolicy}

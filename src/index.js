@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import rootReducer from './reducers';
 import App from './components/App';
+import './assets/sass/index.scss';
 
 // const store = createStore(rootReducer, {}, applyMiddleware(reduxThunk));
 const middleware = [reduxThunk];
