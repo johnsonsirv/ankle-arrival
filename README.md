@@ -34,6 +34,8 @@
 
 ![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_doctors.png)
 
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_book_appointment.png)
+
 ![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_wizard_home.png)
 
 ![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_injury.png)
