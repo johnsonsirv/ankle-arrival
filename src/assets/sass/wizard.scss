@@ -1,0 +1,137 @@
+.wizardPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & button {
+        width: 12vw;
+        height: 6vh;
+        cursor: pointer;
+    }
+}
+.wizardSteps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    border: 1px solid #d8d4d4;
+    margin: 9px;
+    text-align: left;
+    padding: 9px;
+    line-height: 1.5em;
+    letter-spacing: .1em;
+    border-radius: 5px;
+}
+
+.injuryPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 520px;
+    height: 160px;
+    margin-top: 10%;
+    padding: 9px;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    & select {
+        width: 300px;
+        height: 50px;
+        outline: none;
+        border-style: none;
+        border-radius: 3px;
+        font-size: 22px;
+        padding: 4px;
+        text-transform: capitalize;
+        & option {
+            outline: none;
+        }
+    }
+}
+
+.symptomsPanel {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: space-around;
+    height: 450px;
+    margin-top: 4%;
+    padding: 9px;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    & p {
+        text-align: center;
+    }
+    & label {
+        display: flex;
+        font-size: 13px;
+        text-transform: capitalize;
+        align-items: center;
+        height: 50px;
+        background-color: #f5ededf1;
+
+        & input[type="checkbox"] {
+            width: 28px;
+            height: 28px;
+            outline-style: solid;
+            outline-color: #817979;
+            outline-width: .2em;
+            margin-right: 6px;
+            
+            &:checked {
+                outline-style: unset;
+            }
+        }   
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    & .injuryActions {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+}
+
+.biodataPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 520px;
+    height: 180px;
+    margin-top: 10%;
+    padding: 9px;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    & p {
+        text-align: center;
+    }
+
+    & input[type=text] {
+        width: 300px;
+        height: 50px;
+        border-style: solid;
+        border-color: #d8d4d4;
+        border-radius: 3px;
+        font-size: 22px;
+        padding: 5px;
+        text-transform: capitalize;
+    }
+
+    & .biodataActions {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+    }
+}
+
+.diagnosisPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3%;
+    padding: 9px;
+    border: 1px solid #d8d4d4;
+    text-transform: capitalize;
+}

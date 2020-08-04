@@ -7,29 +7,35 @@ const DiagnosisPage = ({
     disease,
     symptoms,
     player,
-    inference,
     treatment,
     lifestyle,
   },
 }) => (
   <div>
-    <header>Results</header>
-    <header>Diagnosis &amp; symptoms</header>
+    <h2>{`Hi, ${player}. Your result is ready!`}</h2>
     <div>
-      <p>{injury}</p>
+      <p>
+        <h3>Injured Area</h3>
+        {injury}
+      </p>
     </div>
     <div>
-      <p>{symptoms}</p>
-    </div>
-    <header>Possible diseases based on infered analysis</header>
-    <div>
-      <p>{disease}</p>
-    </div>
-    <header>Treatment / Lifestyle</header>
-    <div>
-      <p>{treatment}</p>
+      <p>
+        <h3>You experience these symptoms</h3>
+        {symptoms}
+      </p>
     </div>
     <div>
+      <p>
+        <h3>Possible Injury / Disease</h3>
+        {disease}
+      </p>
+    </div>
+    <div>
+      <p>
+        <h3>Treatment / Lifestyle</h3>
+        {treatment}
+      </p>
       <p>{lifestyle}</p>
     </div>
   </div>

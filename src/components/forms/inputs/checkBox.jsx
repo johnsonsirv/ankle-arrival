@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 
 const CheckBox = ({ className, id, name, value, onChange, label }) => (
   <>
-    <input
-      type="checkbox"
-      className={className}
-      name={name}
-      id={id}
-      value={value}
-      onChange={onChange}
-    />
-    <label htmlFor={id}>{label}</label>
+    <label htmlFor={id}>
+      <input
+        type="checkbox"
+        className={className}
+        name={name}
+        id={id}
+        value={value}
+        onChange={onChange}
+      />
+      {label}
+    </label>
   </>
 );
 

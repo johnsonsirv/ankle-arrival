@@ -27,7 +27,7 @@ const defaultProps = {
 };
 const propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.instanceOf(Date),
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };

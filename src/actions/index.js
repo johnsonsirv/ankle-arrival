@@ -24,7 +24,7 @@ import {
 } from './actionTypes';
 
 // configure apiEndpoint to prod
-const { demoApiEndPoint: apiEndPoint, wizardApiEndPoint } = config;
+const { apiEndPoint, wizardApiEndPoint } = config;
 
 export const requestDoctors = () => ({
   type: REQUEST_DOCTORS,

@@ -21,12 +21,14 @@ export const AppointmentList = props => {
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
-      {appointmentData.map(appointment => (
-        <AppointmentDetails
-          appointment={appointment}
-          key={appointment.id}
-        />
-      ))}
+      <div className="appointmentList">
+        {appointmentData.map(appointment => (
+          <AppointmentDetails
+            appointment={appointment}
+            key={appointment.id}
+          />
+        ))}
+      </div>
     </>
   );
 };

@@ -10,12 +10,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 4px solid #e9950e;
   height: 768px;
   width: 1024px;
+  
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@import './App.scss';
+@import './navbar.scss';
+@import './homePage.scss';
+@import './auth.scss';
+@import './doctor.scss';
+@import './appointment.scss';
+@import './wizard.scss';

@@ -13,9 +13,6 @@ describe('<App /> rendering', () => {
   it('should mount in a full DOM', () => {
     expect(shallow(<App />).find('.App')).toHaveLength(1);
   });
-  it('should render a toast notification container', () => {
-    expect(shallow(<App />).find('ToastContainer')).toHaveLength(1);
-  });
 });
 
 describe('<App /> routing', () => {

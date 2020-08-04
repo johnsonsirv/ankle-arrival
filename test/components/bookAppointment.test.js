@@ -47,6 +47,11 @@ describe('<BookAppointment /> interactions', () => {
     richTextField.simulate('change', {
       target: { value: 'I need to see a doctor', name: 'description' },
     });
+    const dateInput = enzymeWrapper.find('DateInput');
+    dateInput.simulate('change', new Date());
+    const timeInput = enzymeWrapper.find('TimeInput');
+    timeInput.simulate('change', new Date());
+
     expect(enzymeWrapper.find('#book-appointment').prop('disabled')).toBe(
       false
     );

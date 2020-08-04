@@ -2,10 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ProtectedLinks = () => (
-  <div>
-    <NavLink to="/doctors">Doctors|</NavLink>
-    <NavLink to="/appointments">Appointments|</NavLink>
-  </div>
+  <>
+    <NavLink to="/doctors">Doctors</NavLink>
+    <NavLink to="/appointments">Appointments</NavLink>
+    <NavLink to="/logout">Logout</NavLink>
+  </>
 );
 
 export default ProtectedLinks;

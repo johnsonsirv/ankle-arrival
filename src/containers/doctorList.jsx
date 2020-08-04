@@ -21,9 +21,11 @@ export const DoctorList = props => {
   return (
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
-      {doctorData.map(doctor => (
-        <Doctor doctor={doctor} key={doctor.id} />
-      ))}
+      <div className="doctorList">
+        {doctorData.map(doctor => (
+          <Doctor doctor={doctor} key={doctor.id} />
+        ))}
+      </div>
     </>
   );
 };
@@ -38,7 +40,7 @@ DoctorList.propTypes = {
         email: PropTypes.string,
         username: PropTypes.string,
         id: PropTypes.number,
-      }).isRequired
+      }).isRequired,
     ).isRequired,
     isFetching: PropTypes.bool.isRequired,
   }).isRequired,

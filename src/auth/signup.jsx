@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -82,7 +83,9 @@ export const Signup = props => {
   };
   const handleSignUp = e => {
     e.preventDefault();
-    const { firstname, lastname, username, password, email, city } = account;
+    const {
+      firstname, lastname, username, password, email, city,
+    } = account;
     props.createUserAccount({
       firstname,
       lastname,
@@ -120,53 +123,79 @@ export const Signup = props => {
       {userAccount && userAccount.invalid && (
         <h4>Something went wrong. Try again.</h4>
       )}
-      <div>
-        <SocialLoginPanel />
-      </div>
-      <div>
-        <form>
-          <InputTextField
-            id="firstname"
-            name="firstname"
-            onChange={handleChange}
-            value={account.firstname}
-            style={error && error.firstname ? inputTextErrorStyle : {}}
-          />
-          <InputTextField
-            id="lastname"
-            name="lastname"
-            onChange={handleChange}
-            value={account.lastname}
-            style={error && error.lastname ? inputTextErrorStyle : {}}
-          />
-          <EmailTextField
-            id="email"
-            name="email"
-            onChange={handleChange}
-            value={account.email}
-            style={error && error.email ? inputTextErrorStyle : {}}
-          />
-          <InputTextField
-            id="username"
-            name="username"
-            onChange={handleChange}
-            value={account.username}
-            style={error && error.username ? inputTextErrorStyle : {}}
-          />
-          <PasswordTextField
-            id="password"
-            name="password"
-            onChange={handleChange}
-            value={account.password}
-            style={error && error.password ? inputTextErrorStyle : {}}
-          />
-          <Button
-            onClick={handleSignUp}
-            value="Sign Up"
-            disabled={!account.isValid}
-            id="signup"
-          />
-        </form>
+      <div className="signUpPanel">
+        <div>
+          {' '}
+          <SocialLoginPanel />
+          {' '}
+        </div>
+        <div>
+          <form className="signUpForm" autoComplete="off">
+            <div>
+              <label htmlFor="firstname">Firstname</label>
+              <br />
+              <InputTextField
+                id="firstname"
+                name="firstname"
+                onChange={handleChange}
+                value={account.firstname}
+                style={error && error.firstname ? inputTextErrorStyle : {}}
+              />
+            </div>
+            <div>
+              <label htmlFor="lastname">Lastname</label>
+              <br />
+              <InputTextField
+                id="lastname"
+                name="lastname"
+                onChange={handleChange}
+                value={account.lastname}
+                style={error && error.lastname ? inputTextErrorStyle : {}}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email</label>
+              <br />
+              <EmailTextField
+                id="email"
+                name="email"
+                onChange={handleChange}
+                value={account.email}
+                style={error && error.email ? inputTextErrorStyle : {}}
+              />
+            </div>
+            <div>
+              <label htmlFor="username">Username</label>
+              <br />
+              <InputTextField
+                id="username"
+                name="username"
+                onChange={handleChange}
+                value={account.username}
+                style={error && error.username ? inputTextErrorStyle : {}}
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <br />
+              <PasswordTextField
+                id="password"
+                name="password"
+                onChange={handleChange}
+                value={account.password}
+                style={error && error.password ? inputTextErrorStyle : {}}
+              />
+            </div>
+            <div>
+              <Button
+                onClick={handleSignUp}
+                value="Sign Up"
+                disabled={!account.isValid}
+                id="signup"
+              />
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

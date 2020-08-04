@@ -37,11 +37,11 @@ describe('<TimeInput /> rendering', () => {
 describe('<TimeInput /> interactions', () => {
   it('should return selected date onChange', () => {
     const customProps = {
-      value: '12:00 PM',
+      value: new Date(),
     };
     const newTime = '1:00 PM';
     const { props, enzymeWrapper } = setup(customProps);
-    enzymeWrapper.simulate('change', { target: { value: newTime } });
+    enzymeWrapper.simulate('change', new Date());
     expect(props.onChange).toHaveBeenCalled();
   });
 });

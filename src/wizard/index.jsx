@@ -95,10 +95,9 @@ export const Wizard = props => {
     props.wizardPreviousStep(previous);
   };
 
-  const handleShowPromptMessage = () => (
+  const handleShowPromptMessage = () =>
     `Are you sure you want to leave this page?
-    This action will re-start your free diagnosis`
-  );
+    This action will re-start your free diagnosis`;
 
   const {
     wizard: { isFetching, injuries, symptoms, diagnosis, next },
@@ -125,71 +124,80 @@ export const Wizard = props => {
     <>
       {isFetching && <Spinner name="three-bounce" fadeIn="none" />}
       {<Prompt when={wizard.isBlocking} message={handleShowPromptMessage} />}
-      {wizard.init && (
-        <>
-          <WizardSteps />
-          <Button
-            onClick={handleStartDiagnosis}
-            value="Start Diagnosis"
-            disabled={!wizard.init}
-            id="step-1-start-diagnosis"
-          />
-        </>
-      )}
-      {next && next.injury && (
-        <>
-          <InjuryPage injuries={injuries} onChange={handleSelectInjury} />
-          <Button
-            onClick={handleShowSymptoms}
-            value="Next"
-            disabled={!wizard.passedInjuryValidation}
-            id="step-2-symptoms"
-          />
-        </>
-      )}
-      {next && next.symptoms && (
-        <>
-          <SymptomsPage symptoms={symptoms} onChange={handleChooseSymptoms} />
-          <Button
-            onClick={() => handleShowPrevious({ title: 'injury' })}
-            value="Back"
-            disabled={!symptoms}
-            id="back-to-step-2-injury"
-          />
-          <Button
-            onClick={handleShowBioPage}
-            value="Next"
-            disabled={!wizard.passedSymptomsValidation}
-            id="step-3-bio"
-          />
-        </>
-      )}
-      {next && next.bio && (
-        <>
-          <BioPage guestName={firstName} onInputChange={handleChange} />
-          <Button
-            onClick={() => handleShowPrevious({ title: 'symptoms' })}
-            value="Back"
-            id="back-to-step-3-symptoms"
-          />
-          <Button
-            onClick={handleSubmitDiagnosis}
-            value="Submit"
-            disabled={!wizard.passedInjuryValidation}
-            id="step-4-submit"
-          />
-        </>
-      )}
-      {next && next.diagnosis && (
-        <>
-          <DiagnosisPage diagnosis={diagnosis} />
-          <Button
-            onClick={handleRestartDiagnosis}
-            value="Re-start Diagnosis"
-            id="step-5-restart-diagnosis"
-          />
-        </>
-      )}
+      <div className="wizardPanel">
+        {wizard.init && (
+          <div className="wizardSteps">
+            <WizardSteps />
+            <Button
+              onClick={handleStartDiagnosis}
+              value="Next"
+              disabled={!wizard.init}
+              id="step-1-start-diagnosis"
+            />
+          </div>
+        )}
+        {next && next.injury && (
+          <div className="injuryPanel">
+            <p>Choose injured area</p>
+            <InjuryPage injuries={injuries} onChange={handleSelectInjury} />
+            <Button
+              onClick={handleShowSymptoms}
+              value="Next"
+              disabled={!wizard.passedInjuryValidation}
+              id="step-2-symptoms"
+            />
+          </div>
+        )}
+        {next && next.symptoms && (
+          <div className="symptomsPanel">
+            <p>What group of symptoms do you experience?</p>
+            <SymptomsPage symptoms={symptoms} onChange={handleChooseSymptoms} />
+            <div className="injuryActions">
+              <Button
+                onClick={() => handleShowPrevious({ title: 'injury' })}
+                value="Back"
+                disabled={!symptoms}
+                id="back-to-step-2-injury"
+              />
+              <Button
+                onClick={handleShowBioPage}
+                value="Next"
+                disabled={!wizard.passedSymptomsValidation}
+                id="step-3-bio"
+              />
+            </div>
+          </div>
+        )}
+        {next && next.bio && (
+          <div className="biodataPanel">
+            <p>What&apos;s your firstname (optional)?</p>
+            <BioPage guestName={firstName} onInputChange={handleChange} />
+            <div className="biodataActions">
+              <Button
+                onClick={() => handleShowPrevious({ title: 'symptoms' })}
+                value="Back"
+                id="back-to-step-3-symptoms"
+              />
+              <Button
+                onClick={handleSubmitDiagnosis}
+                value="Submit"
+                disabled={!wizard.passedInjuryValidation}
+                id="step-4-submit"
+              />
+            </div>
+          </div>
+        )}
+        {next && next.diagnosis && (
+          <div className="diagnosisPanel">
+            <DiagnosisPage diagnosis={diagnosis} />
+            <Button
+              onClick={handleRestartDiagnosis}
+              value="Re-start Diagnosis"
+              id="step-5-restart-diagnosis"
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };
@@ -210,14 +218,14 @@ Wizard.propTypes = {
         id: PropTypes.number,
         code: PropTypes.number,
         name: PropTypes.string,
-      })
+      }),
     ),
     symptoms: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
         code: PropTypes.string,
         description: PropTypes.string,
-      })
+      }),
     ),
     diagnosis: PropTypes.shape({
       id: PropTypes.number,

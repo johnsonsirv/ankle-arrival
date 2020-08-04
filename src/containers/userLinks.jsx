@@ -19,18 +19,17 @@ export const UserLinks = props => {
 
   return (
     <>
-      <div>
+      <div className="userLinks">
         {!isAuthenticated && (
-          <>
-            <NavLink to="/login">Login|</NavLink>
+          <div className="unProtectedLinks">
+            <NavLink to="/login">Login</NavLink>
             <NavLink to="/signup">Sign Up</NavLink>
-          </>
+          </div>
         )}
         {isAuthenticated && (
-          <>
-            <NavLink to="/logout">Logout</NavLink>
+          <div className="protectedLinks">
             <ProtectedLinks />
-          </>
+          </div>
         )}
       </div>
     </>

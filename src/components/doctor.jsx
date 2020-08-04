@@ -7,15 +7,17 @@ const Doctor = props => {
     doctor: { firstname, lastname, city, email, username },
   } = props;
   return (
-    <>
-      <div>
-        <p>{`${firstname} ${lastname}`}</p>
-        <p>{city}</p>
-        <p>{email}</p>
-        <p>{username}</p>
-        <Link to={`/book-appointment/${username}`}>Book Appointment</Link>
-      </div>
-    </>
+    <div className="doctorCard">
+      <h2>{`Dr. ${firstname} ${lastname}`}</h2>
+      <p>
+        <i>Location: </i>
+        {city}
+      </p>
+      <p>
+        <i>{email}</i>
+      </p>
+      <Link to={`/book-appointment/${username}`}>Schedule Appointment</Link>
+    </div>
   );
 };
 

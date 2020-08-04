@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import rootReducer from './reducers';
 import App from './components/App';
+import 'react-datepicker/dist/react-datepicker.css';
 import './assets/sass/index.scss';
 
 // const store = createStore(rootReducer, {}, applyMiddleware(reduxThunk));
@@ -14,7 +15,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   {},
-  composeEnhancers(applyMiddleware(...middleware))
+  composeEnhancers(applyMiddleware(...middleware)),
 );
 ReactDOM.render(
   <Provider store={store}>
@@ -22,5 +23,5 @@ ReactDOM.render(
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

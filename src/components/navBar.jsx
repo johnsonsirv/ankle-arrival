@@ -5,8 +5,7 @@ import UserLinks from '../containers/userLinks';
 const NavBar = () => (
   <div className="navbar">
     <NavLink to="/">Ankle Arrival Logo</NavLink>
-    <NavLink to="/diagnosis">Free checkup</NavLink>
-    <NavLink to="/">I&apos;m a Physiotherapist</NavLink>
+    <NavLink to="/diagnosis">Free Checkup</NavLink>
     <a href="https://bit.ly/39ZtQh2" target="_blank" rel="noopener noreferrer">Covid-19</a>
     <UserLinks />
 
