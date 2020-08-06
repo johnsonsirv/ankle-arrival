@@ -5,7 +5,6 @@ const ProtectedLinks = () => (
   <>
     <NavLink to="/doctors">Doctors</NavLink>
     <NavLink to="/appointments">Appointments</NavLink>
-    <NavLink to="/logout">Logout</NavLink>
   </>
 );
 

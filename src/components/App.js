@@ -7,7 +7,6 @@ import DoctorList from '../containers/doctorList';
 import Wizard from '../wizard';
 import Signup from '../auth/signup';
 import Login from '../auth/login';
-import Logout from '../auth/logout';
 import ProtectedRoute from '../containers/protectedRoute';
 import PageNotFound from './notFoundPage';
 import NavBar from './navBar';
@@ -27,7 +26,6 @@ function App() {
           <Route path="/diagnosis" component={Wizard} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/logout" component={Logout} />
           <Route path="/" exact component={HomePage} />
           <Route component={PageNotFound} />
         </Switch>

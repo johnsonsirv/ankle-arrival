@@ -14,6 +14,11 @@ export const UserLinks = props => {
     currentUser: { isAuthenticated },
   } = props;
 
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    window.location = '/';
+  };
+
   useEffect(() => {
     getCurrentUser();
   }, [getCurrentUser]);
@@ -30,6 +35,7 @@ export const UserLinks = props => {
         {isAuthenticated && (
           <div className="protectedLinks">
             <ProtectedLinks />
+            <NavLink to="/logout" onClick={handleLogout}>Logout</NavLink>
           </div>
         )}
       </div>
