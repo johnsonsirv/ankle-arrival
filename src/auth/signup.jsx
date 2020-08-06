@@ -9,6 +9,11 @@ import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import Button from '../components/forms/inputs/button';
 import SocialLoginPanel from './socialLoginPanel';
+import {
+  validateAllProperty,
+  validateProperty,
+  inputTextErrorStyle,
+} from '../utils/validation';
 
 const mapStateToProps = state => state;
 
@@ -38,31 +43,19 @@ export const Signup = props => {
     password: Joi.string().required().label('Password'),
   };
 
-  const validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const subSchema = { [name]: schema[name] };
-    const { error } = Joi.validate(obj, subSchema);
-    return error ? error.details[0] : null;
-  };
-
-  const validateAllProperty = () => {
-    const signupCredentials = {
+  const handleChange = e => {
+    const { name, value } = e.target;
+    account[name] = value;
+    const data = {
       firstname: account.firstname,
       lastname: account.lastname,
       email: account.email,
       username: account.username,
       password: account.password,
     };
-    const { error } = Joi.validate(signupCredentials, schema);
 
-    return !error;
-  };
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    account[name] = value;
-    const error = validateProperty(e.target);
-    account.isValid = validateAllProperty();
+    const error = validateProperty({ target: e.target, schema });
+    account.isValid = validateAllProperty({ data, schema });
 
     if (error) {
       const errorProperty = error.path[0];
@@ -81,9 +74,7 @@ export const Signup = props => {
   };
   const handleSignUp = e => {
     e.preventDefault();
-    const {
-      firstname, lastname, username, password, email, city,
-    } = account;
+    const { firstname, lastname, username, password, email, city } = account;
     props.createUserAccount({
       firstname,
       lastname,
@@ -105,12 +96,6 @@ export const Signup = props => {
 
   const { error } = account;
 
-  const inputTextErrorStyle = {
-    outlineWidth: '2px',
-    outlineColor: 'red',
-    outlineStyle: 'solid',
-  };
-
   return (
     // render social login section here
     <>
@@ -122,7 +107,9 @@ export const Signup = props => {
         <h4>Something went wrong. Try again.</h4>
       )}
       <div className="signUpPanel">
-        <div><SocialLoginPanel /></div>
+        <div>
+          <SocialLoginPanel />
+        </div>
         <div>
           <form className="signUpForm" autoComplete="off">
             <div>

@@ -9,6 +9,11 @@ import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import Button from '../components/forms/inputs/button';
 import SocialLoginPanel from './socialLoginPanel';
+import {
+  validateProperty,
+  validateAllProperty,
+  inputTextErrorStyle,
+} from '../utils/validation';
 
 const mapStateToProps = state => state;
 
@@ -28,28 +33,14 @@ export const Login = props => {
     password: Joi.string().required().label('Password'),
   };
 
-  const validateProperty = ({ name, value }) => {
-    const property = { [name]: value };
-    const subSchema = { [name]: schema[name] };
-    const { error } = Joi.validate(property, subSchema);
-    return error ? error.details[0] : null;
-  };
-
-  const validateAllProperty = () => {
-    const loginCredentials = {
-      username: account.username,
-      password: account.password,
-    };
-    const { error } = Joi.validate(loginCredentials, schema);
-
-    return !error;
-  };
-
   const handleChange = e => {
     const { name, value } = e.target;
     account[name] = value;
-    const error = validateProperty(e.target);
-    account.isValid = validateAllProperty();
+
+    const data = { username: account.username, password: account.password };
+
+    const error = validateProperty({ target: e.target, schema });
+    account.isValid = validateAllProperty({ data, schema });
 
     if (error) {
       const errorProperty = error.path[0];
@@ -81,12 +72,6 @@ export const Login = props => {
     currentUser: { isAuthenticated, userLogin },
   } = props;
   const { error } = account;
-
-  const inputTextErrorStyle = {
-    outlineWidth: '2px',
-    outlineColor: 'red',
-    outlineStyle: 'solid',
-  };
 
   return (
     <>
