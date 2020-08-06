@@ -35,7 +35,7 @@ export const UserLinks = props => {
         {isAuthenticated && (
           <div className="protectedLinks">
             <ProtectedLinks />
-            <NavLink to="/logout" onClick={handleLogout}>Logout</NavLink>
+            <NavLink to="" onClick={handleLogout}>Logout</NavLink>
           </div>
         )}
       </div>
