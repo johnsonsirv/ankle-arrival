@@ -12,6 +12,7 @@ import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import Button from '../components/forms/inputs/button';
 import { DoctorType, CurrentUserType } from '../utils/prop-types';
+import { getFormattedDate, getFormattedTime } from '../utils/dateFormatter';
 
 const mapStateToProps = state => state;
 
@@ -70,8 +71,8 @@ export const BookAppointment = props => {
     const params = {
       doctor_id: doctor.id,
       description,
-      appointment_date: new Date(dateOfAppointment).toDateString(),
-      appointment_time: new Date(timeOfAppointment).toTimeString(),
+      appointment_date: getFormattedDate(dateOfAppointment),
+      appointment_time: getFormattedTime(timeOfAppointment),
     };
 
     addNewAppointment({ params, ...currentUser });
