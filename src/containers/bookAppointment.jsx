@@ -94,15 +94,8 @@ export const BookAppointment = props => {
     setBooking({ ...booking });
   };
 
-  const handleSelectDate = date => {
-    booking.dateOfAppointment = date;
-    booking.isValid = validateAllProperty();
-
-    setBooking({ ...booking });
-  };
-
-  const handleSelectTime = time => {
-    booking.timeOfAppointment = time;
+  const handleSelectDateTime = ({ name, value }) => {
+    booking[name] = value;
     booking.isValid = validateAllProperty();
 
     setBooking({ ...booking });
@@ -167,14 +160,14 @@ export const BookAppointment = props => {
           </div>
           <div>
             <DateInput
-              onChange={handleSelectDate}
+              onChange={value => handleSelectDateTime({ value, name: 'dateOfAppointment' })}
               name="dateOfAppointment"
               value={booking.dateOfAppointment}
             />
           </div>
           <div>
             <TimeInput
-              onChange={handleSelectTime}
+              onChange={value => handleSelectDateTime({ value, name: 'timeOfAppointment' })}
               name="timeOfAppointment"
               value={booking.timeOfAppointment}
             />
