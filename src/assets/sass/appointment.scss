@@ -42,15 +42,16 @@
     margin: auto;
     margin-top: 6px;
     background-color: #ffffffc4;
+    overflow: auto;
     & .bookAppointmentForm {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        height: 610px;
+        height: 590px;
         & textarea {
             font-size: 12px;
             width: 250px;
-            height: 80px;
+            height: 60px;
             outline-style: none;
             border: 1px solid #ccc8c8;
         }
@@ -67,7 +68,7 @@
         }
         & #book-appointment {
             width: 12vw;
-            height: 7vh;
+            height: 25px;
             cursor: pointer;
         }
     }
