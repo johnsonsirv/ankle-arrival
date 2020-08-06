@@ -59,11 +59,11 @@
             border: 1px solid #ccc8c8;
             background-color: #e9e8e8;
             padding: 5px;
-            
-        }
-        & input:read-only {
-            cursor: not-allowed;
             width: 250px;
+
+        }
+        & #doctor, #current-user {
+            cursor: not-allowed;
         }
     }
     label {

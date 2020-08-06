@@ -23,17 +23,11 @@ describe('<Signup /> rendering', () => {
   it('should render correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
-  it('should render 1 <EmailTextField>', () => {
-    expect(enzymeWrapper.find('EmailTextField')).toHaveLength(1);
-  });
-  it('should render 1 <PasswordFieldText>', () => {
-    expect(enzymeWrapper.find('PasswordTextField')).toHaveLength(1);
-  });
   it('should render 1 signup <Button> ', () => {
     expect(enzymeWrapper.find('#signup')).toHaveLength(1);
   });
-  it('should render 3 <InputTextField />', () => {
-    expect(enzymeWrapper.find('InputTextField')).toHaveLength(3);
+  it('should render 5 <InputTextField />', () => {
+    expect(enzymeWrapper.find('InputTextField')).toHaveLength(5);
   });
 });
 
@@ -50,10 +44,10 @@ describe('<Signup /> interactions', () => {
     enzymeWrapper.find('#lastname').simulate('change', {
       target: { value: 'Smith', name: 'lastname' },
     });
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
-    enzymeWrapper.find('EmailTextField').simulate('change', {
+    enzymeWrapper.find('#email').simulate('change', {
       target: { value: 'johnsmith@io.kc', name: 'email' },
     });
     expect(enzymeWrapper.find('#signup').prop('disabled')).toBe(false);
@@ -69,10 +63,10 @@ describe('<Signup /> interactions', () => {
     enzymeWrapper.find('#lastname').simulate('change', {
       target: { value: 'Smith', name: 'lastname' },
     });
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
-    enzymeWrapper.find('EmailTextField').simulate('change', {
+    enzymeWrapper.find('#email').simulate('change', {
       target: { value: null, name: 'email' },
     });
     expect(enzymeWrapper.find('#signup').prop('disabled')).toBe(true);
@@ -98,19 +92,19 @@ describe('<Signup /> interactions', () => {
     });
     expect(enzymeWrapper.find('#lastname').get(0).props.value).toMatch(/Smith/);
   });
-  it('<PasswordTextField /> should show password input as *** onChange', () => {
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+  it('<InputTextField /> should show password input as *** onChange', () => {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
-    expect(enzymeWrapper.find('PasswordTextField').get(0).props.value).toMatch(
+    expect(enzymeWrapper.find('#password').get(0).props.value).toMatch(
       /1234/
     );
   });
-  it('<EmailTextField /> should show email onChange', () => {
-    enzymeWrapper.find('EmailTextField').simulate('change', {
+  it('<InputTextField /> should show email onChange', () => {
+    enzymeWrapper.find('#email').simulate('change', {
       target: { value: 'johnsmith@io.kc', name: 'email' },
     });
-    expect(enzymeWrapper.find('EmailTextField').get(0).props.value).toMatch(
+    expect(enzymeWrapper.find('#email').get(0).props.value).toMatch(
       /johnsmith@io.kc/
     );
   });

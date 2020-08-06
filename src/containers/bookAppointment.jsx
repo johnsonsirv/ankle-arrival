@@ -8,8 +8,8 @@ import Spinner from 'react-spinkit';
 import DateInput from '../components/forms/inputs/dateInput';
 import TimeInput from '../components/forms/inputs/timeInput';
 import RichTextField from '../components/forms/inputs/richTextField';
-import ReadOnlyTextField from '../components/forms/inputs/readOnlyTextField';
 import * as dispatchActions from '../actions';
+import InputTextField from '../components/forms/inputs/inputTextField';
 
 const mapStateToProps = state => state;
 
@@ -126,19 +126,25 @@ export const BookAppointment = props => {
           <div>
             <label htmlFor="doctor">Doctor&apos;s Name</label>
             <br />
-            <ReadOnlyTextField
+            <InputTextField
+              type="text"
               id="doctor"
               name="doctor"
               value={`Dr. ${doctor.firstname} ${doctor.lastname}`}
+              onChange={() => {}}
+              readOnly
             />
           </div>
           <div>
             <label htmlFor="current-user">Your name</label>
             <br />
-            <ReadOnlyTextField
+            <InputTextField
+              type="text"
               id="current-user"
               name="current-user"
               value={`${currentUser.username}`}
+              onChange={() => {}}
+              readOnly
             />
           </div>
           <div>

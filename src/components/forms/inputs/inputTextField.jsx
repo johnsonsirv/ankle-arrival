@@ -1,9 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputTextField = ({ className, id, name, value, onChange, style }) => (
+const InputTextField = ({
+  type,
+  className,
+  id,
+  name,
+  value,
+  onChange,
+  style,
+}) => (
   <input
-    type="text"
+    type={type}
     className={className}
     name={name}
     id={id}
@@ -22,6 +30,7 @@ InputTextField.defaultProps = {
 };
 
 InputTextField.propTypes = {
+  type: PropTypes.string.isRequired,
   name: PropTypes.string,
   id: PropTypes.string,
   className: PropTypes.string,

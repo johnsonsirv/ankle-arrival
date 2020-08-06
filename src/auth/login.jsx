@@ -7,7 +7,6 @@ import Spinner from 'react-spinkit';
 import Joi from 'joi-browser';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
-import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
 import SocialLoginPanel from './socialLoginPanel';
 
@@ -106,6 +105,7 @@ export const Login = props => {
               <label htmlFor="username">Username</label>
               <br />
               <InputTextField
+                type="text"
                 id="username"
                 name="username"
                 onChange={handleChange}
@@ -116,7 +116,9 @@ export const Login = props => {
             <div>
               <label htmlFor="password">Password</label>
               <br />
-              <PasswordTextField
+              <InputTextField
+                type="password"
+                id="password"
                 name="password"
                 onChange={handleChange}
                 value={account.password}

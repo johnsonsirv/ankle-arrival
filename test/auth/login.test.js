@@ -23,14 +23,11 @@ describe('<Login /> rendering', () => {
   it('should render correctly', () => {
     expect(enzymeWrapper).toMatchSnapshot();
   });
-  it('should render 1 <PasswordFieldText>', () => {
-    expect(enzymeWrapper.find('PasswordTextField')).toHaveLength(1);
-  });
   it('should render 1 signup <Button> ', () => {
     expect(enzymeWrapper.find('#login')).toHaveLength(1);
   });
-  it('should render 1 <InputTextField /> for username', () => {
-    expect(enzymeWrapper.find('#username')).toHaveLength(1);
+  it('should render 2 <InputTextField /> for username and password', () => {
+    expect(enzymeWrapper.find('InputTextField')).toHaveLength(2);
   });
 });
 
@@ -41,7 +38,7 @@ describe('<Login /> interactions', () => {
       target: { value: 'anotheruser', name: 'username' },
     });
 
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
     expect(enzymeWrapper.find('#login').prop('disabled')).toBe(false);
@@ -51,7 +48,7 @@ describe('<Login /> interactions', () => {
       target: { value: null, name: 'username' },
     });
 
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: null, name: 'password' },
     });
     expect(enzymeWrapper.find('#login').prop('disabled')).toBe(true);
@@ -65,11 +62,11 @@ describe('<Login /> interactions', () => {
       /anotheruser/
     );
   });
-  it('<PasswordTextField /> should show password input as *** onChange', () => {
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+  it('<InputTextField /> should show password input as *** onChange', () => {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
-    expect(enzymeWrapper.find('PasswordTextField').get(0).props.value).toMatch(
+    expect(enzymeWrapper.find('#password').get(0).props.value).toMatch(
       /1234/
     );
   });
@@ -77,7 +74,7 @@ describe('<Login /> interactions', () => {
     enzymeWrapper.find('#username').simulate('change', {
       target: { value: 'anotheruser', name: 'username' },
     });
-    enzymeWrapper.find('PasswordTextField').simulate('change', {
+    enzymeWrapper.find('#password').simulate('change', {
       target: { value: '1234', name: 'password' },
     });
     enzymeWrapper

@@ -6,6 +6,7 @@ const BioPage = ({ guestName, onInputChange }) => (
   <div>
     <form>
       <InputTextField
+        type="text"
         id="firstname"
         name="firstName"
         onChange={onInputChange}

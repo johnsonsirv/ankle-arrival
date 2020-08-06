@@ -7,8 +7,6 @@ import Spinner from 'react-spinkit';
 import Joi from 'joi-browser';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
-import EmailTextField from '../components/forms/inputs/emailTextField';
-import PasswordTextField from '../components/forms/inputs/passwordTextField';
 import Button from '../components/forms/inputs/button';
 import SocialLoginPanel from './socialLoginPanel';
 
@@ -124,17 +122,14 @@ export const Signup = props => {
         <h4>Something went wrong. Try again.</h4>
       )}
       <div className="signUpPanel">
-        <div>
-          {' '}
-          <SocialLoginPanel />
-          {' '}
-        </div>
+        <div><SocialLoginPanel /></div>
         <div>
           <form className="signUpForm" autoComplete="off">
             <div>
               <label htmlFor="firstname">Firstname</label>
               <br />
               <InputTextField
+                type="text"
                 id="firstname"
                 name="firstname"
                 onChange={handleChange}
@@ -146,6 +141,7 @@ export const Signup = props => {
               <label htmlFor="lastname">Lastname</label>
               <br />
               <InputTextField
+                type="text"
                 id="lastname"
                 name="lastname"
                 onChange={handleChange}
@@ -156,7 +152,8 @@ export const Signup = props => {
             <div>
               <label htmlFor="email">Email</label>
               <br />
-              <EmailTextField
+              <InputTextField
+                type="email"
                 id="email"
                 name="email"
                 onChange={handleChange}
@@ -168,6 +165,7 @@ export const Signup = props => {
               <label htmlFor="username">Username</label>
               <br />
               <InputTextField
+                type="text"
                 id="username"
                 name="username"
                 onChange={handleChange}
@@ -178,7 +176,8 @@ export const Signup = props => {
             <div>
               <label htmlFor="password">Password</label>
               <br />
-              <PasswordTextField
+              <InputTextField
+                type="password"
                 id="password"
                 name="password"
                 onChange={handleChange}
