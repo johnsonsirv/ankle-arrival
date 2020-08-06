@@ -40,13 +40,13 @@
     border: 1px solid #d8d4d4;
     border-radius: 5px;
     margin: auto;
-    margin-top: 2%;
+    margin-top: 6px;
     background-color: #ffffffc4;
     & .bookAppointmentForm {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        height: 550px;
+        height: 610px;
         & textarea {
             font-size: 12px;
             width: 250px;
@@ -64,6 +64,11 @@
         }
         & #doctor, #current-user {
             cursor: not-allowed;
+        }
+        & #book-appointment {
+            width: 12vw;
+            height: 7vh;
+            cursor: pointer;
         }
     }
     label {

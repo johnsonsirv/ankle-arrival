@@ -10,6 +10,7 @@ import TimeInput from '../components/forms/inputs/timeInput';
 import RichTextField from '../components/forms/inputs/richTextField';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
+import Button from '../components/forms/inputs/button';
 
 const mapStateToProps = state => state;
 
@@ -176,14 +177,12 @@ export const BookAppointment = props => {
             />
           </div>
           <div>
-            <button
-              type="button"
+            <Button
               onClick={handleSubmit}
+              value="Submit"
               id="book-appointment"
               disabled={!booking.isValid}
-            >
-              Submit
-            </button>
+            />
           </div>
         </form>
       </div>
