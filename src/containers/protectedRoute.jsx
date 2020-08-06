@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import * as dispatchActions from '../actions';
+import { CurrentUserType } from '../utils/prop-types';
 
 const mapStateToProps = state => state;
 
@@ -34,12 +35,7 @@ ProtectedRoute.defaultProps = {
 
 ProtectedRoute.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
-  currentUser: PropTypes.shape({
-    id: PropTypes.number,
-    username: PropTypes.string,
-    token: PropTypes.string,
-    isAuthenticated: PropTypes.bool,
-  }),
+  currentUser: PropTypes.shape(CurrentUserType),
 };
 
 export default connect(mapStateToProps, dispatchActions)(ProtectedRoute);

@@ -32,7 +32,6 @@ AppointmentDetails.propTypes = {
   appointment: PropTypes.shape({
     date_of_appointment: PropTypes.string,
     time_of_appointment: PropTypes.string,
-    // timeOfAppointment: PropTypes.string,
     description: PropTypes.string,
     doctor_firstname: PropTypes.string,
     doctor_lastname: PropTypes.string,

@@ -11,6 +11,7 @@ import RichTextField from '../components/forms/inputs/richTextField';
 import * as dispatchActions from '../actions';
 import InputTextField from '../components/forms/inputs/inputTextField';
 import Button from '../components/forms/inputs/button';
+import { DoctorType, CurrentUserType } from '../utils/prop-types';
 
 const mapStateToProps = state => state;
 
@@ -149,7 +150,9 @@ export const BookAppointment = props => {
             />
           </div>
           <div>
-            <label htmlFor="description">Tell me a bit about your symptoms</label>
+            <label htmlFor="description">
+              Tell me a bit about your symptoms
+            </label>
             <br />
             <RichTextField
               name="description"
@@ -196,23 +199,11 @@ BookAppointment.defaultProps = {
 
 BookAppointment.propTypes = {
   doctors: PropTypes.shape({
-    doctors: PropTypes.arrayOf(
-      PropTypes.shape({
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        city: PropTypes.string,
-        email: PropTypes.string,
-        username: PropTypes.string,
-        id: PropTypes.number,
-      }).isRequired,
-    ).isRequired,
+    doctors: PropTypes.arrayOf(DoctorType).isRequired,
     isFetching: PropTypes.bool.isRequired,
   }).isRequired,
 
-  currentUser: PropTypes.shape({
-    username: PropTypes.string,
-    token: PropTypes.string,
-  }).isRequired,
+  currentUser: PropTypes.shape(CurrentUserType).isRequired,
   addNewAppointment: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({

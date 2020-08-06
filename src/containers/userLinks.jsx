@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as dispatchActions from '../actions';
 import ProtectedLinks from '../components/protectedLinks';
+import { CurrentUserType } from '../utils/prop-types';
 
 const mapStateToProps = state => state;
 
@@ -38,12 +39,7 @@ export const UserLinks = props => {
 
 UserLinks.propTypes = {
   getCurrentUser: PropTypes.func.isRequired,
-  currentUser: PropTypes.shape({
-    id: PropTypes.number,
-    username: PropTypes.string,
-    token: PropTypes.string,
-    isAuthenticated: PropTypes.bool,
-  }).isRequired,
+  currentUser: PropTypes.shape(CurrentUserType).isRequired,
 };
 
 export default connect(mapStateToProps, dispatchActions)(UserLinks);

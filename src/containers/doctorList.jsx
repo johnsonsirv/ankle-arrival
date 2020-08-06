@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Spinner from 'react-spinkit';
 import Doctor from '../components/doctor';
 import * as dispatchActions from '../actions';
+import { DoctorType, CurrentUserType } from '../utils/prop-types';
 
 const mapStateToProps = state => state;
 
@@ -32,24 +33,12 @@ export const DoctorList = props => {
 
 DoctorList.propTypes = {
   doctors: PropTypes.shape({
-    doctors: PropTypes.arrayOf(
-      PropTypes.shape({
-        firstname: PropTypes.string,
-        lastname: PropTypes.string,
-        city: PropTypes.string,
-        email: PropTypes.string,
-        username: PropTypes.string,
-        id: PropTypes.number,
-      }).isRequired,
-    ).isRequired,
+    doctors: PropTypes.arrayOf(DoctorType).isRequired,
     isFetching: PropTypes.bool.isRequired,
   }).isRequired,
 
   fetchDoctors: PropTypes.func.isRequired,
-  currentUser: PropTypes.shape({
-    username: PropTypes.string,
-    token: PropTypes.string,
-  }).isRequired,
+  currentUser: PropTypes.shape(CurrentUserType).isRequired,
 };
 
 export default connect(mapStateToProps, dispatchActions)(DoctorList);
