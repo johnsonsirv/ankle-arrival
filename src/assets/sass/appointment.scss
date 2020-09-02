@@ -1,0 +1,91 @@
+.appointmentList {
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row;
+    flex-wrap: wrap;
+    height: 580px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        width: 20px;
+    }
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(95, 89, 89, 0.5); 
+    }
+}
+
+.appointmentCard {
+    width: 330px;
+    border: 1px solid rgb(223, 40, 40);
+    margin: 1em .4em;
+    border-radius: 5px;
+    
+    & .calendar {
+        font-size: 13px;
+        & i {
+            font-size: 1em;
+            color: #814444;
+        }
+    }
+    &:hover {
+        border: 1px solid rgb(13, 105, 161);
+        box-shadow: 0 1px 4px 0  rgb(13, 105, 161);
+        cursor: pointer;
+    }
+    & #description-of-appointment{
+        font-size: 13px;
+        text-align: justify;
+        padding: 11px;
+    }
+}
+
+.bookAppointmentPanel {
+    display: flex;
+    width: 400px;
+    height: auto;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 6px;
+    background-color: #ffffffc4;
+    overflow: auto;
+    & .bookAppointmentForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 590px;
+        & textarea {
+            font-size: 12px;
+            width: 250px;
+            height: 60px;
+            outline-style: none;
+            border: 1px solid #ccc8c8;
+        }
+        & input[type=text] {
+            outline-style: none;
+            border: 1px solid #ccc8c8;
+            background-color: #e9e8e8;
+            padding: 5px;
+            width: 250px;
+
+        }
+        & #doctor, #current-user {
+            cursor: not-allowed;
+        }
+        & #book-appointment {
+            width: 12vw;
+            height: 25px;
+            cursor: pointer;
+        }
+    }
+    label {
+        font-size: 12px;
+        letter-spacing: .15em;
+    }
+}
