@@ -1,68 +1,105 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">Ankle Arrival - connect athletes to sports-care givers</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/johnsonsirv/ankle-arrival#readme" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/johnsonsirv/ankle-arrival/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  </a>
+  <a href="https://github.com/johnsonsirv/ankle-arrival/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/github/license/johnsonsirv/ankle-arrival" />
+  </a>
+  <a href="https://twitter.com/vokeugo" target="_blank">
+    <img alt="Twitter: vokeugo" src="https://img.shields.io/twitter/follow/vokeugo.svg?style=social" />
+  </a>
+  <a href="https://twitter.com/vokeugo" target="_blank">
+    <img alt="netlify" src="https://api.netlify.com/api/v1/badges/c9424649-60c1-4860-aeb2-a1dfede32144/deploy-status" />
+  </a>
 
-## Available Scripts
+</p>
 
-In the project directory, you can run:
+<br>
+<b>Ankle Arrival</b>- connects athletes to sports-care givers and provides instant diagnosis to sports-related injuries using Artificial Intelligence.
 
-### `npm start`
+<b>Ankle Arrival</b> is powered by a <a href="https://github.com/johnsonsirv/ankle-arrival-backend">RESTful back-end API</a> and supports basic functionalities such as:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Authentication & Authorization - users can signup / signin
+- Calendar & Appointment Scheduling - users book an appointment with a professional sport care giver
+- AI-based medical checkup Wizard - users can take **Free Checkup** backed by AI
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### [See Live URL](https://anklearrival.netlify.com/)
 
-### `npm test`
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_home.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_doctors.png)
 
-### `npm run build`
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_book_appointment.png)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_wizard_home.png)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_injury.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_symptoms.png)
 
-### `npm run eject`
+![](https://github.com/johnsonsirv/ankle-arrival/blob/wizard/docs/ankle_arrival_diagnosis.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Built with:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- React/React Hook
+- Redux
+- JWT
+- Create React App
+- Jest/Enzyme - TDD
+- SASS
+- Netlify - CD
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Future Implementations
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Add support for Doctors (Physiotherapists) to SignUp and add thier schedules or confirm appointments
+- Use Calendly API for easy scheduling of appointments
+- Add support to cancel appointments
+- Add support for ML using Infermedica API
 
-## Learn More
+### Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> Clone the repository to your local machine
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```sh
+$ git clone https://github.com/johnsonsirv/ankle-arrival.git
+```
 
-### Code Splitting
+### Usage
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+> in your terminal
 
-### Analyzing the Bundle Size
+```sh
+$ cd ankle-arrival
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+$ npm install
 
-### Making a Progressive Web App
+$ npm run start
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+$ npm run build -> generates build version in ./public
+```
+> run tests
+```sh
+$ npm test
+```
 
-### Advanced Configuration
+### Contributor(s)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+[Victor Okeugo](https://linkedin.com/in/victorokeugo/)
 
-### Deployment
+- Github: [@johnsonsirv](https://github.com/johnsonsirv)
+- Twitter: [@vokeugo](https://twitter.com/@vokeugo/)
+- Email: [okeugo.victor.c@gmail.com]()
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### Contributing
 
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+1. Fork it (https://github.com/johnsonsirv/ankle-arrival/fork)
+2. Create your feature branch (git checkout -b feature/[choose-a-name])
+3. Commit your changes (git commit -m 'What this commit will fix/add')
+4. Push to the branch (git push origin feature/[chosen name])
+5. Create a new Pull Request
+   > You can also create [issues](https://github.com/johnsonsirv/ankle-arrival/issues)

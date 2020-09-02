@@ -1,0 +1,56 @@
+.loginPanel {
+    display: flex;
+    width: 300px;
+    height: 280px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 10%;
+    background-color: #ffffffc4;
+    & .loginForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 180px;
+        & button {
+            width: 12vw;
+            height: 7vh;
+            cursor: pointer;
+        }
+    }
+    label {
+        font-size: 13px;
+        letter-spacing: .15em;
+    }
+}
+
+.signUpPanel {
+    display: flex;
+    width: 300px;
+    height: 370px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: 1px solid #d8d4d4;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 10%;
+    background-color: #ffffffc4;
+    & .signUpForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 290px;
+        & button {
+            margin-top: 3px;
+            width: 12vw;
+            height: 7vh;
+            cursor: pointer;
+        }
+    }
+    label {
+        font-size: 12px;
+        letter-spacing: .15em;
+    }
+}

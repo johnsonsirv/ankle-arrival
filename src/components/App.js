@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import HomePage from './homePage';
+import AppointmentList from '../containers/appointmentList';
+import BookAppointment from '../containers/bookAppointment';
+import DoctorList from '../containers/doctorList';
+import Wizard from '../wizard';
+import Signup from '../auth/signup';
+import Login from '../auth/login';
+import ProtectedRoute from '../containers/protectedRoute';
+import PageNotFound from './notFoundPage';
+import NavBar from './navBar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <NavBar />
+        <Switch>
+          <ProtectedRoute
+            path="/book-appointment/:username"
+            component={BookAppointment}
+          />
+          <ProtectedRoute path="/appointments" component={AppointmentList} />
+          <ProtectedRoute path="/doctors" component={DoctorList} />
+          <Route path="/diagnosis" component={Wizard} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/" exact component={HomePage} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </div>
+    </>
   );
 }
 

@@ -1,21 +1,37 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable no-undef */
-import App from '../src/components/App';
+import { MemoryRouter } from 'react-router';
+import App from '../../src/components/App';
+import HomePage from '../../src/components/homePage';
+import PageNotFound from '../../src/components/notFoundPage';
 
 describe('<App /> rendering', () => {
   it('renders correctly', () => {
-    let wrapper = shallow(<App />);
+    const wrapper = shallow(<App />);
     expect(wrapper).toMatchSnapshot();
   });
   it('should mount in a full DOM', () => {
     expect(shallow(<App />).find('.App')).toHaveLength(1);
   });
-  it('renders learn react link', () => {
-    let wrapper = shallow(<App />);
-    expect(wrapper.find('a').text()).toMatch(/Learn React/);
+});
+
+describe('<App /> routing', () => {
+  it('should show homepage component for "/" router', () => {
+    const wrapper = shallow(
+      <MemoryRouter initialEntries={['/']}>
+        <HomePage />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(HomePage)).toHaveLength(1);
   });
-  it('renders react header selectable by class "App-header"', () => {
-    let wrapper = shallow(<App />);
-    expect(wrapper.find('header').is('.App-header')).toBe(true);
+  it('should show pageNotFound component for unknown route', () => {
+    const wrapper = shallow(
+      <MemoryRouter initialEntries={['/unknown']}>
+        <PageNotFound />
+      </MemoryRouter>
+    );
+
+    expect(wrapper.find(PageNotFound)).toHaveLength(1);
   });
 });
